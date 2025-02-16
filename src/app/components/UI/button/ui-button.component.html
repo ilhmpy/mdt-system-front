@@ -1,0 +1,6 @@
+<button 
+    [ngClass]="{ 'dark': this.type() == 'dark' }"
+    [ngClass]="{ 'light': this.type() == 'light' }"
+>
+    <ng-content></ng-content>
+</button>

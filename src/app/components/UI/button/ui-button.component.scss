@@ -1,0 +1,14 @@
+button {
+    height: 2.5em;
+    align-items: center;
+    user-select: none;
+    cursor: pointer;
+}
+
+.dark {
+    background: var(--button-color);
+}
+
+.light {
+    background: var(--normal-button-color)
+}
