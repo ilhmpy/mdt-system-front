@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
+import { LayoutComponent } from '../components/layout/layout.component';
 
 @Component({
   selector: 'app-officers',
-  imports: [],
+  standalone: false,
   templateUrl: './officers.component.html',
   styleUrl: './officers.component.scss'
 })

@@ -1,5 +1,8 @@
 body {
     font-family: "Roboto", serif;
+    height: 100vh;
+    margin: 0;
+    width: 100%;
     background: #212121;
     padding: 2em;
     --navigation-background-color: #343434;
@@ -9,12 +12,52 @@ body {
     --text-color: #999999;
     --button-color: #414141;
     --title-color: #434343;
-    --text-hell-color: #fafafa;
+    --text-light-color: #fafafa;
     --panic-button-color: #F24949;
 
-    color: var(--text-hell-color);
+    color: var(--text-light-color);
 }
 
 * {
     box-sizing: border-box;
+}
+
+button {
+    border: 0;
+}
+
+div {
+    display: block;
+}
+
+h1, h2, h3 {
+    line-height: 1em;
+    margin: 0;
+}
+
+input { 
+    border: 0;
+}
+
+input:focus {
+    outline: none;
+}
+
+p { 
+    margin: 0;
+    line-height: 1em;
+    padding: 0;
+}
+
+textarea {
+    user-select: none;
+    border: 0;
+}
+
+textarea:focus {
+    outline: none;
+}
+
+button {
+    border: 0;
 }

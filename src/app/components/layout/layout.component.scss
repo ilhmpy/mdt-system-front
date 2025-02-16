@@ -1,0 +1,33 @@
+section {
+    width: 100%;
+    display: grid;
+}
+
+header {
+    background: var(--navigation-background-color);
+    padding: 1em;
+    padding-left: 1.5em;
+    display: flex;
+    justify-content: space-between;
+}
+
+.links {
+    display: flex;
+    gap: .5em;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: .5em;
+    font-size: 1.2em;
+}
+
+img {
+    width: 2em;
+    height: 2em;
+}
+
+.ng-content {
+    background: var(--panel-background-color);
+}
