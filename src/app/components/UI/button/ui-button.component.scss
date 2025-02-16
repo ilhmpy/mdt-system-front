@@ -2,13 +2,31 @@ button {
     height: 2.5em;
     align-items: center;
     user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
-}
-
-.dark {
-    background: var(--button-color);
+    color: var(--text-light-color);
+    width: 6em;
+    background: var(--links-button);
 }
 
 .light {
-    background: var(--normal-button-color)
+    background: var(--normal-button-color);
+    width: 8em;
+    height: 2.4em;
+}
+
+.alarm {
+    animation: alarmAnimation .5s linear infinite;
+}
+
+@keyframes alarmAnimation {
+    from {
+        background: var(--normal-button-color);
+    }
+
+    to {
+        background: var(--panic-button-color);
+    }
 }

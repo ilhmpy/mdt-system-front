@@ -7,13 +7,15 @@ import { OfficersComponent } from './officers/officers.component';
 import { routes } from './app.routes';
 import { UiButtonComponent } from './components/UI/button/ui-button.component';
 import { NgClass } from '@angular/common';
+import { LayoutContainerComponent } from './components/layout/layout-container/layout-container.component';
 
 @NgModule({
   declarations: [
     AppComponent,       
     LayoutComponent,    
     OfficersComponent,
-    UiButtonComponent
+    UiButtonComponent,
+    LayoutContainerComponent,
   ],
   imports: [
     BrowserModule,     
