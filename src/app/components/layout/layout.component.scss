@@ -5,15 +5,17 @@ section {
 
 header {
     background: var(--navigation-background-color);
-    padding: 1em;
-    padding-left: 1.5em;
+    padding: var(--padding);
+    padding-left: var(--padding-side);
     display: flex;
     justify-content: space-between;
+    user-select: none;
 }
 
 .links {
     display: flex;
     gap: .5em;
+    align-items: center;
 }
 
 .logo {
@@ -30,4 +32,40 @@ img {
 
 .ng-content {
     background: var(--panel-background-color);
+}
+
+.running_line {
+    background: var(--running-line);
+    padding: var(--padding);
+    height: 2em;
+    display: flex;
+    align-items: center;
+    font-size: .8em;
+    padding-left: var(--padding-side);
+    padding-right: var(--padding-side);
+    overflow: hidden;
+    user-select: none;
+}
+
+.running_line-wrapper {
+    width: 100%;
+    display: block;
+    white-space: nowrap;
+    animation: runningLine 20s linear infinite;
+}
+
+@keyframes runningLine {
+    from {
+        transform: translateX(100%);
+    }
+
+    to {
+        transform: translate(-100%);
+    }
+}
+
+.alarm-icon {
+    fill: #FFF;
+    width: 1.5em;
+    height: 1.5em;
 }

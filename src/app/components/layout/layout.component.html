@@ -6,11 +6,18 @@
         </div>
         <div class="links">
             @for (link of this.links; track $index) {
-                <ui-button>{{ link.label }}</ui-button>
+                <ui-button [link]="true" [path]="link.path">{{ link.label }}</ui-button>
             }
+
+            <ui-button type="light" [click]="this.onAlarm" [alarm]="this.isAlarmActivated()"><img class="alarm-icon" src="assets/images/signal-tower.svg"></ui-button>
         </div>
     </header>
-    <div class="ng-content">
+    <div class="running_line">
+        <div class="running_line-wrapper">
+            {{ this.runningLine() }}
+        </div>
+    </div>
+    <div>
         <ng-content></ng-content>
     </div>
 </section>

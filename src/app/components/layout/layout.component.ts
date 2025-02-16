@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal, WritableSignal, ɵunwrapWritableSignal } from '@angular/core';
 
 interface Link {
   label: string;
@@ -19,4 +19,14 @@ export class LayoutComponent {
     { label: "Control", path: "/control" },
     { label: "Forum", path: "/forum" },
   ]
+
+  readonly isAlarmActivated: WritableSignal<boolean> = signal<boolean>(false);
+
+  readonly runningLine: WritableSignal<string> = signal(
+    "Auto is stoped in Vinewood ave at 15:13. Karl Johnson is arrested at 12:15. Auto is stoped in Vinewood ave at 15:13. Karl Johnson is arrested at 12:15. Auto is stoped in Vinewood ave at 15:13. Karl Johnson is arrested at 12:15. Auto is stoped in Vinewood ave at 15:13. Karl Johnson is arrested at 12:15. Auto is stoped in Vinewood ave at 15:13. Karl Johnson is arrested at 12:15.  Auto is stoped in Vinewood ave at 15:13. Karl Johnson is arrested at 12:15. Auto is stoped in Vinewood ave at 15:13. Karl Johnson is arrested at 12:15. v Auto is stoped in Vinewood ave at 15:13. Karl Johnson is arrested at 12:15."
+  );
+
+  onAlarm() {
+
+  }
 }
