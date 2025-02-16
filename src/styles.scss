@@ -1,1 +1,20 @@
-/* You can add global styles to this file, and also import other style files */
+body {
+    font-family: "Roboto", serif;
+    background: #212121;
+    padding: 2em;
+    --navigation-background-color: #343434;
+    --panel-background-color: #2d2d2d;
+    --active-table-item-color: #359ff0;
+    --normal-button-color: #31b53f;
+    --text-color: #999999;
+    --button-color: #414141;
+    --title-color: #434343;
+    --text-hell-color: #fafafa;
+    --panic-button-color: #F24949;
+
+    color: var(--text-hell-color);
+}
+
+* {
+    box-sizing: border-box;
+}
