@@ -1,7 +1,11 @@
 .container {
     width: 100%;
     display: grid;
-    grid-template-columns: 35% 65%;
+    grid-template-columns: 30% 70%;
     padding: var(--padding);
     background: var(--panel-background-color);
+}
+
+div {
+    padding-left: var(--padding-side);
 }

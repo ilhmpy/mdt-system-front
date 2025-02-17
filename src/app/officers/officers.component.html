@@ -1,4 +1,40 @@
 <layout-container>
-    <div>1</div>
+    <div>
+        <ui-title>Status</ui-title>
+        <ui-container class="status">
+            <ui-button 
+                (click)="this.handleStatus(true)" 
+                [type]="[this.status() ? 'light' : '', 'no-size', 'left-side']"
+            >
+                Avalaible
+            </ui-button>
+            <ui-button 
+                (click)="this.handleStatus(null)" 
+                [type]="['no-size', this.status() == null ? 'neutral' : '', 'left-side']"
+            >
+                N/A
+            </ui-button>
+            <ui-button 
+                (click)="this.handleStatus(false)"
+                [type]="['left-side', this.status() == false ? 'busy' : '', 'no-size']"
+            >
+                Busy
+            </ui-button>
+        </ui-container>
+        <ui-title>Marking</ui-title>
+        <ui-container class="marking">
+            <ui-input  
+                [change]="this.onMarkingValue"
+                [form]="this.form" 
+                [errors]="this.markingValueErrors"
+                formValue="markingValue"
+                maskType="marking"
+                [maskData]="maskData"
+                [placeholder]="maskData"
+                maxLength="6"
+            />
+            <div></div>
+        </ui-container>
+    </div>
     <div>2</div>
 </layout-container>

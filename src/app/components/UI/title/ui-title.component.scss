@@ -1,0 +1,10 @@
+h3 {
+    font-size: 1.5em;
+    color: var(--title-color);
+    text-shadow: 
+    -1px -1px 0 var(--main-background),  
+     1px -1px 0 var(--main-background),  
+    -1px  1px 0 var(--main-background),  
+     1px  1px 0 var(--main-background);
+    margin-bottom: .5em;
+}

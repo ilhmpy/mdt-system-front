@@ -14,10 +14,11 @@ interface Link {
 export class LayoutComponent {
   readonly links: Link[] = [
     { label: "Officers", path: "/officers" },
-    { label: "Reports", path: "/reports" },
+    { label: "NCINC", path: "/ncinc" },
     { label: "Calls", path: "/calls" },
-    { label: "Control", path: "/control" },
-    { label: "Forum", path: "/forum" },
+    { label: "Reports", path: "/reports" },
+    // { label: "Control", path: "/control" },
+    //{ label: "Forum", path: "/forum" },
   ]
 
   readonly isAlarmActivated: WritableSignal<boolean> = signal<boolean>(false);
@@ -27,6 +28,6 @@ export class LayoutComponent {
   );
 
   onAlarm() {
-
+    
   }
 }

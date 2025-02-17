@@ -3,8 +3,11 @@ body {
     height: 100vh;
     margin: 0;
     width: 100%;
-    background: #212121;
+    background: var(--main-background);
     padding: 2em;
+    user-select: none;
+
+    --main-background: #212121;
     --navigation-background-color: #343434;
     --panel-background-color: #2d2d2d;
     --active-table-item-color: #359ff0;
@@ -14,10 +17,12 @@ body {
     --title-color: #434343;
     --text-light-color: #fafafa;
     --panic-button-color: #F24949;
+    --side-buttons-color: #424343;
     --links-button: #222222;
     --running-line: #434343;
     --padding: 1em;
     --padding-side: 1.5em;
+    --neutral-button: #ac7a33;
 
     color: var(--text-light-color);
 }

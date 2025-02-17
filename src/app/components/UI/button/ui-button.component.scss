@@ -11,14 +11,33 @@ button {
     background: var(--links-button);
 }
 
+.no-size {
+    width: 100%;
+}
+
+.left-side {
+    background: var(--side-buttons-color);
+}
+
+.busy {
+    background: var(--panic-button-color);
+}
+
 .light {
     background: var(--normal-button-color);
-    width: 8em;
-    height: 2.4em;
 }
 
 .alarm {
     animation: alarmAnimation .5s linear infinite;
+}
+
+.neutral {
+    background: var(--neutral-button);
+}
+
+.standart {
+    width: 8em;
+    height: 2.4em;
 }
 
 @keyframes alarmAnimation {

@@ -1,0 +1,16 @@
+<form [formGroup]="this.form">
+    <input
+        type="text"
+        [value]="this.form.get(this.formValue)"
+        (input)="this.onInput($event)"
+        (keydown)="this.keydown($event)"
+        (blur)="this.onTouched()"
+        [placeholder]="placeholder"
+        [formControlName]="formValue"
+        [maxlength]="maxLength"
+        (selectstart)="this.unexpectedChange($event)"
+
+        [ngClass]="{ 'disabledUserSelect': this.maskType !== null }"
+        (paste)="(false)"
+    />
+</form>

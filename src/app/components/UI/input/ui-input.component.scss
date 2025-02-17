@@ -1,0 +1,22 @@
+input {
+    width: 100%;
+    height: 2.5em;
+    color: var(--text-light-color);
+    background: var(--links-button);
+    padding: var(--padding);
+    caret-color: transparent;
+} 
+
+input::placeholder {
+    color: var(--text-light-color);
+    opacity: 1;
+}
+
+.disabledUserSelect {
+    user-select: none;
+}
+
+input::-webkit-input-placeholder { color: var(--text-light-color); }
+input::-moz-placeholder { color: var(--text-light-color); }
+input:-ms-input-placeholder { color: var(--text-light-color); }
+input:-moz-placeholder { color: var(--text-light-color); }

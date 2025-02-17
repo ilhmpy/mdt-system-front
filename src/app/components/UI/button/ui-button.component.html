@@ -1,5 +1,5 @@
 <button 
-    [ngClass]="{ 'light': this.type() == 'light', 'alarm': this.alarm() }"
+    [ngClass]="this.type()"
     (click)="this.onClick()"
 >
     <ng-content></ng-content>

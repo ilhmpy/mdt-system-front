@@ -6,10 +6,16 @@
         </div>
         <div class="links">
             @for (link of this.links; track $index) {
-                <ui-button [link]="true" [path]="link.path">{{ link.label }}</ui-button>
+                <ui-button [link]="true" [path]="link.path">
+                    {{ link.label }}
+                </ui-button>
             }
-
-            <ui-button type="light" [click]="this.onAlarm" [alarm]="this.isAlarmActivated()"><img class="alarm-icon" src="assets/images/signal-tower.svg"></ui-button>
+            <ui-button [link]="true" path="/profile">
+               <img src="assets/images/ranks/chiefofpolice.png" class="rank_img"> 
+            </ui-button>
+            <ui-button [type]="this.isAlarmActivated() ? ['alarm', 'light'] : ['light', 'standart']" [click]="this.onAlarm">
+                <img class="alarm-icon" src="assets/images/signal-tower.svg">
+            </ui-button>
         </div>
     </header>
     <div class="running_line">

@@ -1,0 +1,1 @@
+export type UiButtonDTO = "light" | "no-size" | "neutral" | "alarm" | "left-side" | "standart" | "busy" | "";

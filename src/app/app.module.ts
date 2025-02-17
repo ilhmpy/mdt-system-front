@@ -8,6 +8,10 @@ import { routes } from './app.routes';
 import { UiButtonComponent } from './components/UI/button/ui-button.component';
 import { NgClass } from '@angular/common';
 import { LayoutContainerComponent } from './components/layout/layout-container/layout-container.component';
+import { UiTitleComponent } from './components/UI/title/ui-title.component';
+import { UiContainerComponent } from './components/UI/container/ui-container.component';
+import { UiInputComponent } from './components/UI/input/ui-input.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -16,12 +20,16 @@ import { LayoutContainerComponent } from './components/layout/layout-container/l
     OfficersComponent,
     UiButtonComponent,
     LayoutContainerComponent,
+    UiTitleComponent,
+    UiContainerComponent,
+    UiInputComponent
   ],
   imports: [
     BrowserModule,     
     RouterOutlet,
     NgClass,
-    RouterModule.forRoot(routes)  
+    RouterModule.forRoot(routes),
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,5 +1,5 @@
 import { Component, input, InputSignal } from '@angular/core';
-import { Input } from '@angular/core';
+import { UiButtonDTO } from './ui-button.dto';
 import { Router } from '@angular/router';
 
 @Component({
@@ -9,10 +9,10 @@ import { Router } from '@angular/router';
   styleUrl: './ui-button.component.scss'
 })
 export class UiButtonComponent {
-  readonly type: InputSignal<"light" | null> = input<"light" | null>(null);
+  readonly type: InputSignal<UiButtonDTO[]> = input<UiButtonDTO[]>([ "standart" ]);
   readonly link: InputSignal<boolean | undefined> = input<boolean | undefined>(false); 
   readonly path: InputSignal<string | undefined> = input<string | undefined>("");
-  readonly click: InputSignal<() => void> = input<() => void>(() => {});
+  readonly click: InputSignal<(...args: any[]) => void> = input<(...args: any[]) => void>(() => {});
   readonly alarm: InputSignal<boolean> = input<boolean>(false);
 
   constructor(
