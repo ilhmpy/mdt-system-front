@@ -2,8 +2,9 @@
     width: 100%;
     display: grid;
     grid-template-columns: 30% 70%;
-    gap: 1em;
+    gap: 1.5em;
     padding: var(--padding);
+    padding-top: 2em;
     background: var(--panel-background-color);
 }
 

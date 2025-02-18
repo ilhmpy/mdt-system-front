@@ -246,7 +246,43 @@ export class OfficersComponent {
         shift: 4,
         lastUpdate: new Date(2025, 1, 25, 18, 30),
         location: "Richman"
-      }    
+      },
+      {
+        name: "Carlos Garcia",
+        marking: "A",
+        markingNumber: 17,
+        status: "OS",
+        shift: 2,
+        lastUpdate: new Date('2025-02-18T14:15:00'),
+        location: "Vespucci Blvd"
+      },
+      {
+        name: "Ava Lee",
+        marking: "M",
+        markingNumber: 3,
+        status: true,
+        shift: 4,
+        lastUpdate: new Date('2025-02-18T15:30:00'),
+        location: "Ganton"
+      },
+      {
+        name: "Ethan Turner",
+        marking: "R",
+        markingNumber: 12,
+        status: false,
+        shift: 5,
+        lastUpdate: new Date('2025-02-18T16:45:00'),
+        location: "Las Colinas"
+      },
+      {
+        name: "Madison Clarke",
+        marking: "K",
+        markingNumber: 21,
+        status: "OS",
+        shift: 3,
+        lastUpdate: new Date('2025-02-18T17:00:00'),
+        location: "Cypress Flats"
+      }
   ]);
   readonly officersColumns: WritableSignal<Column[]> = signal<Column[]>([
     { label: "Last update", field: "lastUpdate", type: "date" },

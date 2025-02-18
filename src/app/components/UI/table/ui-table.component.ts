@@ -1,5 +1,6 @@
 import { Component, Input, signal, WritableSignal } from '@angular/core';
 import { Column, Value } from './ui-table.dto';
+import { last } from 'rxjs';
 
 @Component({
   selector: 'ui-table',
@@ -10,6 +11,9 @@ import { Column, Value } from './ui-table.dto';
 export class UiTableComponent {
   @Input() columns: WritableSignal<Column[]> = signal<Column[]>([]);
   @Input() values: WritableSignal<Value[]> = signal<Value[]>([]);
+  @Input() itemsPerPage: number = 5;
+
+  readonly currentPagPage: WritableSignal<number> = signal<number>(1);
 
   getValueByTape(value: Value, column: Column) {
     column.field = column.field || "";
@@ -45,5 +49,32 @@ export class UiTableComponent {
     }
 
     return value[column.field];
+  }
+
+  getChangedValues() {
+    const firstItem = this.currentPagPage() == 1 ? 0 : this.currentPagPage() * this.itemsPerPage - this.itemsPerPage;
+    const lastItem = this.currentPagPage() * this.itemsPerPage;
+
+    this.values().sort((a, b) => {
+      console.log(a, b)
+      return 0
+    })
+
+    return this.values().filter((value, idx) => idx >= firstItem && idx < lastItem);
+  }
+
+  getNumberOfPages() {
+    const numberOfPages = Math.ceil(this.values().length / this.itemsPerPage);
+    const numberofPagesArray = [];
+
+    for (let i = 0; i < numberOfPages; i++) {
+      numberofPagesArray.push(i);
+    }
+
+    return numberofPagesArray;
+  }
+
+  changeCurrentPage(index: number) {
+    this.currentPagPage.set(index);
   }
 }

@@ -1,13 +1,11 @@
 <table>
     <thead>
       <tr class="table-headers_container">
-        <th class="table-headers_item" *ngFor="let column of this.columns()">
-            
-        </th>
+        <th class="table-headers_item" *ngFor="let column of this.columns()"></th>
       </tr>
     </thead>
     <tbody>
-        @for (value of this.values(); track $index) {
+        @for (value of this.getChangedValues(); track $index) {
             <tr class="table-items_container">
                 <td class="table_item" *ngFor="let column of this.columns()">
                     {{ this.getValueByTape(value, column) }}
@@ -15,4 +13,9 @@
             </tr>
         }
     </tbody>
+    <div class="pagination_buttons">
+        @for (page of this.getNumberOfPages(); track $index) {
+            <ui-button [type]="['no-size', 'circle']" (click)="this.changeCurrentPage(page + 1)">{{ page + 1 }}</ui-button>
+        }
+    </div>
   </table>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'ui-title',
@@ -6,4 +6,6 @@ import { Component } from '@angular/core';
   templateUrl: './ui-title.component.html',
   styleUrl: './ui-title.component.scss'
 })
-export class UiTitleComponent {}
+export class UiTitleComponent {
+  @Input() class: string = "";
+}

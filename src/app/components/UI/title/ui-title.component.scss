@@ -6,5 +6,9 @@ h3 {
      1px -1px 0 var(--main-background),  
     -1px  1px 0 var(--main-background),  
      1px  1px 0 var(--main-background);
-    margin-bottom: .5em;
+    margin-bottom: .8em;
+}
+
+.right-side {
+    padding-left: var(--padding);
 }
