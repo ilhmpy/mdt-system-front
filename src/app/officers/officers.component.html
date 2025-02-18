@@ -58,6 +58,11 @@
         </ui-container>
     </div>
     <div>
-        <ui-title>Officers</ui-title>
+        <ui-container>
+            <ui-title>Officers</ui-title>
+        </ui-container>
+        <ui-container>
+            <ui-table [values]="this.officersValues" [columns]="this.officersColumns"></ui-table>
+        </ui-container>
     </div>
 </layout-container>

@@ -1,1 +1,18 @@
-<p>ui-table works!</p>
+<table>
+    <thead>
+      <tr class="table-headers_container">
+        <th class="table-headers_item" *ngFor="let column of this.columns()">
+            
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+        @for (value of this.values(); track $index) {
+            <tr class="table-items_container">
+                <td class="table_item" *ngFor="let column of this.columns()">
+                    {{ this.getValueByTape(value, column) }}
+                </td>
+            </tr>
+        }
+    </tbody>
+  </table>

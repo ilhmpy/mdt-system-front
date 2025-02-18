@@ -16,6 +16,8 @@ import { UiListComponent } from './components/UI/list/ui-list.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UiTextareaComponent } from './components/UI/textarea/ui-textarea.component';
+import { UiTableComponent } from './components/UI/table/ui-table.component';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,8 @@ import { UiTextareaComponent } from './components/UI/textarea/ui-textarea.compon
     UiContainerComponent,
     UiInputComponent,
     UiListComponent,
-    UiTextareaComponent
+    UiTextareaComponent,
+    UiTableComponent
   ],
   imports: [
     BrowserModule,     
@@ -36,7 +39,8 @@ import { UiTextareaComponent } from './components/UI/textarea/ui-textarea.compon
     NgClass,
     RouterModule.forRoot(routes),
     ReactiveFormsModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatTableModule
   ],
   providers: [
     provideAnimationsAsync()
