@@ -16,10 +16,6 @@ export class UiListComponent {
   readonly renderFieldIdx: WritableSignal<number> = signal<number>(0);
   readonly isListActivated: WritableSignal<boolean> = signal<boolean>(false);
 
-  handleActivateList() {
-    this.isListActivated.set(!this.isListActivated());
-  }
-
   handleRenderField(index: number) {
     if (index !== this.renderFieldIdx()) {
       this.renderField.set(this.list()[index]);
@@ -32,5 +28,9 @@ export class UiListComponent {
 
   mouseLeave() {
     this.isListActivated.set(false);
+  }
+
+  mouseEnter() {
+    this.isListActivated.set(true);
   }
 }

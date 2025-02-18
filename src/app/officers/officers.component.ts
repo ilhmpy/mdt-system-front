@@ -1,6 +1,8 @@
-import { Component, signal, WritableSignal } from '@angular/core';
+import { Component, ElementRef, signal, ViewChild, WritableSignal } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Markings } from '../dtos/markings.dto';
+import { UiInputComponent } from '../components/UI/input/ui-input.component';
+
 
 interface MarkingsItem {
   label: string; 
@@ -17,6 +19,7 @@ export class OfficersComponent {
   readonly status: WritableSignal<boolean | null> = signal<boolean | null>(null);
   readonly markingValueErrors: WritableSignal<boolean> = signal<boolean>(false);
   readonly marking: WritableSignal<{ label: string; marking: Markings }> = signal<{ label: string; marking: Markings }>({ label: "Linkoln", marking: "L" });
+  @ViewChild('inputRef') inputRef!: UiInputComponent;
 
   readonly markingsList: WritableSignal<MarkingsItem[]> = signal<MarkingsItem[]>([ 
     { label: "Linkoln", marking: "L" },
@@ -59,6 +62,7 @@ export class OfficersComponent {
   handleMarkingChange = () => {
     const newMaskData = this.getNewMaskData();
 
+    this.inputRef.focus();
     this.maskData.set(newMaskData);
     this.form.patchValue({
       markingValue: newMaskData

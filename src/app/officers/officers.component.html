@@ -24,6 +24,7 @@
         <ui-title>Marking</ui-title>
         <ui-container class="marking">
             <ui-input  
+                #inputRef
                 [change]="this.onMarkingValue"
                 [form]="this.form" 
                 [errors]="this.markingValueErrors"

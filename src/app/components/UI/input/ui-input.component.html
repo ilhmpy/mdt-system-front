@@ -1,5 +1,6 @@
 <form [formGroup]="this.form">
     <input
+        #inputField
         type="text"
         [value]="this.form.get(this.formValue)"
         (input)="this.onInput($event)"

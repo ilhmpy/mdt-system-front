@@ -1,4 +1,4 @@
-import { Component, forwardRef, HostListener, Input, signal, WritableSignal } from '@angular/core';
+import { Component, ElementRef, forwardRef, HostListener, Input, signal, ViewChild, WritableSignal } from '@angular/core';
 import { ControlValueAccessor, FormBuilder, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
@@ -26,6 +26,8 @@ export class UiInputComponent implements ControlValueAccessor {
     @Input() mask: boolean = false;
     @Input() maskData: string = "";
     @Input() maxLength: string = "25"
+
+    @ViewChild('inputField') inputElement!: ElementRef<HTMLInputElement>;
 
     constructor(private fb: FormBuilder) {
       this.form = this.fb.group({})
@@ -97,5 +99,9 @@ export class UiInputComponent implements ControlValueAccessor {
       } else {
         this.change(this.errors);
       }
+    }
+
+    focus() {
+      this.inputElement.nativeElement.focus();
     }
 }

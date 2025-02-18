@@ -1,6 +1,9 @@
-<div class="container" (mouseleave)="this.mouseLeave()">
+<div class="container" 
+    (mouseleave)="this.mouseLeave()" 
+    (mouseenter)="this.mouseEnter()"
+>
     <div class="container-wrapper">
-        <div class="container_data list" (click)="this.handleActivateList()">
+        <div class="container_data list">
             {{ renderField().label }}
             <img src="assets/images/arrow.svg" class="arrow" [ngClass]="{ 'arrow-activated': this.isListActivated() }">
         </div>

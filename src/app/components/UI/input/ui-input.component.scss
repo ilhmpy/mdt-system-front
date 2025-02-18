@@ -5,11 +5,16 @@ input {
     background: var(--links-button);
     padding: var(--padding);
     caret-color: transparent;
+    transition: .1s;
 } 
 
 input::placeholder {
     color: var(--text-light-color);
     opacity: 1;
+}
+
+input:focus {
+    border: 2px solid var(--side-buttons-color);
 }
 
 .disabledUserSelect {
