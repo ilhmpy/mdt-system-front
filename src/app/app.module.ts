@@ -12,6 +12,9 @@ import { UiTitleComponent } from './components/UI/title/ui-title.component';
 import { UiContainerComponent } from './components/UI/container/ui-container.component';
 import { UiInputComponent } from './components/UI/input/ui-input.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { UiListComponent } from './components/UI/list/ui-list.component';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -22,16 +25,20 @@ import { ReactiveFormsModule } from '@angular/forms';
     LayoutContainerComponent,
     UiTitleComponent,
     UiContainerComponent,
-    UiInputComponent
+    UiInputComponent,
+    UiListComponent
   ],
   imports: [
     BrowserModule,     
     RouterOutlet,
     NgClass,
     RouterModule.forRoot(routes),
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BrowserAnimationsModule
   ],
-  providers: [],
+  providers: [
+    provideAnimationsAsync()
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -23,7 +23,7 @@ export class UiInputComponent implements ControlValueAccessor {
     @Input() form: FormGroup;
     @Input() formValue: string = "";
     @Input() placeholder: string = "";
-    @Input() maskType: "marking" | null = null;
+    @Input() mask: boolean = false;
     @Input() maskData: string = "";
     @Input() maxLength: string = "25"
 
@@ -56,17 +56,8 @@ export class UiInputComponent implements ControlValueAccessor {
     }
 
     unexpectedChange(event: any) {
-      if (this.maskType !== null) {
+      if (this.mask) {
         event.preventDefault();
-      }
-    }
-
-    @HostListener('selectstart', ['$event']) blockSelect(e: KeyboardEvent) {
-      if (this.maskType !== null) {
-        console.log("ADAS")
-      e.preventDefault()
-       // window.getSelection()?.removeAllRanges();
-       // console.log(window.getSelection.toString())
       }
     }
 
@@ -88,8 +79,11 @@ export class UiInputComponent implements ControlValueAccessor {
 
       this.errors.set(!!this.form.get(this.formValue)?.errors);
   
-      if (this.maskType == "marking") {
-        if (this.isBackspacePressed() && this.maskData.split("").every(char => input.value.includes(char))) {
+      if (this.mask) {
+        if (
+          (this.isBackspacePressed() && this.maskData.split("").every(char => input.value.includes(char))) || 
+          !(input.value.includes(this.maskData))
+        ) {
           this.form.patchValue({
             [this.formValue]: this.maskData
           });

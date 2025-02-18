@@ -28,12 +28,17 @@
                 [form]="this.form" 
                 [errors]="this.markingValueErrors"
                 formValue="markingValue"
-                maskType="marking"
-                [maskData]="maskData"
-                [placeholder]="maskData"
+                [mask]="true"
+                [maskData]="this.maskData()"
+                [placeholder]="this.maskData()"
                 maxLength="6"
             />
-            <div></div>
+            <ui-list 
+                [list]="this.markingsList" 
+                controlField="marking" 
+                [renderField]="this.marking"
+                [handleRender]="handleMarkingChange"
+            />
         </ui-container>
     </div>
     <div>2</div>

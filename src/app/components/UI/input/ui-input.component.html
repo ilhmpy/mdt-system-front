@@ -8,9 +8,5 @@
         [placeholder]="placeholder"
         [formControlName]="formValue"
         [maxlength]="maxLength"
-        (selectstart)="this.unexpectedChange($event)"
-
-        [ngClass]="{ 'disabledUserSelect': this.maskType !== null }"
-        (paste)="(false)"
     />
 </form>

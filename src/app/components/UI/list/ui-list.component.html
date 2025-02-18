@@ -1,1 +1,13 @@
-<p>ui-list works!</p>
+<div class="container" (mouseleave)="this.mouseLeave()">
+    <div class="container-wrapper">
+        <div class="container_data list" (click)="this.handleActivateList()">
+            {{ renderField().label }}
+            <img src="assets/images/arrow.svg" class="arrow" [ngClass]="{ 'arrow-activated': this.isListActivated() }">
+        </div>
+        <div class="container_list" [ngClass]="{ 'list-activated': this.isListActivated() }">
+            @for (listItem of list(); track $index) {
+                <div class="container_list-item list" (click)="this.handleRenderField($index)">{{ listItem.label }}</div>
+            }
+        </div>
+    </div>
+</div>
