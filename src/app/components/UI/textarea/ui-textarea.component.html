@@ -1,1 +1,14 @@
-<textarea></textarea>
+<form [formGroup]="this.form">
+    <textarea
+        #textareaField
+        type="text"
+        [value]="this.form.get(this.formValue)"
+        (input)="this.onInput($event)"
+        (keydown)="this.keydown($event)"
+        (blur)="this.onTouched()"
+        [placeholder]="placeholder"
+        [formControlName]="formValue"
+        [maxlength]="maxLength"
+    >
+    </textarea>
+</form>

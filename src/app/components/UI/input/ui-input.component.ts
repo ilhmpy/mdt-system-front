@@ -19,7 +19,6 @@ export class UiInputComponent implements ControlValueAccessor {
     readonly isBackspacePressed: WritableSignal<boolean> = signal<boolean>(false);
 
     @Input() change: (...args: any[]) => void = () => {}
-    @Input() errors: WritableSignal<boolean> = signal<boolean>(true);
     @Input() form: FormGroup;
     @Input() formValue: string = "";
     @Input() placeholder: string = "";
@@ -78,8 +77,6 @@ export class UiInputComponent implements ControlValueAccessor {
     onInput(event: Event) {
       const input = event.target as HTMLInputElement;
       this.onChange(input.value);
-
-      this.errors.set(!!this.form.get(this.formValue)?.errors);
   
       if (this.mask) {
         if (
@@ -96,8 +93,10 @@ export class UiInputComponent implements ControlValueAccessor {
             [this.formValue]: /^\d+$/.test(input.value.slice(-1)) ? input.value : input.value.slice(0, -1)
           })
         }
+
+        this.change();
       } else {
-        this.change(this.errors);
+        this.change();
       }
     }
 

@@ -2,6 +2,7 @@ import { Component, ElementRef, signal, ViewChild, WritableSignal } from '@angul
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Markings } from '../dtos/markings.dto';
 import { UiInputComponent } from '../components/UI/input/ui-input.component';
+import { StatusDTO } from './officers.dto';
 
 
 interface MarkingsItem {
@@ -16,8 +17,7 @@ interface MarkingsItem {
   styleUrl: './officers.component.scss'
 })
 export class OfficersComponent {
-  readonly status: WritableSignal<boolean | null> = signal<boolean | null>(null);
-  readonly markingValueErrors: WritableSignal<boolean> = signal<boolean>(false);
+  readonly status: WritableSignal<StatusDTO> = signal<StatusDTO>(null);
   readonly marking: WritableSignal<{ label: string; marking: Markings }> = signal<{ label: string; marking: Markings }>({ label: "Linkoln", marking: "L" });
   @ViewChild('inputRef') inputRef!: UiInputComponent;
 
@@ -35,8 +35,11 @@ export class OfficersComponent {
     return `1-${this.marking().marking}-`;
   }
 
-  readonly maskData: WritableSignal<string> = signal<string>(this.getNewMaskData())
+  getMaxInputCharactersByMarking() {
+    return 5 + this.marking().marking.length;
+  }
 
+  readonly maskData: WritableSignal<string> = signal<string>(this.getNewMaskData())
 
   form: FormGroup;
 
@@ -44,19 +47,34 @@ export class OfficersComponent {
     this.form = this.fb.group({
       markingValue: [
         this.getNewMaskData(),
-        [ Validators.required, Validators.maxLength(5) ]
+        [ Validators.required, Validators.maxLength(this.getMaxInputCharactersByMarking()) ]
+      ],
+      notebookValue: [
+        '',
+        [ Validators.maxLength(400) ]
       ]
     })
   }
 
-  handleStatus(newStatus: boolean | null) {
+  handleStatus(newStatus: StatusDTO) {
     this.status.set(newStatus);
   }
 
-  onMarkingValue(errors: WritableSignal<boolean>) {
-    if (!errors()) {
+  onMarkingValue = () => {
+    const control = this.form.get("markingValue");
+    
+    control?.setValidators([
+      Validators.required,
+      Validators.maxLength(this.getMaxInputCharactersByMarking())
+    ])
 
+    if (!control?.errors) {
+      console.log(control?.value);
     }
+  }
+
+  onNoteBookValue() {
+
   }
 
   handleMarkingChange = () => {

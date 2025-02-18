@@ -1,0 +1,1 @@
+export type StatusDTO = boolean | null | "OS"

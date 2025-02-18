@@ -17,13 +17,14 @@
 }
 
 .container_data {
-    height: 2.1em;
+    height: 2.2em;
     cursor: pointer;
     width: 100%;
     background: var(--links-button);
     justify-content: space-between;
     border: 1px solid var(--navigation-background-color);
     z-index: 2;
+    padding: var(--padding);
     position: relative;
 }
 

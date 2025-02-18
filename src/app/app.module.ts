@@ -15,6 +15,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { UiListComponent } from './components/UI/list/ui-list.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { UiTextareaComponent } from './components/UI/textarea/ui-textarea.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     UiTitleComponent,
     UiContainerComponent,
     UiInputComponent,
-    UiListComponent
+    UiListComponent,
+    UiTextareaComponent
   ],
   imports: [
     BrowserModule,     

@@ -4,7 +4,7 @@
         <ui-container class="status">
             <ui-button 
                 (click)="this.handleStatus(true)" 
-                [type]="[this.status() ? 'light' : '', 'no-size', 'left-side']"
+                [type]="[this.status() == true ? 'light' : '', 'no-size', 'left-side']"
             >
                 Avalaible
             </ui-button>
@@ -20,6 +20,12 @@
             >
                 Busy
             </ui-button>
+            <ui-button 
+                [type]="['left-side', this.status() == 'OS' ? 'OS' : '', 'no-size']"
+                (click)="this.handleStatus('OS')"
+            >
+                OS
+            </ui-button>
         </ui-container>
         <ui-title>Marking</ui-title>
         <ui-container class="marking">
@@ -27,12 +33,11 @@
                 #inputRef
                 [change]="this.onMarkingValue"
                 [form]="this.form" 
-                [errors]="this.markingValueErrors"
                 formValue="markingValue"
                 [mask]="true"
                 [maskData]="this.maskData()"
                 [placeholder]="this.maskData()"
-                maxLength="6"
+                [maxLength]="this.getMaxInputCharactersByMarking().toString()"
             />
             <ui-list 
                 [list]="this.markingsList" 
@@ -41,6 +46,18 @@
                 [handleRender]="handleMarkingChange"
             />
         </ui-container>
+        <ui-title>Notebook</ui-title>
+        <ui-container class="notebook">
+            <ui-textarea
+                [change]="this.onNoteBookValue"
+                [form]="this.form" 
+                formValue="notebookValue"
+                maxLength="400"
+            >
+            </ui-textarea>
+        </ui-container>
     </div>
-    <div>2</div>
+    <div>
+        <ui-title>Officers</ui-title>
+    </div>
 </layout-container>
