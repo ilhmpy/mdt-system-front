@@ -15,3 +15,9 @@ export interface OfficerTableItem extends OfficerDTO {
     lastUpdate: Date;
     location: string;
 }
+
+export interface MarkingsItem {
+    label: string; 
+    marking: Markings;
+    pairedPatrolCrew: boolean,
+}

@@ -1,3 +1,18 @@
+table {
+    width: 100%;
+    table-layout: fixed;
+}
+
+.table-headers_container {
+    display: flex;
+    grid-template-columns: 1fr;
+}
+
+.table-headers_item {
+    text-align: center;
+    justify-content: center;
+}
+
 .table-items_container {
     height: 3.3em;
     gap: 3em;
@@ -28,10 +43,8 @@
 
 .pagination_buttons {
     width: 100%;
-    //display: grid;
     display: flex;
     justify-content: center;
-    //grid-template-columns: repeat(auto-fill, minmax(15%, 1fr));
     height: 3em;
     margin-top: 1em;
     gap: .5em;

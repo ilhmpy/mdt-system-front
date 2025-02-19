@@ -40,7 +40,7 @@
                 [maxLength]="this.getMaxInputCharactersByMarking().toString()"
             />
             <ui-list 
-                [list]="this.markingsList" 
+                [list]="this.ContextService.getMarkingsList()" 
                 controlField="marking" 
                 [renderField]="this.marking"
                 [handleRender]="handleMarkingChange"
@@ -62,7 +62,11 @@
             <ui-title class="right-side">Officers</ui-title>
         </ui-container>
         <ui-container>
-            <ui-table [values]="this.officersValues" [columns]="this.officersColumns"></ui-table>
+            <ui-table 
+                [values]="this.officersValues" 
+                [columns]="this.officersColumns" 
+                defaultSortBy="markings"
+            />
         </ui-container>
     </div>
 </layout-container>

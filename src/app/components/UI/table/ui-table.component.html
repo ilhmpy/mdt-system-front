@@ -1,12 +1,14 @@
 <table>
     <thead>
       <tr class="table-headers_container">
-        <th class="table-headers_item" *ngFor="let column of this.columns()"></th>
+        @if (this.isTableHeadersNeed) {
+            <th class="table-headers_item" *ngFor="let column of this.columns()">{{ column.label }}</th>
+        }
       </tr>
     </thead>
-    <tbody>
-        @for (value of this.getChangedValues(); track $index) {
-            <tr class="table-items_container">
+    <tbody> 
+        @for (value of this.getSortedAndFilteredValues(); track $index) {
+            <tr class="table-items_container"> 
                 <td class="table_item" *ngFor="let column of this.columns()">
                     {{ this.getValueByTape(value, column) }}
                 </td>
@@ -15,7 +17,12 @@
     </tbody>
     <div class="pagination_buttons">
         @for (page of this.getNumberOfPages(); track $index) {
-            <ui-button [type]="['no-size', 'circle']" (click)="this.changeCurrentPage(page + 1)">{{ page + 1 }}</ui-button>
+            <ui-button 
+                [type]="['no-size', 'circle', this.currentPagPage() == $index + 1 ? 'pag-activated' : '']" 
+                (click)="this.changeCurrentPage(page + 1)"
+            >
+                {{ page + 1 }}
+            </ui-button>
         }
     </div>
   </table>

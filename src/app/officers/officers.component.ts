@@ -4,13 +4,8 @@ import { Markings } from '../dtos/markings.dto';
 import { UiInputComponent } from '../components/UI/input/ui-input.component';
 import { StatusDTO } from './officers.dto';
 import { Column, Value } from '../components/UI/table/ui-table.dto';
-import { OfficerTableItem } from '../dtos/officer.dto';
-
-
-interface MarkingsItem {
-  label: string; 
-  marking: Markings;
-}
+import { OfficerTableItem, MarkingsItem } from '../dtos/officer.dto';
+import { ContextService } from '../services/context.service';
 
 @Component({
   selector: 'app-officers',
@@ -43,7 +38,7 @@ export class OfficersComponent {
       {
         name: "Ryan Thompson",
         marking: "H",
-        markingNumber: 15,
+        markingNumber: 45,
         status: true,
         shift: 4,
         lastUpdate: new Date(2025, 1, 3, 7, 45),
@@ -88,7 +83,7 @@ export class OfficersComponent {
       {
         name: "Olivia White",
         marking: "A",
-        markingNumber: 14,
+        markingNumber: 12,
         status: false,
         shift: 2,
         lastUpdate: new Date(2025, 1, 8, 10, 5),
@@ -124,7 +119,7 @@ export class OfficersComponent {
       {
         name: "Nathaniel Brown",
         marking: "A",
-        markingNumber: 17,
+        markingNumber: 23,
         status: true,
         shift: 3,
         lastUpdate: new Date(2025, 1, 12, 6, 35),
@@ -142,7 +137,7 @@ export class OfficersComponent {
       {
         name: "Charles Mitchell",
         marking: "H",
-        markingNumber: 40,
+        markingNumber: 45,
         status: null,
         shift: 4,
         lastUpdate: new Date(2025, 1, 14, 13, 25),
@@ -293,16 +288,6 @@ export class OfficersComponent {
   ])
   @ViewChild('inputRef') inputRef!: UiInputComponent;
 
-  readonly markingsList: WritableSignal<MarkingsItem[]> = signal<MarkingsItem[]>([ 
-    { label: "Linkoln", marking: "L" },
-    { label: "Adam", marking: "A" },
-    { label: "Mary", marking: "M" },
-    { label: "Henry", marking: "H" },
-    { label: "Air", marking: "AIR" },
-    { label: "King", marking: "K" },
-    { label: "Robert", marking: "R" },
-  ]);
-
   getNewMaskData() {
     return `1-${this.marking().marking}-`;
   }
@@ -315,7 +300,7 @@ export class OfficersComponent {
 
   form: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, readonly ContextService: ContextService) {
     this.form = this.fb.group({
       markingValue: [
         this.getNewMaskData(),
