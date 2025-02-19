@@ -2,6 +2,7 @@ import { Component, Input, signal, WritableSignal } from '@angular/core';
 import { Column, Value } from './ui-table.dto';
 import { ContextService } from '../../../services/context.service';
 import { OfficerTableItem } from '../../../dtos/officer.dto';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'ui-table',
@@ -12,13 +13,20 @@ import { OfficerTableItem } from '../../../dtos/officer.dto';
 export class UiTableComponent {
   @Input() columns: WritableSignal<Column[]> = signal<Column[]>([]);
   @Input() values: WritableSignal<Value[]> = signal<Value[]>([]);
-  @Input() itemsPerPage: number = 6;
-  @Input() defaultSortBy: "markings" | null = null;
+  @Input() itemsPerPage: number = 5;
+  @Input() defaultSort: boolean | null = null;
   @Input() isTableHeadersNeed: boolean = false;
 
   readonly currentPagPage: WritableSignal<number> = signal<number>(1);
+  readonly sortedAndFilteredValues: WritableSignal<Value[]> = signal<Value[]>([]);
 
   constructor(readonly ContextService: ContextService) {}
+
+  ngOnInit() {
+    if (this.sortedAndFilteredValues().length == 0) {
+      this.sortedAndFilteredValues.set(this.getSortedAndFilteredValues());
+    }
+  }
 
   getValueByTape(value: Value, column: Column) {
     column.field = column.field || "";
@@ -56,15 +64,49 @@ export class UiTableComponent {
     return value[column.field];
   }
 
-  paginationFilter = (value: any, idx: number) => {
+  getRealNumberOfItems(values: Value[]) {
+    let realNumber = [];
+
+    for (let i = 0; i < values.length; i++) {
+      if (!!values[i]["0"] && !!values[i]["1"]) {
+        console.log("JA")
+        realNumber.push(i)
+        realNumber.push(i)
+      } else {
+        realNumber.push(i);
+      }
+    }
+
+    return realNumber.length;
+  }
+
+  paginationFilter = (values: Value[]) => {
     const firstItem = this.currentPagPage() == 1 ? 0 : this.currentPagPage() * this.itemsPerPage - this.itemsPerPage;
     const lastItem = this.currentPagPage() * this.itemsPerPage;
-    
-    return idx >= firstItem && idx < lastItem
+
+    if (this.defaultSort) {
+      const realNumberOfItems = this.getRealNumberOfItems(values);
+      let filteredValues = [];
+
+      for (let i = 0; i < realNumberOfItems; i++) {
+        if (i >= firstItem && i < lastItem) {
+          filteredValues.push(values[i]);
+        }
+      }
+
+      return filteredValues;
+     } else {
+      return values.filter((value, idx) => idx >= firstItem && idx < lastItem)
+    }
+
   };
 
   crewSome(a: OfficerTableItem, index: number, arr: OfficerTableItem[]) {
-    return arr.some((b: OfficerTableItem, idx: number) => idx !== index && a["marking"] === b["marking"] && a["markingNumber"] === b["markingNumber"])
+    return arr.some((b: OfficerTableItem, idx: number) => idx !== index && this.isCrew(a, b))
+  }
+
+  isCrew(a: any, b: any) {
+    return a["marking"] === b["marking"] && a["markingNumber"] === b["markingNumber"]
   }
 
   crewSort(arr: any[]) {
@@ -72,18 +114,23 @@ export class UiTableComponent {
       const isAPaired = this.ContextService.isMarkingPaired(a["marking"]);
       const isBPaired = this.ContextService.isMarkingPaired(b["marking"]);
 
-      if (isAPaired && !isBPaired) return -1;
-      if (!isAPaired && isBPaired) return 1;
-
-      if (a["marking"] === b["marking"] && a["markingNumber"] === b["markingNumber"]) {
-        return 0;
+      if (isAPaired && isBPaired) {
+  
+        if (isAPaired && !isBPaired) return -1;
+        if (!isAPaired && isBPaired) return 1;
+  
+        if (this.isCrew(a, b)) {
+          return 0;
+        }
+  
+        if (a["marking"] === b["marking"]) {
+          return a["markingNumber"] - b["markingNumber"];
+        }
+  
+        return a["marking"] > b["marking"] ? 1 : -1;
+      } else {
+        return -1;
       }
-
-      if (a["marking"] === b["marking"]) {
-        return a["markingNumber"] - b["markingNumber"];
-      }
-
-      return a["marking"] > b["marking"] ? 1 : -1;
   });
   }
 
@@ -96,20 +143,30 @@ export class UiTableComponent {
       return !this.crewSome(a, index, arr);
     });
 
-    return [...withPairedCrew, ...withoutPairedCrew];
+    const crewArray = [...withPairedCrew.map(
+      (item, idx) => {
+        const secondItem = withPairedCrew.find((i, index) => (idx + 1 == index) && this.isCrew(item, i));
+
+        if (secondItem) {
+          return { "0": item, "1": secondItem } 
+        }
+
+        return;
+      }).filter((item) => !!item), ...withoutPairedCrew];
+
+    return crewArray;
   }
 
   getSortedAndFilteredValues() {
     let valuesCopy = [...this.values()];
   
-    if (this.defaultSortBy === "markings") {
+    if (this.defaultSort) {
       valuesCopy = this.crewSort(valuesCopy);
+      valuesCopy = this.isCrewFilter(valuesCopy);
+      valuesCopy = this.paginationFilter(valuesCopy);
     }
 
-    valuesCopy = this.isCrewFilter(valuesCopy);
-    console.log(valuesCopy)
-
-    return valuesCopy.filter(this.paginationFilter);
+    return valuesCopy
   }
 
   getNumberOfPages() {
@@ -125,5 +182,6 @@ export class UiTableComponent {
 
   changeCurrentPage(index: number) {
     this.currentPagPage.set(index);
+    this.sortedAndFilteredValues.set(this.getSortedAndFilteredValues());
   }
 }

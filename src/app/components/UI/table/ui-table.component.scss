@@ -1,5 +1,4 @@
 table {
-    width: 100%;
     table-layout: fixed;
 }
 
@@ -17,7 +16,6 @@ table {
     height: 3.3em;
     gap: 3em;
     display: flex;
-    width: 100%;
     cursor: pointer;
     align-items: center;
     padding-left: var(--padding-side);
@@ -25,6 +23,15 @@ table {
 }
 
 .table-items_container:hover {
+    background: var(--active-table-item-color);
+}
+
+.table-crew-item {
+    border-bottom: 2px solid var(--links-button);
+    border-top: 2px solid var(--links-button);
+}
+
+.table-crew-item:hover {
     background: var(--active-table-item-color);
 }
 
