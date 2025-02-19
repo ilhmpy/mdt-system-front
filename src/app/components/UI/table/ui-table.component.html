@@ -8,7 +8,7 @@
     </thead>
     <tbody> 
         @for (value of this.sortedAndFilteredValues(); track $index) {
-            @if (this.defaultSort && value["0"]) {
+            @if (this.defaultSort && value?.["0"]) {
                 <div class="table-crew-item">
                     <tr class="table-items_container"> 
                         <td class="table_item" *ngFor="let column of this.columns()" [ngClass]="{ 'crew': true }">

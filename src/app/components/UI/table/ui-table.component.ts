@@ -3,6 +3,7 @@ import { Column, Value } from './ui-table.dto';
 import { ContextService } from '../../../services/context.service';
 import { OfficerTableItem } from '../../../dtos/officer.dto';
 import { filter } from 'rxjs';
+import { ɵAnimationGroupPlayer } from '@angular/animations';
 
 @Component({
   selector: 'ui-table',
@@ -19,6 +20,7 @@ export class UiTableComponent {
 
   readonly currentPagPage: WritableSignal<number> = signal<number>(1);
   readonly sortedAndFilteredValues: WritableSignal<Value[]> = signal<Value[]>([]);
+  readonly sortedValuesDefault: WritableSignal<Value[]> = signal<Value[]>([]);
 
   constructor(readonly ContextService: ContextService) {}
 
@@ -69,7 +71,6 @@ export class UiTableComponent {
 
     for (let i = 0; i < values.length; i++) {
       if (!!values[i]["0"] && !!values[i]["1"]) {
-        console.log("JA")
         realNumber.push(i)
         realNumber.push(i)
       } else {
@@ -94,7 +95,7 @@ export class UiTableComponent {
         }
       }
 
-      return filteredValues;
+      return filteredValues.filter((item) => !!item);
      } else {
       return values.filter((value, idx) => idx >= firstItem && idx < lastItem)
     }
@@ -109,68 +110,60 @@ export class UiTableComponent {
     return a["marking"] === b["marking"] && a["markingNumber"] === b["markingNumber"]
   }
 
-  crewSort(arr: any[]) {
-    return arr.sort((a, b) => {
-      const isAPaired = this.ContextService.isMarkingPaired(a["marking"]);
-      const isBPaired = this.ContextService.isMarkingPaired(b["marking"]);
-
-      if (isAPaired && isBPaired) {
+  crewSortAndGroup(arr: any[]) {
+    let groupedArr: any[] = [];
+    let usedIndices = new Set(); 
   
-        if (isAPaired && !isBPaired) return -1;
-        if (!isAPaired && isBPaired) return 1;
+    for (let i = 0; i < arr.length; i++) {
+      if (usedIndices.has(i)) continue;
   
-        if (this.isCrew(a, b)) {
-          return 0;
-        }
+      const current = arr[i];
+      const pair = arr.find((item, idx) => 
+        idx !== i && this.isCrew(current, item) && !usedIndices.has(idx)
+      );
   
-        if (a["marking"] === b["marking"]) {
-          return a["markingNumber"] - b["markingNumber"];
-        }
-  
-        return a["marking"] > b["marking"] ? 1 : -1;
+      if (pair) {
+        groupedArr.push({ "0": current, "1": pair });
+        usedIndices.add(i);
+        usedIndices.add(arr.indexOf(pair));
       } else {
-        return -1;
+        groupedArr.push(current);
       }
-  });
-  }
+    }
 
-  isCrewFilter = (valuesCopy: any[]) => {
-    const withPairedCrew = valuesCopy.filter((a: any, index, arr: any) => {
-      return this.crewSome(a, index, arr);
-    });
+    const sortedArr = groupedArr.sort((a, b) => {
+      if (a?.["0"]) {
+        return -1
+      }
 
-    const withoutPairedCrew = valuesCopy.filter((a: any, index, arr: any) => {
-      return !this.crewSome(a, index, arr);
-    });
-
-    const crewArray = [...withPairedCrew.map(
-      (item, idx) => {
-        const secondItem = withPairedCrew.find((i, index) => (idx + 1 == index) && this.isCrew(item, i));
-
-        if (secondItem) {
-          return { "0": item, "1": secondItem } 
-        }
-
-        return;
-      }).filter((item) => !!item), ...withoutPairedCrew];
-
-    return crewArray;
+      return 1;
+    })
+  
+    this.sortedValuesDefault.set(sortedArr);
+    return groupedArr;
   }
 
   getSortedAndFilteredValues() {
     let valuesCopy = [...this.values()];
-  
+    
     if (this.defaultSort) {
-      valuesCopy = this.crewSort(valuesCopy);
-      valuesCopy = this.isCrewFilter(valuesCopy);
-      valuesCopy = this.paginationFilter(valuesCopy);
+      valuesCopy = this.crewSortAndGroup(valuesCopy); 
     }
 
-    return valuesCopy
+    valuesCopy = this.paginationFilter(valuesCopy); 
+  
+    return valuesCopy;
   }
 
   getNumberOfPages() {
-    const numberOfPages = Math.ceil(this.values().length / this.itemsPerPage);
+    let numberOfPages = 0;
+
+    if (this.defaultSort) {
+      numberOfPages = Math.ceil(this.sortedValuesDefault().length / this.itemsPerPage);
+    } else {
+      numberOfPages = Math.ceil(this.values().length / this.itemsPerPage);
+    }
+
     const numberOfPagesArray = [];
 
     for (let i = 0; i < numberOfPages; i++) {
