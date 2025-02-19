@@ -1,3 +1,18 @@
+@if (this.isSearchAndSortNeed) {
+    <ui-container>
+        <div class="search-container">
+            <ui-input
+                [change]="this.onSearchValue"
+                [form]="this.form"
+                formValue="searchValue"
+                placeholder="Search name"
+                maxLength="20"
+            /> 
+            <ui-list />
+        </div>
+    </ui-container>
+}
+
 <table>
     <thead>
       <tr class="table-headers_container">

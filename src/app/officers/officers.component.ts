@@ -24,7 +24,8 @@ export class OfficersComponent {
         status: "OS",
         shift: 3,
         lastUpdate: new Date(2025, 1, 1, 8, 30),
-        location: "Elgin Ave"
+        location: "Elgin Ave",
+        badgeNumber: "LS12345"
       },
       {
         name: "Jessica Parker",
@@ -33,7 +34,8 @@ export class OfficersComponent {
         status: null,
         shift: 1,
         lastUpdate: new Date(2025, 1, 2, 9, 0),
-        location: "Vespucci Blvd"
+        location: "Vespucci Blvd",
+        badgeNumber: "LS12346"
       },
       {
         name: "Ryan Thompson",
@@ -42,7 +44,8 @@ export class OfficersComponent {
         status: true,
         shift: 4,
         lastUpdate: new Date(2025, 1, 3, 7, 45),
-        location: "Bay City Ave"
+        location: "Bay City Ave",
+        badgeNumber: "LS12347"
       },
       {
         name: "Sophia Williams",
@@ -51,7 +54,8 @@ export class OfficersComponent {
         status: "OS",
         shift: 2,
         lastUpdate: new Date(2025, 1, 4, 14, 30),
-        location: "San Andreas Ave"
+        location: "San Andreas Ave",
+        badgeNumber: "LS12348"
       },
       {
         name: "Daniel Martinez",
@@ -60,7 +64,8 @@ export class OfficersComponent {
         status: false,
         shift: 5,
         lastUpdate: new Date(2025, 1, 5, 13, 20),
-        location: "Power St"
+        location: "Power St",
+        badgeNumber: "LS12349"
       },
       {
         name: "Emily Johnson",
@@ -69,7 +74,8 @@ export class OfficersComponent {
         status: "OS",
         shift: 3,
         lastUpdate: new Date(2025, 1, 6, 12, 15),
-        location: "Alta St"
+        location: "Alta St",
+        badgeNumber: "LS12350"
       },
       {
         name: "James Rodriguez",
@@ -78,7 +84,8 @@ export class OfficersComponent {
         status: null,
         shift: 1,
         lastUpdate: new Date(2025, 1, 7, 11, 10),
-        location: "Rockford Dr"
+        location: "Rockford Dr",
+        badgeNumber: "LS12351"
       },
       {
         name: "Olivia White",
@@ -87,7 +94,8 @@ export class OfficersComponent {
         status: false,
         shift: 2,
         lastUpdate: new Date(2025, 1, 8, 10, 5),
-        location: "Del Perro Fwy"
+        location: "Del Perro Fwy",
+        badgeNumber: "LS12352"
       },
       {
         name: "William Scott",
@@ -96,7 +104,8 @@ export class OfficersComponent {
         status: true,
         shift: 4,
         lastUpdate: new Date(2025, 1, 9, 9, 50),
-        location: "Strawberry Ave"
+        location: "Strawberry Ave",
+        badgeNumber: "LS12353"
       },
       {
         name: "Isabella Green",
@@ -105,7 +114,8 @@ export class OfficersComponent {
         status: "OS",
         shift: 5,
         lastUpdate: new Date(2025, 1, 10, 8, 45),
-        location: "Davis Ave"
+        location: "Davis Ave",
+        badgeNumber: "LS12354"
       },
       {
         name: "Carlos Hernandez",
@@ -114,7 +124,8 @@ export class OfficersComponent {
         status: "OS",
         shift: 2,
         lastUpdate: new Date(2025, 1, 11, 7, 40),
-        location: "Mirror Park"
+        location: "Mirror Park",
+        badgeNumber: "LS12355"
       },
       {
         name: "Nathaniel Brown",
@@ -123,7 +134,8 @@ export class OfficersComponent {
         status: true,
         shift: 3,
         lastUpdate: new Date(2025, 1, 12, 6, 35),
-        location: "West Vinewood"
+        location: "West Vinewood",
+        badgeNumber: "LS12356"
       },
       {
         name: "Amy Davis",
@@ -132,7 +144,8 @@ export class OfficersComponent {
         status: "OS",
         shift: 1,
         lastUpdate: new Date(2025, 1, 13, 15, 30),
-        location: "Little Seoul"
+        location: "Little Seoul",
+        badgeNumber: "LS12357"
       },
       {
         name: "Charles Mitchell",
@@ -141,7 +154,8 @@ export class OfficersComponent {
         status: null,
         shift: 4,
         lastUpdate: new Date(2025, 1, 14, 13, 25),
-        location: "Pillbox Hill"
+        location: "Pillbox Hill",
+        badgeNumber: "LS12358"
       },
       {
         name: "Jessica Turner",
@@ -150,7 +164,8 @@ export class OfficersComponent {
         status: false,
         shift: 5,
         lastUpdate: new Date(2025, 1, 15, 12, 20),
-        location: "Chamberlain Hills"
+        location: "Chamberlain Hills",
+        badgeNumber: "LS12359"
       },
       {
         name: "Mark Taylor",
@@ -159,7 +174,8 @@ export class OfficersComponent {
         status: true,
         shift: 2,
         lastUpdate: new Date(2025, 1, 16, 11, 15),
-        location: "Olympic Fwy"
+        location: "Olympic Fwy",
+        badgeNumber: "LS12360"
       },
       {
         name: "Evelyn Brooks",
@@ -168,7 +184,8 @@ export class OfficersComponent {
         status: null,
         shift: 3,
         lastUpdate: new Date(2025, 1, 17, 10, 10),
-        location: "San Fierro St"
+        location: "San Fierro St",
+        badgeNumber: "LS12361"
       },
       {
         name: "Joshua Clark",
@@ -177,7 +194,8 @@ export class OfficersComponent {
         status: "OS",
         shift: 4,
         lastUpdate: new Date(2025, 1, 18, 9, 5),
-        location: "South Rockford Dr"
+        location: "South Rockford Dr",
+        badgeNumber: "LS12362"
       },
       {
         name: "Zoe Johnson",
@@ -186,7 +204,8 @@ export class OfficersComponent {
         status: false,
         shift: 1,
         lastUpdate: new Date(2025, 1, 19, 8, 0),
-        location: "Alta St"
+        location: "Alta St",
+        badgeNumber: "LS12363"
       },
       {
         name: "Henry Walker",
@@ -195,7 +214,8 @@ export class OfficersComponent {
         status: true,
         shift: 2,
         lastUpdate: new Date(2025, 1, 20, 7, 55),
-        location: "Ganton"
+        location: "Ganton",
+        badgeNumber: "LS12364"
       },
       {
         name: "Chloe Carter",
@@ -204,7 +224,8 @@ export class OfficersComponent {
         status: "OS",
         shift: 5,
         lastUpdate: new Date(2025, 1, 21, 6, 50),
-        location: "East Los Santos"
+        location: "East Los Santos",
+        badgeNumber: "LS12365"
       },
       {
         name: "Daniel King",
@@ -213,7 +234,8 @@ export class OfficersComponent {
         status: null,
         shift: 1,
         lastUpdate: new Date(2025, 1, 22, 5, 45),
-        location: "Downtown Vinewood"
+        location: "Downtown Vinewood",
+        badgeNumber: "LS12366"
       },
       {
         name: "Brian Green",
@@ -222,7 +244,8 @@ export class OfficersComponent {
         status: "OS",
         shift: 3,
         lastUpdate: new Date(2025, 1, 23, 16, 40),
-        location: "El Rancho"
+        location: "El Rancho",
+        badgeNumber: "LS12367"
       },
       {
         name: "Gabriel Lee",
@@ -231,7 +254,8 @@ export class OfficersComponent {
         status: null,
         shift: 2,
         lastUpdate: new Date(2025, 1, 24, 17, 35),
-        location: "Vinewood Hills"
+        location: "Vinewood Hills",
+        badgeNumber: "LS12368"
       },
       {
         name: "Nancy Taylor",
@@ -240,7 +264,8 @@ export class OfficersComponent {
         status: "OS",
         shift: 4,
         lastUpdate: new Date(2025, 1, 25, 18, 30),
-        location: "Richman"
+        location: "Richman",
+        badgeNumber: "LS12369"
       },
       {
         name: "Carlos Garcia",
@@ -249,7 +274,8 @@ export class OfficersComponent {
         status: "OS",
         shift: 2,
         lastUpdate: new Date('2025-02-18T14:15:00'),
-        location: "Vespucci Blvd"
+        location: "Vespucci Blvd",
+        badgeNumber: "LS12370"
       },
       {
         name: "Ava Lee",
@@ -258,7 +284,8 @@ export class OfficersComponent {
         status: true,
         shift: 4,
         lastUpdate: new Date('2025-02-18T15:30:00'),
-        location: "Ganton"
+        location: "Ganton",
+        badgeNumber: "LS12371"
       },
       {
         name: "Ethan Turner",
@@ -267,20 +294,23 @@ export class OfficersComponent {
         status: false,
         shift: 5,
         lastUpdate: new Date('2025-02-18T16:45:00'),
-        location: "Las Colinas"
+        location: "Las Colinas",
+        badgeNumber: "LS12372"
       },
       {
         name: "Madison Clarke",
-        marking: "K",
+        marking: "L",
         markingNumber: 21,
         status: "OS",
         shift: 3,
         lastUpdate: new Date('2025-02-18T17:00:00'),
-        location: "Cypress Flats"
+        location: "Cypress Flats",
+        badgeNumber: "LS12373"
       }
   ]);
   readonly officersColumns: WritableSignal<Column[]> = signal<Column[]>([
     { label: "Last update", field: "lastUpdate", type: "date" },
+    { label: "Badge", field: "badgeNumber" },
     { label: "Name", field: "name" },
     { label: "Marking", field: "marking", type: "marking" },
     { label: "Status", field: "status", type: "status" },

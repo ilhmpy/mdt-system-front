@@ -4,6 +4,7 @@ import { ContextService } from '../../../services/context.service';
 import { OfficerTableItem } from '../../../dtos/officer.dto';
 import { filter } from 'rxjs';
 import { ɵAnimationGroupPlayer } from '@angular/animations';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'ui-table',
@@ -17,17 +18,32 @@ export class UiTableComponent {
   @Input() itemsPerPage: number = 5;
   @Input() defaultSort: boolean | null = null;
   @Input() isTableHeadersNeed: boolean = false;
+  @Input() isSearchAndSortNeed: boolean = false;
+  @Input() sortByFields: Value[] = [];
 
   readonly currentPagPage: WritableSignal<number> = signal<number>(1);
   readonly sortedAndFilteredValues: WritableSignal<Value[]> = signal<Value[]>([]);
   readonly sortedValuesDefault: WritableSignal<Value[]> = signal<Value[]>([]);
 
-  constructor(readonly ContextService: ContextService) {}
+  form: FormGroup;
+
+  constructor(readonly ContextService: ContextService, private fb: FormBuilder) {
+    this.form = this.fb.group({
+      searchValue: [
+        '',
+        [ Validators.required ]
+      ]
+    })
+  }
 
   ngOnInit() {
     if (this.sortedAndFilteredValues().length == 0) {
       this.sortedAndFilteredValues.set(this.getSortedAndFilteredValues());
     }
+  }
+
+  onSearchValue() {
+    console.log(this.form.get("searchValue")?.value);
   }
 
   getValueByTape(value: Value, column: Column) {
@@ -121,8 +137,12 @@ export class UiTableComponent {
       const pair = arr.find((item, idx) => 
         idx !== i && this.isCrew(current, item) && !usedIndices.has(idx)
       );
+
+      console.log(current, pair)
+      const isCurrentPaired = current?.["marking"] ? this.ContextService.isMarkingPaired(current["marking"]) : false;
+      const isPairPaired = pair?.["marking"] ? this.ContextService.isMarkingPaired(pair["marking"]) : false;
   
-      if (pair) {
+      if (pair && isCurrentPaired && isPairPaired) {
         groupedArr.push({ "0": current, "1": pair });
         usedIndices.add(i);
         usedIndices.add(arr.indexOf(pair));

@@ -8,6 +8,7 @@ export interface OfficerDTO {
     status: StatusDTO | null;   
     rank?: string;
     role?: string;
+    badgeNumber: string;
     shift: number;
 }
 
