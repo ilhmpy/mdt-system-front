@@ -20,10 +20,13 @@ export class UiTableComponent {
   @Input() isTableHeadersNeed: boolean = false;
   @Input() isSearchAndSortNeed: boolean = false;
   @Input() sortByFields: Value[] = [];
+  @Input() searchFields: string[] = [];
+  @Input() searchPlaceholder: string = "";
 
   readonly currentPagPage: WritableSignal<number> = signal<number>(1);
   readonly sortedAndFilteredValues: WritableSignal<Value[]> = signal<Value[]>([]);
   readonly sortedValuesDefault: WritableSignal<Value[]> = signal<Value[]>([]);
+  readonly searchDefault: WritableSignal<Value[] | null> = signal<Value[] | null>(null);
 
   form: FormGroup;
 
@@ -42,8 +45,39 @@ export class UiTableComponent {
     }
   }
 
-  onSearchValue() {
-    console.log(this.form.get("searchValue")?.value);
+  resetSearch() {
+    this.sortedAndFilteredValues.set(this.searchDefault() || []);
+    this.searchDefault.set(null);
+    this.changeCurrentPage(1);
+    this.form.reset();
+  }
+
+  onSearchValue = () => {
+    // сделать начало поиска при нажати на enter поменять обработчик на (keydown)
+    const searchValue = this.form.get("searchValue")?.value;
+
+    if (searchValue.length !== 0 || !this.searchDefault()) {
+      this.searchDefault.set(this.sortedValuesDefault());
+      
+      this.sortedAndFilteredValues.set(
+        this.sortedValuesDefault().filter((item) => {
+          let resultArray: boolean[] = [];
+
+          if (this.defaultSort && item?.["0"] && item?.["1"]) {
+            // проблема где то здесь
+            resultArray = this.searchFields.map((searchField: string) => 
+             item["0"][searchField]?.includes(searchValue) || item["1"][searchField]?.includes(searchValue)
+            )
+          }
+
+          resultArray = this.searchFields.map((searchField: string) => item[searchField]?.includes(searchValue))
+
+          return resultArray.some(Boolean);
+        })
+      )
+    } else {
+      this.resetSearch();
+    }
   }
 
   getValueByTape(value: Value, column: Column) {
@@ -138,7 +172,6 @@ export class UiTableComponent {
         idx !== i && this.isCrew(current, item) && !usedIndices.has(idx)
       );
 
-      console.log(current, pair)
       const isCurrentPaired = current?.["marking"] ? this.ContextService.isMarkingPaired(current["marking"]) : false;
       const isPairPaired = pair?.["marking"] ? this.ContextService.isMarkingPaired(pair["marking"]) : false;
   

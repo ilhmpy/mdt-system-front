@@ -5,9 +5,12 @@
                 [change]="this.onSearchValue"
                 [form]="this.form"
                 formValue="searchValue"
-                placeholder="Search name"
-                maxLength="20"
+                [placeholder]="searchPlaceholder"
+                maxLength="40"
             /> 
+            @if (this.searchDefault()) {
+                <ui-button (click)="this.resetSearch()">Reset search</ui-button>
+            }
             <ui-list />
         </div>
     </ui-container>
