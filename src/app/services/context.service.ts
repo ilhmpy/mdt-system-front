@@ -1,13 +1,7 @@
 import { Injectable, WritableSignal, inject, signal } from "@angular/core";
-import { MarkingsItem, OfficerTableItem } from "../dtos/officer.dto";
-import { Markings } from "../dtos/markings.dto";
+import { OfficerTableItem } from "../dtos/officer.dto";
 import { HttpClient } from "@angular/common/http";
-
-interface MarkingInterface {
-  label: string;
-  pairedPatrolCrew: boolean;
-  marking: string;
-}
+import { MarkingInterface } from "../dtos/markings.dto";
 
 interface ConfigInterface {
   markings: MarkingInterface[];
@@ -85,7 +79,7 @@ export class ContextService {
         {
           name: "Emily Johnson",
           marking: "R",
-          markingNumber: 19,
+          markingNumber: 12,
           status: "OS",
           shift: 3,
           lastUpdate: new Date(2025, 1, 6, 12, 15),
@@ -328,7 +322,7 @@ export class ContextService {
         return this.Config().markings;
       }
 
-      isMarkingPaired(marking: Markings) {
+      isMarkingPaired(marking: string) {
         return this.Config().markings.find((item: any) => item.marking == marking)?.pairedPatrolCrew;
       }
 

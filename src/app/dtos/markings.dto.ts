@@ -1,1 +1,6 @@
-export type Markings = "L" | "A" | "M" | "H" | "AIR" | "K" | "R" | ""
+export interface MarkingInterface {
+    label: string;
+    pairedPatrolCrew: boolean;
+    marking: string;
+  }
+  

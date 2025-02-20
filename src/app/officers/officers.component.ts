@@ -1,10 +1,9 @@
 import { Component, ElementRef, signal, ViewChild, WritableSignal } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Markings } from '../dtos/markings.dto';
+import { MarkingInterface } from '../dtos/markings.dto';
 import { UiInputComponent } from '../components/UI/input/ui-input.component';
 import { StatusDTO } from './officers.dto';
 import { Column, Value } from '../components/UI/table/ui-table.dto';
-import { OfficerTableItem, MarkingsItem } from '../dtos/officer.dto';
 import { ContextService } from '../services/context.service';
 
 @Component({
@@ -15,7 +14,7 @@ import { ContextService } from '../services/context.service';
 })
 export class OfficersComponent {
   readonly status: WritableSignal<StatusDTO> = signal<StatusDTO>(null);
-  readonly marking: WritableSignal<{ label: string; marking: Markings }> = signal<{ label: string; marking: Markings }>({ label: "Linkoln", marking: "L" });
+  readonly marking: WritableSignal<MarkingInterface> = signal<MarkingInterface>({ label: "Linkoln", marking: "L", pairedPatrolCrew: false });
  
   readonly officersColumns: WritableSignal<Column[]> = signal<Column[]>([
     { label: "Last update", field: "lastUpdate", type: "date" },

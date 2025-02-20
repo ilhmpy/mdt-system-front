@@ -1,9 +1,8 @@
 import { StatusDTO } from "../officers/officers.dto";
-import { Markings } from "./markings.dto";
 
 export interface OfficerDTO {
     name: string;
-    marking: Markings | null;
+    marking: string | null;
     markingNumber: number | null;
     status: StatusDTO | null;   
     rank?: string;
@@ -15,10 +14,4 @@ export interface OfficerDTO {
 export interface OfficerTableItem extends OfficerDTO {
     lastUpdate: Date;
     location: string;
-}
-
-export interface MarkingsItem {
-    label: string; 
-    marking: Markings;
-    pairedPatrolCrew: boolean,
 }

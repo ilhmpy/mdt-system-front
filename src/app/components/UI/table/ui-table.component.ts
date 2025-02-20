@@ -17,7 +17,7 @@ export class UiTableComponent {
   @Input() columns: WritableSignal<Column[]> = signal<Column[]>([]);
   @Input() values: Value[] = [];
   @Input() itemsPerPage: number = 5;
-  @Input() defaultSort: boolean | null = null;
+  @Input() group: boolean | null = null;
   @Input() isTableHeadersNeed: boolean = false;
   @Input() isSearchAndSortNeed: boolean = false;
   @Input() sortByFields: Value[] = [];
@@ -27,7 +27,7 @@ export class UiTableComponent {
 
   readonly currentPagPage: WritableSignal<number> = signal<number>(1);
   readonly sortedAndFilteredValues: WritableSignal<Value[]> = signal<Value[]>([]);
-  readonly sortedValuesDefault: WritableSignal<Value[]> = signal<Value[]>([]);
+  readonly groupedValuesDefault: WritableSignal<Value[]> = signal<Value[]>([]);
   readonly searchDefault: WritableSignal<Value[] | null> = signal<Value[] | null>(null);
   readonly sortRenderField: WritableSignal<ListInterface> = signal<ListInterface>({ label: "" })
 
@@ -43,14 +43,42 @@ export class UiTableComponent {
   }
 
   ngOnInit() {
-    this.sortRenderField.set({ label: this.sortBy?.[0].label ?? "" });
+    if (this.sortBy) {
+      this.sortRenderField.set({ label: this.sortBy?.[0].label ?? "" });
+    }
+
     if (this.sortedAndFilteredValues().length == 0) {
       this.sortedAndFilteredValues.set(this.getSortedAndFilteredValues());
     }
   }
 
-  handleSortRender() {
+  handleSortRender = () => {
+    this.sortedAndFilteredValues.set(this.getSortedAndFilteredValues(this.groupedValuesDefault()))
+  }
+
+  handleSort(values: Value[]) {
+    let sortedArr = [...values];
+
+    switch(this.sortRenderField().label) {
+      case("Default"): {
+        sortedArr = sortedArr.sort((a, b) => {
+          if (a?.["0"]) {
+            return -1
+          }
     
+          return 1;
+        })
+
+        break;
+      }
+
+      case("Status"): {
+        
+      }
+    }
+
+    console.log(sortedArr);
+    return sortedArr;
   }
 
   resetSearch() {
@@ -61,18 +89,16 @@ export class UiTableComponent {
   }
 
   onSearchValue = () => {
-    // сделать начало поиска при нажати на enter поменять обработчик на (keydown)
     const searchValue = this.form.get("searchValue")?.value;
 
     if (searchValue.length !== 0 || !this.searchDefault()) {
-      this.searchDefault.set(this.sortedValuesDefault());
+      this.searchDefault.set(this.groupedValuesDefault());
       
       this.sortedAndFilteredValues.set(
-        this.sortedValuesDefault().filter((item) => {
+        this.groupedValuesDefault().filter((item) => {
           let resultArray: boolean[] = [];
 
-          if (this.defaultSort && item?.["0"] && item?.["1"]) {
-            // проблема где то здесь
+          if (this.group && item?.["0"] && item?.["1"]) {
             resultArray = this.searchFields.map((searchField: string) => {
               return item["0"][searchField]?.includes(searchValue) || item["1"][searchField]?.includes(searchValue)
             })
@@ -143,7 +169,7 @@ export class UiTableComponent {
     const firstItem = this.currentPagPage() == 1 ? 0 : this.currentPagPage() * this.itemsPerPage - this.itemsPerPage;
     const lastItem = this.currentPagPage() * this.itemsPerPage;
 
-    if (this.defaultSort) {
+    if (this.group) {
       const realNumberOfItems = this.getRealNumberOfItems(values);
       let filteredValues = [];
 
@@ -168,7 +194,7 @@ export class UiTableComponent {
     return a["marking"] === b["marking"] && a["markingNumber"] === b["markingNumber"]
   }
 
-  crewSortAndGroup(arr: any[]) {
+  crewGroup(arr: any[]) {
     let groupedArr: any[] = [];
     let usedIndices = new Set(); 
   
@@ -191,26 +217,20 @@ export class UiTableComponent {
         groupedArr.push(current);
       }
     }
-
-    const sortedArr = groupedArr.sort((a, b) => {
-      if (a?.["0"]) {
-        return -1
-      }
-
-      return 1;
-    })
   
-    this.sortedValuesDefault.set(sortedArr);
+    this.groupedValuesDefault.set(groupedArr);
     return groupedArr;
   }
 
-  getSortedAndFilteredValues() {
-    let valuesCopy = [...this.values];
+  getSortedAndFilteredValues(canValues?: Value[]) {
+    let valuesCopy = canValues ? [...canValues] : [...this.values];
     
-    if (this.defaultSort) {
-      valuesCopy = this.crewSortAndGroup(valuesCopy); 
+    if (this.group && !this.groupedValuesDefault().find(item => item["0"])) {
+      console.log("DA")
+      valuesCopy = this.crewGroup(valuesCopy); 
     }
 
+    valuesCopy = this.handleSort(valuesCopy);
     valuesCopy = this.paginationFilter(valuesCopy); 
   
     return valuesCopy;
@@ -219,8 +239,8 @@ export class UiTableComponent {
   getNumberOfPages() {
     let numberOfPages = 0;
 
-    if (this.defaultSort) {
-      numberOfPages = Math.ceil(this.sortedValuesDefault().length / this.itemsPerPage);
+    if (this.group) {
+      numberOfPages = Math.ceil(this.groupedValuesDefault().length / this.itemsPerPage);
     } else {
       numberOfPages = Math.ceil(this.values.length / this.itemsPerPage);
     }
@@ -236,6 +256,6 @@ export class UiTableComponent {
 
   changeCurrentPage(index: number) {
     this.currentPagPage.set(index);
-    this.sortedAndFilteredValues.set(this.getSortedAndFilteredValues());
+    this.sortedAndFilteredValues.set(this.getSortedAndFilteredValues(this.groupedValuesDefault()));
   }
 }
