@@ -1,1 +1,1 @@
-export type Markings = "L" | "A" | "M" | "H" | "AIR" | "K" | "R"
+export type Markings = "L" | "A" | "M" | "H" | "AIR" | "K" | "R" | ""

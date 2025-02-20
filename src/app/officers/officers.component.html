@@ -41,7 +41,6 @@
             />
             <ui-list 
                 [list]="this.ContextService.getMarkingsList()" 
-                controlField="marking" 
                 [renderField]="this.marking"
                 [handleRender]="handleMarkingChange"
             />
@@ -63,12 +62,16 @@
         </ui-container>
         <ui-container>
             <ui-table 
-                [values]="this.officersValues" 
+                [values]="this.ContextService.getOfficers()" 
                 [columns]="this.officersColumns" 
                 [defaultSort]="true"
                 [isSearchAndSortNeed]="true"
                 [searchFields]="['name', 'badgeNumber']"
                 searchPlaceholder="Name or number of badge"
+                [sortBy]="[
+                    { label: 'Default' },
+                    { label: 'Status' },
+                ]"
             />
         </ui-container>
     </div>

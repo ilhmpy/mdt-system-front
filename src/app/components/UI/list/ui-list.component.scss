@@ -32,18 +32,15 @@
     width: 100%;
     height: auto;
     top: 2em;
-    z-index: -1;
+    z-index: 99;
+    display: none;
     position: absolute;
     background: var(--links-button);
     border: 1px solid var(--navigation-background-color);
-    transform: translateY(-100%);
-
 }
 
 .list-activated {
-    z-index: 0;
-    transition: 0s;
-    transform: translateY(0px);
+    display: block;
 }
 
 .container_list-item {
@@ -80,4 +77,8 @@
 
 .arrow-activated {
     transform: rotate(0deg);
+}
+
+.small {
+    width: 8em;
 }

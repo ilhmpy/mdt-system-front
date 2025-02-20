@@ -11,7 +11,18 @@
             @if (this.searchDefault()) {
                 <ui-button (click)="this.resetSearch()">Reset search</ui-button>
             }
-            <ui-list />
+            @if (this.sortBy) {
+                <ui-list 
+                    [list]="this.sortBy"
+                    class="small"
+                    [renderField]="this.sortRenderField"
+                    [handleRender]="this.handleSortRender"
+                />
+            }
+            <ui-list 
+                [list]="[{ label: '5' }, { label: '10' }, { label: '15' }]"
+                class="small"
+            />
         </div>
     </ui-container>
 }

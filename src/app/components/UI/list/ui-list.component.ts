@@ -8,17 +8,17 @@ import { ListInterface } from './ui-list.dto';
   styleUrl: './ui-list.component.scss',
 })
 export class UiListComponent {
-  @Input() list: WritableSignal<ListInterface[]> = signal<ListInterface[]>([]);
+  @Input() list: ListInterface[] = [];
   @Input() renderField: WritableSignal<ListInterface> = signal<ListInterface>({ label: "" });
   @Input() handleRender: (...args: any[]) => void = () => {}
-  @Input() controlField: string = "";
+  @Input() class: string = "";
 
   readonly renderFieldIdx: WritableSignal<number> = signal<number>(0);
   readonly isListActivated: WritableSignal<boolean> = signal<boolean>(false);
 
   handleRenderField(index: number) {
     if (index !== this.renderFieldIdx()) {
-      this.renderField.set(this.list()[index]);
+      this.renderField.set(this.list[index]);
       this.renderFieldIdx.set(index);
       this.handleRender();
     }

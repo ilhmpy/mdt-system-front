@@ -2,13 +2,13 @@
     (mouseleave)="this.mouseLeave()" 
     (mouseenter)="this.mouseEnter()"
 >
-    <div class="container-wrapper">
+    <div class="container-wrapper" [class]="this.class">
         <div class="container_data list">
             {{ renderField().label }}
             <img src="assets/images/arrow.svg" class="arrow" [ngClass]="{ 'arrow-activated': this.isListActivated() }">
         </div>
         <div class="container_list" [ngClass]="{ 'list-activated': this.isListActivated() }">
-            @for (listItem of list(); track $index) {
+            @for (listItem of list; track $index) {
                 <div class="container_list-item list" (click)="this.handleRenderField($index)">{{ listItem.label }}</div>
             }
         </div>

@@ -18,6 +18,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UiTextareaComponent } from './components/UI/textarea/ui-textarea.component';
 import { UiTableComponent } from './components/UI/table/ui-table.component';
 import { MatTableModule } from '@angular/material/table';
+import { HttpClientModule, provideHttpClient } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -40,10 +41,10 @@ import { MatTableModule } from '@angular/material/table';
     RouterModule.forRoot(routes),
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    MatTableModule
   ],
   providers: [
-    provideAnimationsAsync()
+    provideAnimationsAsync(),
+    provideHttpClient(),
   ],
   bootstrap: [AppComponent]
 })

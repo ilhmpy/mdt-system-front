@@ -5,6 +5,7 @@ import { OfficerTableItem } from '../../../dtos/officer.dto';
 import { filter } from 'rxjs';
 import { ɵAnimationGroupPlayer } from '@angular/animations';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ListInterface } from '../list/ui-list.dto';
 
 @Component({
   selector: 'ui-table',
@@ -14,7 +15,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class UiTableComponent {
   @Input() columns: WritableSignal<Column[]> = signal<Column[]>([]);
-  @Input() values: WritableSignal<Value[]> = signal<Value[]>([]);
+  @Input() values: Value[] = [];
   @Input() itemsPerPage: number = 5;
   @Input() defaultSort: boolean | null = null;
   @Input() isTableHeadersNeed: boolean = false;
@@ -22,11 +23,13 @@ export class UiTableComponent {
   @Input() sortByFields: Value[] = [];
   @Input() searchFields: string[] = [];
   @Input() searchPlaceholder: string = "";
+  @Input() sortBy: ListInterface[] | null = null;
 
   readonly currentPagPage: WritableSignal<number> = signal<number>(1);
   readonly sortedAndFilteredValues: WritableSignal<Value[]> = signal<Value[]>([]);
   readonly sortedValuesDefault: WritableSignal<Value[]> = signal<Value[]>([]);
   readonly searchDefault: WritableSignal<Value[] | null> = signal<Value[] | null>(null);
+  readonly sortRenderField: WritableSignal<ListInterface> = signal<ListInterface>({ label: "" })
 
   form: FormGroup;
 
@@ -40,9 +43,14 @@ export class UiTableComponent {
   }
 
   ngOnInit() {
+    this.sortRenderField.set({ label: this.sortBy?.[0].label ?? "" });
     if (this.sortedAndFilteredValues().length == 0) {
       this.sortedAndFilteredValues.set(this.getSortedAndFilteredValues());
     }
+  }
+
+  handleSortRender() {
+    
   }
 
   resetSearch() {
@@ -65,12 +73,12 @@ export class UiTableComponent {
 
           if (this.defaultSort && item?.["0"] && item?.["1"]) {
             // проблема где то здесь
-            resultArray = this.searchFields.map((searchField: string) => 
-             item["0"][searchField]?.includes(searchValue) || item["1"][searchField]?.includes(searchValue)
-            )
+            resultArray = this.searchFields.map((searchField: string) => {
+              return item["0"][searchField]?.includes(searchValue) || item["1"][searchField]?.includes(searchValue)
+            })
+          } else {
+            resultArray = this.searchFields.map((searchField: string) => item[searchField]?.includes(searchValue))
           }
-
-          resultArray = this.searchFields.map((searchField: string) => item[searchField]?.includes(searchValue))
 
           return resultArray.some(Boolean);
         })
@@ -197,7 +205,7 @@ export class UiTableComponent {
   }
 
   getSortedAndFilteredValues() {
-    let valuesCopy = [...this.values()];
+    let valuesCopy = [...this.values];
     
     if (this.defaultSort) {
       valuesCopy = this.crewSortAndGroup(valuesCopy); 
@@ -214,7 +222,7 @@ export class UiTableComponent {
     if (this.defaultSort) {
       numberOfPages = Math.ceil(this.sortedValuesDefault().length / this.itemsPerPage);
     } else {
-      numberOfPages = Math.ceil(this.values().length / this.itemsPerPage);
+      numberOfPages = Math.ceil(this.values.length / this.itemsPerPage);
     }
 
     const numberOfPagesArray = [];
