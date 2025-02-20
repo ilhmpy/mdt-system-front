@@ -22,5 +22,10 @@ img {
 }
 
 div {
+    min-width: 2em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2em;
     position: relative;
 }

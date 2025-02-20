@@ -49,7 +49,7 @@ export class ContextService {
             shift: 3,
             lastUpdate: new Date(2025, 1, 1, 8, 30),
             location: "Elgin Ave",
-            badgeNumber: "LS12345",
+            badgeNumber: "LS123754",
             rank: {
               name: "Assistent of Chief",
               type: "deputychief",
