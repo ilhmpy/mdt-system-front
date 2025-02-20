@@ -1,4 +1,4 @@
-export type ColumnFieldTypes = "date" | "marking" | "status"
+export type ColumnFieldTypes = "date" | "marking" | "status" | "rank"
 
 export interface Column {
   label?: string;

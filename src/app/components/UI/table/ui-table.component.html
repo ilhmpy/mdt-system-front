@@ -49,20 +49,32 @@
                 <div class="table-crew-item">
                     <tr class="table-items_container"> 
                         <td class="table_item" *ngFor="let column of this.columns()" [ngClass]="{ 'crew': true }">
-                            {{ this.getValueByTape(value["0"], column) }}
+                            @if (column.type == "rank") {
+                                <ui-rank [src]="value['0'].rank.icon" [rankLabel]="value['0'].rank.name" />
+                            } @else {
+                                {{ this.getValueByTape(value["0"], column) }}
+                            }
                         </td>
                     </tr>
     
                     <tr class="table-items_container"> 
                         <td class="table_item" *ngFor="let column of this.columns()" [ngClass]="{ 'crew': true }">
-                            {{ this.getValueByTape(value["1"], column) }}
+                            @if (column.type == "rank") {
+                                <ui-rank [src]="value['1'].rank.icon" [rankLabel]="value['1'].rank.name" />
+                            } @else {
+                                {{ this.getValueByTape(value["1"], column) }}
+                            }
                         </td>
                     </tr>
                 </div>
             } @else {
                 <tr class="table-items_container"> 
                     <td class="table_item" *ngFor="let column of this.columns()" [ngClass]="{ 'crew': true }">
-                        {{ this.getValueByTape(value, column) }}
+                        @if (column.type == "rank") {
+                            <ui-rank [src]="value['rank'].icon" [rankLabel]="value['rank'].name" />
+                        } @else {
+                            {{ this.getValueByTape(value, column) }}
+                        }
                     </td>
                 </tr>
             }

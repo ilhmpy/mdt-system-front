@@ -30,11 +30,7 @@ export class UiTableComponent {
   readonly searchDefault: WritableSignal<Value[] | null> = signal<Value[] | null>(null);
   readonly sortRenderField: WritableSignal<ListInterface> = signal<ListInterface>({ label: "" })
   readonly paginationRenderField: WritableSignal<ListInterface> = signal<ListInterface>({ label: "" })
-  readonly paginationsList: WritableSignal<ListInterface[]> = signal<ListInterface[]>([
-    /*{ label: '10' }, 
-    { label: '15' },
-    { label: 'max' }*/
-  ])
+  readonly paginationsList: WritableSignal<ListInterface[]> = signal<ListInterface[]>([])
 
   form: FormGroup;
 
@@ -76,8 +72,6 @@ export class UiTableComponent {
       dozenLength = Math.floor(this.sortedAndFilteredDefaultValues().length / 10) * 10;
     }
 
-    console.log(dozenLength)
-
     while(value < dozenLength) {
       options.add(value);
       value += basedPag;
@@ -87,7 +81,6 @@ export class UiTableComponent {
     options.forEach((label) => paginationsList.push({ label: label.toString() }))
     paginationsList.push({ label: "max" })
 
-    console.log(paginationsList, options);
     return paginationsList;
   }
 
@@ -220,8 +213,11 @@ export class UiTableComponent {
 
           case("OS"): {
             return value["status"]
+          
           }
         }
+
+        break
       }
     }
 

@@ -1,0 +1,14 @@
+<div
+    (mouseenter)="this.mouseEnter()"
+    (mouseleave)="this.mouseLeave()"
+>
+    <img
+        *ngIf="!this.isRankLabelActivated()" 
+        [ngClass]="this.getClass(this.src)" [src]="this.src ? 'assets/images/ranks/' + this.src : ''"
+    >
+    <span 
+        *ngIf="this.isRankLabelActivated()"
+    >
+        {{ this.rankLabel }}
+    </span>
+</div>

@@ -23,7 +23,7 @@ export class OfficersComponent {
     { label: "Marking", field: "marking", type: "marking" },
     { label: "Status", field: "status", type: "status" },
     { label: "Location", field: "location" },
-    { label: "Rank", field: "rank" },
+    { label: "Rank", type: "rank" },
   ])
   @ViewChild('inputRef') inputRef!: UiInputComponent;
 

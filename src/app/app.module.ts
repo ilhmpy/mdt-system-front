@@ -19,6 +19,7 @@ import { UiTextareaComponent } from './components/UI/textarea/ui-textarea.compon
 import { UiTableComponent } from './components/UI/table/ui-table.component';
 import { MatTableModule } from '@angular/material/table';
 import { HttpClientModule, provideHttpClient } from '@angular/common/http';
+import { UiRankComponent } from './components/UI/rank/ui-rank.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { HttpClientModule, provideHttpClient } from '@angular/common/http';
     UiInputComponent,
     UiListComponent,
     UiTextareaComponent,
-    UiTableComponent
+    UiTableComponent,
+    UiRankComponent
   ],
   imports: [
     BrowserModule,     
