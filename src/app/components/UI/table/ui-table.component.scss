@@ -38,7 +38,7 @@ table {
 }
 
 .table_item {
-    width: 6.5em;
+    width: 5em;
     justify-content: center;
     text-align: center;
 }
@@ -55,6 +55,12 @@ table {
 .search-container {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     margin-bottom: 1em;
     padding-left: var(--padding-side);
+    padding-right: var(--padding-side);
+}
+
+.search-container > div {
+    display: flex;
 }

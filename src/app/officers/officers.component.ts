@@ -22,7 +22,8 @@ export class OfficersComponent {
     { label: "Name", field: "name" },
     { label: "Marking", field: "marking", type: "marking" },
     { label: "Status", field: "status", type: "status" },
-    { label: "Location", field: "location" }
+    { label: "Location", field: "location" },
+    { label: "Rank", field: "rank" },
   ])
   @ViewChild('inputRef') inputRef!: UiInputComponent;
 

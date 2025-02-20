@@ -64,8 +64,8 @@
             <ui-table 
                 [values]="this.ContextService.getOfficers()" 
                 [columns]="this.officersColumns" 
-                [group]="true"
                 [isSearchAndSortNeed]="true"
+                [group]="true"
                 [searchFields]="['name', 'badgeNumber']"
                 searchPlaceholder="Name or number of badge"
                 [sortBy]="[

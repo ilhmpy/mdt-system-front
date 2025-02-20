@@ -16,8 +16,17 @@ export class UiListComponent {
   readonly renderFieldIdx: WritableSignal<number> = signal<number>(0);
   readonly isListActivated: WritableSignal<boolean> = signal<boolean>(false);
 
+  ngOnInit() {
+    const index = this.list.indexOf(this.renderField());
+
+    if (index !== this.renderFieldIdx()) {
+      this.renderFieldIdx.set(index);
+    }
+  }
+
   handleRenderField(index: number) {
     if (index !== this.renderFieldIdx()) {
+      console.log("DA")
       this.renderField.set(this.list[index]);
       this.renderFieldIdx.set(index);
       this.handleRender();

@@ -1,28 +1,36 @@
 @if (this.isSearchAndSortNeed) {
     <ui-container>
         <div class="search-container">
-            <ui-input
-                [change]="this.onSearchValue"
-                [form]="this.form"
-                formValue="searchValue"
-                [placeholder]="searchPlaceholder"
-                maxLength="40"
-            /> 
-            @if (this.searchDefault()) {
-                <ui-button (click)="this.resetSearch()">Reset search</ui-button>
-            }
-            @if (this.sortBy) {
+            <div>
+                <ui-input
+                    [change]="this.onSearchValue"
+                    [form]="this.form"
+                    formValue="searchValue"
+                    [placeholder]="searchPlaceholder"
+                    maxLength="40"
+                /> 
+                
+                @if (this.sortBy) {
+                    <ui-list 
+                        class="small"
+                        [list]="this.sortBy"
+                        [renderField]="this.sortRenderField"
+                        [handleRender]="this.handleSortRender"
+                    />
+                }
+
                 <ui-list 
                     class="small"
-                    [list]="this.sortBy"
-                    [renderField]="this.sortRenderField"
-                    [handleRender]="this.handleSortRender"
+                    [list]="this.paginationsList()"
+                    [renderField]="this.paginationRenderField"
+                    [handleRender]="this.handlePaginationRender"
                 />
-            }
-            <ui-list 
-                [list]="[{ label: '5' }, { label: '10' }, { label: '15' }]"
-                class="small"
-            />
+            </div>
+            <div>
+                @if (this.searchDefault()) {
+                    <ui-button (click)="this.resetSearch()" [type]="['mini']">Reset search</ui-button>
+                }
+            </div>
         </div>
     </ui-container>
 }
@@ -61,13 +69,15 @@
         }
     </tbody>
     <div class="pagination_buttons">
-        @for (page of this.getNumberOfPages(); track $index) {
-            <ui-button 
-                [type]="['no-size', 'circle', this.currentPagPage() == $index + 1 ? 'pag-activated' : '']" 
-                (click)="this.changeCurrentPage(page + 1)"
-            >
-                {{ page + 1 }}
-            </ui-button>
+        @if (this.paginationRenderField()['label'] !== "max") {
+            @for (page of this.getNumberOfPages(); track $index) {
+                <ui-button 
+                    [type]="['no-size', 'circle', this.currentPagPage() == $index + 1 ? 'pag-activated' : '']" 
+                    (click)="this.changeCurrentPage(page + 1)"
+                >
+                    {{ page + 1 }}
+                </ui-button>
+            }
         }
     </div>
   </table>

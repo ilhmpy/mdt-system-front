@@ -2,8 +2,6 @@ import { Component, Input, signal, WritableSignal } from '@angular/core';
 import { Column, Value } from './ui-table.dto';
 import { ContextService } from '../../../services/context.service';
 import { OfficerTableItem } from '../../../dtos/officer.dto';
-import { filter } from 'rxjs';
-import { ɵAnimationGroupPlayer } from '@angular/animations';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ListInterface } from '../list/ui-list.dto';
 
@@ -16,7 +14,7 @@ import { ListInterface } from '../list/ui-list.dto';
 export class UiTableComponent {
   @Input() columns: WritableSignal<Column[]> = signal<Column[]>([]);
   @Input() values: Value[] = [];
-  @Input() itemsPerPage: number = 5;
+  @Input() itemsPerPage: WritableSignal<number> = signal<number>(5);
   @Input() group: boolean | null = null;
   @Input() isTableHeadersNeed: boolean = false;
   @Input() isSearchAndSortNeed: boolean = false;
@@ -27,9 +25,16 @@ export class UiTableComponent {
 
   readonly currentPagPage: WritableSignal<number> = signal<number>(1);
   readonly sortedAndFilteredValues: WritableSignal<Value[]> = signal<Value[]>([]);
+  readonly sortedAndFilteredDefaultValues: WritableSignal<Value[]> = signal<Value[]>([]);
   readonly groupedValuesDefault: WritableSignal<Value[]> = signal<Value[]>([]);
   readonly searchDefault: WritableSignal<Value[] | null> = signal<Value[] | null>(null);
   readonly sortRenderField: WritableSignal<ListInterface> = signal<ListInterface>({ label: "" })
+  readonly paginationRenderField: WritableSignal<ListInterface> = signal<ListInterface>({ label: "" })
+  readonly paginationsList: WritableSignal<ListInterface[]> = signal<ListInterface[]>([
+    /*{ label: '10' }, 
+    { label: '15' },
+    { label: 'max' }*/
+  ])
 
   form: FormGroup;
 
@@ -47,13 +52,63 @@ export class UiTableComponent {
       this.sortRenderField.set({ label: this.sortBy?.[0].label ?? "" });
     }
 
+    this.paginationRenderField.set({ label: this.itemsPerPage().toString() });
+
     if (this.sortedAndFilteredValues().length == 0) {
       this.sortedAndFilteredValues.set(this.getSortedAndFilteredValues());
     }
+
+    this.paginationsList.set(this.getPaginationsList());
+  }
+
+  getPaginationsList(): ListInterface[] {
+    const basedPag = this.itemsPerPage();
+    const options = new Set<number>();
+    const paginationsList: ListInterface[] = []
+   
+    let dozenLength: number = 0;
+    let value = basedPag;
+
+    if (this.group) {
+      dozenLength = Math.floor(this.groupedValuesDefault().length / 10) * 10;
+    } else {
+      console.log(this.sortedAndFilteredValues())
+      dozenLength = Math.floor(this.sortedAndFilteredDefaultValues().length / 10) * 10;
+    }
+
+    console.log(dozenLength)
+
+    while(value < dozenLength) {
+      options.add(value);
+      value += basedPag;
+    }
+
+    paginationsList.push({ label: "3" })
+    options.forEach((label) => paginationsList.push({ label: label.toString() }))
+    paginationsList.push({ label: "max" })
+
+    console.log(paginationsList, options);
+    return paginationsList;
   }
 
   handleSortRender = () => {
-    this.sortedAndFilteredValues.set(this.getSortedAndFilteredValues(this.groupedValuesDefault()))
+    if (this.group) {
+      this.sortedAndFilteredValues.set(this.getSortedAndFilteredValues(this.groupedValuesDefault()));
+    } else {
+      this.sortedAndFilteredValues.set(this.getSortedAndFilteredValues())
+    }
+  }
+
+  handlePaginationRender = () => {
+    const label = this.paginationRenderField().label
+    
+    if (this.group) {
+      this.itemsPerPage.set(label == "max" ? this.groupedValuesDefault().length : Number(label));
+      this.sortedAndFilteredValues.set(this.getSortedAndFilteredValues(this.groupedValuesDefault()));
+    } else {
+      this.itemsPerPage.set(label == "max" ? this.sortedAndFilteredDefaultValues().length : Number(label));
+      this.sortedAndFilteredValues.set(this.getSortedAndFilteredValues());
+    }
   }
 
   handleSort(values: Value[]) {
@@ -61,23 +116,38 @@ export class UiTableComponent {
 
     switch(this.sortRenderField().label) {
       case("Default"): {
-        sortedArr = sortedArr.sort((a, b) => {
-          if (a?.["0"]) {
-            return -1
-          }
-    
-          return 1;
-        })
+        if (this.group) {
+          sortedArr = sortedArr.sort((a, b) => {
+            if (a?.["0"]) {
+              return -1
+            }
+      
+            return 1;
+          })
+        }
 
         break;
       }
 
       case("Status"): {
-        
+        sortedArr = sortedArr.sort((a, b) => {
+          if (a?.["status"] == true) {
+            return -1;
+          }
+
+          if (a?.["status"] == false) {
+            return 0;
+          }
+
+          if (a?.["status"] == null) {
+            return 1;
+          }
+
+          return 0;
+        })
       }
     }
 
-    console.log(sortedArr);
     return sortedArr;
   }
 
@@ -91,24 +161,32 @@ export class UiTableComponent {
   onSearchValue = () => {
     const searchValue = this.form.get("searchValue")?.value;
 
-    if (searchValue.length !== 0 || !this.searchDefault()) {
-      this.searchDefault.set(this.groupedValuesDefault());
-      
-      this.sortedAndFilteredValues.set(
-        this.groupedValuesDefault().filter((item) => {
-          let resultArray: boolean[] = [];
+    const search = (item: Value) => {
+      let resultArray: boolean[] = [];
 
-          if (this.group && item?.["0"] && item?.["1"]) {
-            resultArray = this.searchFields.map((searchField: string) => {
-              return item["0"][searchField]?.includes(searchValue) || item["1"][searchField]?.includes(searchValue)
-            })
-          } else {
-            resultArray = this.searchFields.map((searchField: string) => item[searchField]?.includes(searchValue))
-          }
-
-          return resultArray.some(Boolean);
+      if (this.group && item?.["0"] && item?.["1"]) {
+        resultArray = this.searchFields.map((searchField: string) => {
+          return item["0"][searchField]?.includes(searchValue) || item["1"][searchField]?.includes(searchValue)
         })
-      )
+      } else {
+        resultArray = this.searchFields.map((searchField: string) => item[searchField]?.includes(searchValue))
+      }
+
+      return resultArray.some(Boolean);
+    }
+
+    if (searchValue.length !== 0 || !this.searchDefault()) {
+      this.searchDefault.set(this.group ? this.groupedValuesDefault() : this.sortedAndFilteredValues());
+      
+      if (this.group) {
+        this.sortedAndFilteredValues.set(
+          this.groupedValuesDefault().filter((item) => search(item))
+        )
+      } else {
+        this.sortedAndFilteredValues.set(
+          this.sortedAndFilteredValues().filter((item) => search(item))
+        )
+      }
     } else {
       this.resetSearch();
     }
@@ -166,8 +244,8 @@ export class UiTableComponent {
   }
 
   paginationFilter = (values: Value[]) => {
-    const firstItem = this.currentPagPage() == 1 ? 0 : this.currentPagPage() * this.itemsPerPage - this.itemsPerPage;
-    const lastItem = this.currentPagPage() * this.itemsPerPage;
+    const firstItem = this.currentPagPage() == 1 ? 0 : this.currentPagPage() * this.itemsPerPage() - this.itemsPerPage();
+    const lastItem = this.currentPagPage() * this.itemsPerPage();
 
     if (this.group) {
       const realNumberOfItems = this.getRealNumberOfItems(values);
@@ -226,11 +304,15 @@ export class UiTableComponent {
     let valuesCopy = canValues ? [...canValues] : [...this.values];
     
     if (this.group && !this.groupedValuesDefault().find(item => item["0"])) {
-      console.log("DA")
       valuesCopy = this.crewGroup(valuesCopy); 
     }
 
     valuesCopy = this.handleSort(valuesCopy);
+
+    if (this.sortedAndFilteredDefaultValues().length == 0) {
+      this.sortedAndFilteredDefaultValues.set(valuesCopy);
+    }
+
     valuesCopy = this.paginationFilter(valuesCopy); 
   
     return valuesCopy;
@@ -240,9 +322,9 @@ export class UiTableComponent {
     let numberOfPages = 0;
 
     if (this.group) {
-      numberOfPages = Math.ceil(this.groupedValuesDefault().length / this.itemsPerPage);
+      numberOfPages = Math.ceil(this.groupedValuesDefault().length / this.itemsPerPage());
     } else {
-      numberOfPages = Math.ceil(this.values.length / this.itemsPerPage);
+      numberOfPages = Math.ceil(this.values.length / this.itemsPerPage());
     }
 
     const numberOfPagesArray = [];
@@ -256,6 +338,15 @@ export class UiTableComponent {
 
   changeCurrentPage(index: number) {
     this.currentPagPage.set(index);
-    this.sortedAndFilteredValues.set(this.getSortedAndFilteredValues(this.groupedValuesDefault()));
+
+    if (this.group) {
+      this.sortedAndFilteredValues.set(
+        this.getSortedAndFilteredValues(this.groupedValuesDefault())
+      );
+    } else {
+      this.sortedAndFilteredValues.set(
+        this.getSortedAndFilteredValues()
+      );
+    }
   }
 }

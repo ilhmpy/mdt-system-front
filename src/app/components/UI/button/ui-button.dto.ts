@@ -1,1 +1,1 @@
-export type UiButtonDTO = "light" | "no-size" | "neutral" | "alarm" | "left-side" | "standart" | "busy" | "OS" | "circle" | "pag-activated" |"";
+export type UiButtonDTO = "light" | "no-size" | "neutral" | "alarm" | "left-side" | "standart" | "busy" | "OS" | "circle" | "pag-activated" | "mini" |"";
