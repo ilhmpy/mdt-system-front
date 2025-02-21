@@ -26,7 +26,6 @@ export class UiListComponent {
 
   handleRenderField(index: number) {
     if (index !== this.renderFieldIdx()) {
-      console.log("DA")
       this.renderField.set(this.list[index]);
       this.renderFieldIdx.set(index);
       this.handleRender();

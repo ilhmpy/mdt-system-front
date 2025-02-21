@@ -2,12 +2,13 @@ import { ActivatedRouteSnapshot, CanActivate, GuardResult, MaybeAsync, RouterSta
 import { AuthService } from "../services/auth.service";
 import { Injectable } from "@angular/core";
 import { map, catchError, of, Observable } from "rxjs";
+import { ContextService } from "../services/context.service";
 
 @Injectable({
     providedIn: "root"
 })
 export class AuthGuard implements CanActivate {
-    constructor(private AuthService: AuthService) {}
+    constructor(private AuthService: AuthService, private ContextService: ContextService) {}
 
     canActivate(
         route: ActivatedRouteSnapshot, 
@@ -15,10 +16,8 @@ export class AuthGuard implements CanActivate {
     ): Observable<boolean> | Promise<boolean> | boolean {
         return this.AuthService.isAuth().pipe(
             map((isAuth) => {
-                console.log(isAuth);
-                if (!isAuth) {
+                this.ContextService.setIsAuth(isAuth);
 
-                }
                 return isAuth;
             }),
             catchError(() => of(false))

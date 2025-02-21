@@ -1,7 +1,10 @@
 import { Injectable, WritableSignal, inject, signal } from "@angular/core";
-import { OfficerTableItem } from "../dtos/officer.dto";
+import { OfficerDTO, OfficerTableItem } from "../dtos/officer.dto";
 import { HttpClient } from "@angular/common/http";
 import { MarkingInterface } from "../dtos/markings.dto";
+import { BehaviorSubject, Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { DataService } from "./data.service";
 
 interface ConfigInterface {
   markings: MarkingInterface[];
@@ -11,7 +14,17 @@ interface ConfigInterface {
     providedIn: "root"
 })
 export class ContextService {
-      private http = inject(HttpClient);
+      constructor(private DataService: DataService) {}
+
+      private isAuthObject = new BehaviorSubject<boolean>(false);
+      private isLoadingObject = new BehaviorSubject<boolean>(false);
+      private officerObject = new BehaviorSubject<OfficerDTO | null>(null);
+      private officersObject = new BehaviorSubject<OfficerDTO[] | null>(null);
+
+      private isAuth$ = this.isAuthObject.asObservable();
+      private isLoading$ = this.isLoadingObject.asObservable();
+      private officer$ = this.officerObject.asObservable();
+      private officers$ = this.officersObject.asObservable();
 
       private Config: WritableSignal<ConfigInterface> = signal<ConfigInterface>({
         markings: [ 
@@ -25,458 +38,49 @@ export class ContextService {
         ]
       })
 
-      private officers: WritableSignal<OfficerTableItem[]> = signal<OfficerTableItem[]>([
-          {
-            name: "Charles Redford",
-            marking: "A",
-            markingNumber: 23,
-            status: true,
-            shift: 3,
-            lastUpdate: new Date(2025, 1, 1, 8, 30),
-            location: "Elgin Ave",
-            badgeNumber: "LS12345",
-            rank: {
-              name: "Chief of Police",
-              type: "chiefofpolice",
-              icon: "chiefofpolice.svg",
-            },
-          },
-          {
-            name: "Alan Redford",
-            marking: "A",
-            markingNumber: 23,
-            status: true,
-            shift: 3,
-            lastUpdate: new Date(2025, 1, 1, 8, 30),
-            location: "Elgin Ave",
-            badgeNumber: "LS123754",
-            rank: {
-              name: "Assistent of Chief",
-              type: "deputychief",
-              icon: "deputychief.svg",
-            },
-          },
-          {
-            name: "Jessica Parker",
-            marking: "M",
-            markingNumber: 8,
-            status: null,
-            shift: 1,
-            lastUpdate: new Date(2025, 1, 2, 9, 0),
-            location: "Vespucci Blvd",
-            badgeNumber: "LS12346",
-            rank: {
-              name: "Police Officer III",
-              type: "officerIII",
-              icon: "officerIII.svg",
-            },
-          },
-          {
-            name: "Ryan Thompson",
-            marking: "H",
-            markingNumber: 45,
-            status: true,
-            shift: 4,
-            lastUpdate: new Date(2025, 1, 3, 7, 45),
-            location: "Bay City Ave",
-            badgeNumber: "LS12347",
-            rank: {
-              name: "Police Officer II",
-              type: "officerII",
-              icon: "officerII.svg",
-            },
-          },
-          {
-            name: "Sophia Williams",
-            marking: "AIR",
-            markingNumber: 5,
-            status: "OS",
-            shift: 2,
-            lastUpdate: new Date(2025, 1, 4, 14, 30),
-            location: "San Andreas Ave",
-            badgeNumber: "LS12348",
-            rank: {
-              name: "Sergeant",
-              type: "sergeant",
-              icon: "sergeant.svg",
-            },
-          },
-          {
-            name: "Daniel Martinez",
-            marking: "K",
-            markingNumber: 30,
-            status: false,
-            shift: 5,
-            lastUpdate: new Date(2025, 1, 5, 13, 20),
-            location: "Power St",
-            badgeNumber: "LS12349",
-            rank: {
-              name: "Lieutenant",
-              type: "lieutenant",
-              icon: "lieutenant.svg",
-            },
-          },
-          {
-            name: "Emily Johnson",
-            marking: "R",
-            markingNumber: 12,
-            status: "OS",
-            shift: 3,
-            lastUpdate: new Date(2025, 1, 6, 12, 15),
-            location: "Alta St",
-            badgeNumber: "LS12350",
-            rank: {
-              name: "Deputy Chief",
-              type: "deputychief",
-              icon: "deputychief.svg",
-            },
-          },
-          {
-            name: "James Rodriguez",
-            marking: "L",
-            markingNumber: 7,
-            status: null,
-            shift: 1,
-            lastUpdate: new Date(2025, 1, 7, 11, 10),
-            location: "Rockford Dr",
-            badgeNumber: "LS12351",
-            rank: {
-              name: "Commander",
-              type: "commander",
-              icon: "commander.svg",
-            },
-          },
-          {
-            name: "Olivia White",
-            marking: "A",
-            markingNumber: 12,
-            status: false,
-            shift: 2,
-            lastUpdate: new Date(2025, 1, 8, 10, 5),
-            location: "Del Perro Fwy",
-            badgeNumber: "LS12352",
-            rank: {
-              name: "Captain",
-              type: "captain",
-              icon: "captain.svg",
-            },
-          },
-          {
-            name: "William Scott",
-            marking: "M",
-            markingNumber: 10,
-            status: true,
-            shift: 4,
-            lastUpdate: new Date(2025, 1, 9, 9, 50),
-            location: "Strawberry Ave",
-            badgeNumber: "LS12353",
-            rank: {
-              name: "Sergeant",
-              type: "sergeant",
-              icon: "sergeant.svg",
-            },
-          },
-          {
-            name: "Isabella Green",
-            marking: "H",
-            markingNumber: 6,
-            status: "OS",
-            shift: 5,
-            lastUpdate: new Date(2025, 1, 10, 8, 45),
-            location: "Davis Ave",
-            badgeNumber: "LS12354",
-            rank: {
-              name: "Police Officer II",
-              type: "officerII",
-              icon: "officerII.svg",
-            },
-          },
-          {
-            name: "Carlos Hernandez",
-            marking: "L",
-            markingNumber: 31,
-            status: "OS",
-            shift: 2,
-            lastUpdate: new Date(2025, 1, 11, 7, 40),
-            location: "Mirror Park",
-            badgeNumber: "LS12355",
-            rank: {
-              name: "Captain",
-              type: "captain",
-              icon: "captain.svg",
-            },
-          },
-          {
-            name: "Nathaniel Brown",
-            marking: "A",
-            markingNumber: 23,
-            status: true,
-            shift: 3,
-            lastUpdate: new Date(2025, 1, 12, 6, 35),
-            location: "West Vinewood",
-            badgeNumber: "LS12356",
-            rank: {
-              name: "Police Officer III",
-              type: "officerIII",
-              icon: "officerIII.svg",
-            },
-          },
-          {
-            name: "Amy Davis",
-            marking: "M",
-            markingNumber: 22,
-            status: "OS",
-            shift: 1,
-            lastUpdate: new Date(2025, 1, 13, 15, 30),
-            location: "Little Seoul",
-            badgeNumber: "LS12357",
-            rank: {
-              name: "Police Officer II",
-              type: "officerII",
-              icon: "officerII.svg",
-            },
-          },
-          {
-            name: "Charles Mitchell",
-            marking: "H",
-            markingNumber: 45,
-            status: null,
-            shift: 4,
-            lastUpdate: new Date(2025, 1, 14, 13, 25),
-            location: "Pillbox Hill",
-            badgeNumber: "LS12358",
-            rank: {
-              name: "Police Officer",
-              type: "officer",
-              icon: null,
-            },
-          },
-          {
-            name: "Jessica Turner",
-            marking: "AIR",
-            markingNumber: 9,
-            status: false,
-            shift: 5,
-            lastUpdate: new Date(2025, 1, 15, 12, 20),
-            location: "Chamberlain Hills",
-            badgeNumber: "LS12359",
-            rank: {
-              name: "Lieutenant",
-              type: "lieutenant",
-              icon: "lieutenant.svg",
-            },
-          },
-          {
-            name: "Mark Taylor",
-            marking: "K",
-            markingNumber: 11,
-            status: true,
-            shift: 2,
-            lastUpdate: new Date(2025, 1, 16, 11, 15),
-            location: "Olympic Fwy",
-            badgeNumber: "LS12360",
-            rank: {
-              name: "Deputy Chief",
-              type: "deputychief",
-              icon: "deputychief.svg",
-            },
-          },
-          {
-            name: "Evelyn Brooks",
-            marking: "R",
-            markingNumber: 16,
-            status: null,
-            shift: 3,
-            lastUpdate: new Date(2025, 1, 17, 10, 10),
-            location: "San Fierro St",
-            badgeNumber: "LS12361",
-            rank: {
-              name: "Commander",
-              type: "commander",
-              icon: "commander.svg",
-            },
-          },
-          {
-            name: "Joshua Clark",
-            marking: "L",
-            markingNumber: 28,
-            status: "OS",
-            shift: 4,
-            lastUpdate: new Date(2025, 1, 18, 9, 5),
-            location: "South Rockford Dr",
-            badgeNumber: "LS12362",
-            rank: {
-              name: "Police Officer III",
-              type: "officerIII",
-              icon: "officerIII.svg",
-            },
-          },
-          {
-            name: "Zoe Johnson",
-            marking: "A",
-            markingNumber: 12,
-            status: false,
-            shift: 1,
-            lastUpdate: new Date(2025, 1, 19, 8, 0),
-            location: "Alta St",
-            badgeNumber: "LS12363",
-            rank: {
-              name: "Police Officer II",
-              type: "officerII",
-              icon: "officerII.svg",
-            },
-          },
-          {
-            name: "Henry Walker",
-            marking: "M",
-            markingNumber: 24,
-            status: true,
-            shift: 2,
-            lastUpdate: new Date(2025, 1, 20, 7, 55),
-            location: "Ganton",
-            badgeNumber: "LS12364",
-            rank: {
-              name: "Police Officer III",
-              type: "officerIII",
-              icon: "officerIII.svg",
-            },
-          },
-          {
-            name: "Chloe Carter",
-            marking: "H",
-            markingNumber: 6,
-            status: "OS",
-            shift: 5,
-            lastUpdate: new Date(2025, 1, 21, 6, 50),
-            location: "East Los Santos",
-            badgeNumber: "LS12365",
-            rank: {
-              name: "Sergeant",
-              type: "sergeant",
-              icon: "sergeant.svg",
-            },
-          },
-          {
-            name: "Daniel King",
-            marking: "AIR",
-            markingNumber: 9,
-            status: null,
-            shift: 1,
-            lastUpdate: new Date(2025, 1, 22, 5, 45),
-            location: "Downtown Vinewood",
-            badgeNumber: "LS12366",
-            rank: {
-              name: "Division Chief",
-              type: "divisionchief",
-              icon: "divisionchief.svg",
-            },
-          },
-          {
-            name: "Brian Green",
-            marking: "K",
-            markingNumber: 10,
-            status: "OS",
-            shift: 3,
-            lastUpdate: new Date(2025, 1, 23, 16, 40),
-            location: "El Rancho",
-            badgeNumber: "LS12367",
-            rank: {
-              name: "Police Officer II",
-              type: "officerII",
-              icon: "officerII.svg",
-            },
-          },
-          {
-            name: "Gabriel Lee",
-            marking: "A",
-            markingNumber: 13,
-            status: null,
-            shift: 2,
-            lastUpdate: new Date(2025, 1, 24, 17, 35),
-            location: "Vinewood Hills",
-            badgeNumber: "LS12368",
-            rank: {
-              name: "Sergeant",
-              type: "sergeant",
-              icon: "sergeant.svg",
-            },
-          },
-          {
-            name: "Nancy Taylor",
-            marking: "M",
-            markingNumber: 8,
-            status: "OS",
-            shift: 4,
-            lastUpdate: new Date(2025, 1, 25, 18, 30),
-            location: "Richman",
-            badgeNumber: "LS12369",
-            rank: {
-              name: "Police Officer",
-              type: "officer",
-              icon: null,
-            },
-          },
-          {
-            name: "Carlos Garcia",
-            marking: "A",
-            markingNumber: 17,
-            status: "OS",
-            shift: 2,
-            lastUpdate: new Date('2025-02-18T14:15:00'),
-            location: "Vespucci Blvd",
-            badgeNumber: "LS12370",
-            rank: {
-              name: "Police Officer II",
-              type: "officerII",
-              icon: "officerII.svg",
-            },
-          },
-          {
-            name: "Ava Lee",
-            marking: "M",
-            markingNumber: 3,
-            status: true,
-            shift: 4,
-            lastUpdate: new Date('2025-02-18T15:30:00'),
-            location: "Ganton",
-            badgeNumber: "LS12371",
-            rank: {
-              name: "Captain",
-              type: "captain",
-              icon: "captain.svg",
-            },
-          },
-          {
-            name: "Ethan Turner",
-            marking: "R",
-            markingNumber: 12,
-            status: false,
-            shift: 5,
-            lastUpdate: new Date('2025-02-18T16:45:00'),
-            location: "Las Colinas",
-            badgeNumber: "LS12372",
-            rank: {
-              name: "Lieutenant",
-              type: "lieutenant",
-              icon: "lieutenant.svg",
-            },
-          },
-          {
-            name: "Madison Clarke",
-            marking: "L",
-            markingNumber: 21,
-            status: "OS",
-            shift: 3,
-            lastUpdate: new Date('2025-02-18T17:00:00'),
-            location: "Cypress Flats",
-            badgeNumber: "LS12373",
-            rank: {
-              name: "Police Officer III",
-              type: "officerIII",
-              icon: "officerIII.svg",
-            },
-          }             
-      ]);
+      getIsAuth() {
+        return this.isAuth$
+      }
+
+      getIsLoading() {
+        return this.isLoading$;
+      }
+
+      setIsAuth(status: boolean) {
+        this.isAuthObject.next(status);
+      }
+
+      setIsLoading(status: boolean) {
+        this.isLoadingObject.next(status);
+      }
+
+      getOfficer() {
+        const officer = this.officerObject.getValue();
+
+        if (!officer) {
+          this.DataService.getOfficer().subscribe((data) => {
+            console.log("currentOfficer", data);
+            this.officerObject.next(data);
+          })
+        }
+
+        return this.officer$
+      }
+
+      getAllOfficers() {
+        const officers = this.officersObject.getValue();
+
+        if (!officers) {
+          this.DataService.getOfficers().subscribe((data) => {
+            this.officersObject.next(data);
+          })
+        }
+
+        return this.officers$;
+      }
+
+
+      ///////////////////////////////////////////////
 
       getMarkingsList() {
         return this.Config().markings;
@@ -484,9 +88,5 @@ export class ContextService {
 
       isMarkingPaired(marking: string) {
         return this.Config().markings.find((item: any) => item.marking == marking)?.pairedPatrolCrew;
-      }
-
-      getOfficers() {
-        return this.officers();
       }
 }

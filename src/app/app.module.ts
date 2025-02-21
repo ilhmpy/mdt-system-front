@@ -22,6 +22,8 @@ import { HttpClientModule, provideHttpClient, withInterceptors } from '@angular/
 import { UiRankComponent } from './components/UI/rank/ui-rank.component';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { AuthGuard } from './guards/auth.guard';
+import { LoadingInterceptor } from './interceptors/loading.interceptor';
+import { UiLoadingComponent } from './components/UI/loading/ui-loading.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,8 @@ import { AuthGuard } from './guards/auth.guard';
     UiListComponent,
     UiTextareaComponent,
     UiTableComponent,
-    UiRankComponent
+    UiRankComponent,
+    UiLoadingComponent
   ],
   imports: [
     BrowserModule,     
@@ -49,7 +52,7 @@ import { AuthGuard } from './guards/auth.guard';
   providers: [
     provideAnimationsAsync(),
     provideHttpClient(
-      withInterceptors([ AuthInterceptor ])
+      withInterceptors([ AuthInterceptor, LoadingInterceptor ])
     ),
   ],
   bootstrap: [AppComponent]

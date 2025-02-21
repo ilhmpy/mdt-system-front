@@ -1,6 +1,5 @@
-import { Component } from '@angular/core';
-import { RouterModule, RouterOutlet } from '@angular/router';
-import { LayoutComponent } from './components/layout/layout.component';
+import { Component, signal, WritableSignal } from '@angular/core';
+import { ContextService } from './services/context.service';
 
 @Component({
   selector: 'app-root',
@@ -8,4 +7,19 @@ import { LayoutComponent } from './components/layout/layout.component';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
-export class AppComponent {}
+export class AppComponent {
+  readonly isAuth: WritableSignal<boolean | null> = signal<boolean | null>(null);
+  readonly isLoading: WritableSignal<boolean> = signal<boolean>(true);
+
+  constructor(private ContextService: ContextService) {}
+
+  ngOnInit() {
+    this.ContextService.getIsAuth().subscribe((data: boolean) => {
+      this.isAuth.set(data);
+    });
+
+    this.ContextService.getIsLoading().subscribe((data: boolean) => {
+      this.isLoading.set(data);
+    })
+  } 
+}

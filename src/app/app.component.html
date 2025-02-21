@@ -1,3 +1,9 @@
-<layout>
-    <router-outlet />
-</layout>
+@if (this.isAuth()) {
+    @if (this.isLoading()) {
+        <ui-loading></ui-loading>
+    } @else {
+        <layout>
+            <router-outlet />
+        </layout>
+    }
+}

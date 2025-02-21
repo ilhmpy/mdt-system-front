@@ -9,4 +9,4 @@ export const AuthInterceptor = (
                 'authorization', localStorage.getItem("token") || ""
             )
         }));
-    }
+}

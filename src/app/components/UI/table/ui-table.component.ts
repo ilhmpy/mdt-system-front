@@ -13,7 +13,7 @@ import { ListInterface } from '../list/ui-list.dto';
 })
 export class UiTableComponent {
   @Input() columns: WritableSignal<Column[]> = signal<Column[]>([]);
-  @Input() values: Value[] = [];
+  @Input() values: WritableSignal<Value[]> = signal<Value[]>([]);
   @Input() itemsPerPage: WritableSignal<number> = signal<number>(5);
   @Input() group: boolean | null = null;
   @Input() isTableHeadersNeed: boolean = false;
@@ -190,11 +190,15 @@ export class UiTableComponent {
 
     switch(column.type) {
       case("date"): {
-        return value[column.field].toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+        return new Date(value[column.field]).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
       }
       
       case("marking"): {
-        return `${value["shift"]}-${value["marking"]}-${value["markingNumber"]}`
+        if (value["marking"].marking && value["markingNumber"]) {
+          return `${value["shiftId"]}-${value["marking"].marking}-${value["markingNumber"]}`
+        }
+
+        return "N/A"
       }
 
       case("status"): {
@@ -265,7 +269,7 @@ export class UiTableComponent {
   }
 
   isCrew(a: any, b: any) {
-    return a["marking"] === b["marking"] && a["markingNumber"] === b["markingNumber"]
+    return a["marking"].marking === b["marking"].marking && a["markingNumber"] === b["markingNumber"]
   }
 
   crewGroup(arr: any[]) {
@@ -280,8 +284,8 @@ export class UiTableComponent {
         idx !== i && this.isCrew(current, item) && !usedIndices.has(idx)
       );
 
-      const isCurrentPaired = current?.["marking"] ? this.ContextService.isMarkingPaired(current["marking"]) : false;
-      const isPairPaired = pair?.["marking"] ? this.ContextService.isMarkingPaired(pair["marking"]) : false;
+      const isCurrentPaired = current?.["marking"].marking ? this.ContextService.isMarkingPaired(current["marking"].marking) : false;
+      const isPairPaired = pair?.["marking"].marking ? this.ContextService.isMarkingPaired(pair["marking"].marking) : false;
   
       if (pair && isCurrentPaired && isPairPaired) {
         groupedArr.push({ "0": current, "1": pair });
@@ -297,7 +301,7 @@ export class UiTableComponent {
   }
 
   getSortedAndFilteredValues(canValues?: Value[]) {
-    let valuesCopy = canValues ? [...canValues] : [...this.values];
+    let valuesCopy = canValues ? [...canValues] : [ ...this.values() ];
     
     if (this.group && !this.groupedValuesDefault().find(item => item["0"])) {
       valuesCopy = this.crewGroup(valuesCopy); 
@@ -320,7 +324,7 @@ export class UiTableComponent {
     if (this.group) {
       numberOfPages = Math.ceil(this.groupedValuesDefault().length / this.itemsPerPage());
     } else {
-      numberOfPages = Math.ceil(this.values.length / this.itemsPerPage());
+      numberOfPages = Math.ceil(this.values().length / this.itemsPerPage());
     }
 
     const numberOfPagesArray = [];

@@ -4,24 +4,24 @@
         <ui-container class="status">
             <ui-button 
                 (click)="this.handleStatus(true)" 
-                [type]="[this.status() == true ? 'light' : '', 'no-size', 'left-side']"
+                [type]="[this.officer()?.status == true ? 'light' : '', 'no-size', 'left-side']"
             >
                 Avalaible
             </ui-button>
             <ui-button 
                 (click)="this.handleStatus(null)" 
-                [type]="['no-size', this.status() == null ? 'neutral' : '', 'left-side']"
+                [type]="['no-size', this.officer()?.status == null ? 'neutral' : '', 'left-side']"
             >
                 N/A
             </ui-button>
             <ui-button 
                 (click)="this.handleStatus(false)"
-                [type]="['left-side', this.status() == false ? 'busy' : '', 'no-size']"
+                [type]="['left-side', this.officer()?.status == false ? 'busy' : '', 'no-size']"
             >
                 Busy
             </ui-button>
             <ui-button 
-                [type]="['left-side', this.status() == 'OS' ? 'OS' : '', 'no-size']"
+                [type]="['left-side', this.officer()?.status == 'OS' ? 'OS' : '', 'no-size']"
                 (click)="this.handleStatus('OS')"
             >
                 OS
@@ -62,7 +62,7 @@
         </ui-container>
         <ui-container>
             <ui-table 
-                [values]="this.ContextService.getOfficers()" 
+                [values]="this.officers" 
                 [columns]="this.officersColumns" 
                 [isSearchAndSortNeed]="true"
                 [group]="true"

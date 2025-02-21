@@ -5,6 +5,7 @@ import { UiInputComponent } from '../components/UI/input/ui-input.component';
 import { StatusDTO } from './officers.dto';
 import { Column, Value } from '../components/UI/table/ui-table.dto';
 import { ContextService } from '../services/context.service';
+import { OfficerDTO } from '../dtos/officer.dto';
 
 @Component({
   selector: 'app-officers',
@@ -27,6 +28,9 @@ export class OfficersComponent {
   ])
   @ViewChild('inputRef') inputRef!: UiInputComponent;
 
+  readonly officer: WritableSignal<OfficerDTO | null> = signal<OfficerDTO | null>(null);
+  readonly officers: WritableSignal<OfficerDTO[]> = signal<OfficerDTO[]>([]);
+
   getNewMaskData() {
     return `1-${this.marking().marking}-`;
   }
@@ -35,8 +39,12 @@ export class OfficersComponent {
     return 5 + this.marking().marking.length;
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     localStorage.setItem("token", "$argon2id$v=19$m=65536,t=3,p=4$7kZ1VcNGYrm2pLpejIarUg$v9FPZLrS9Y6Vz0vx6hvr6nk5e8RpUdC+NzSF79RyD/Y")
+    this.ContextService.getOfficer().subscribe((data) => this.officer.set(data));
+    this.ContextService.getAllOfficers().subscribe((data) => {
+      this.officers.set(data || []);
+    });
   }
 
   readonly maskData: WritableSignal<string> = signal<string>(this.getNewMaskData())
