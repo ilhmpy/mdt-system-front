@@ -35,6 +35,10 @@ export class OfficersComponent {
     return 5 + this.marking().marking.length;
   }
 
+  ngOnInit() {
+    localStorage.setItem("token", "$argon2id$v=19$m=65536,t=3,p=4$7kZ1VcNGYrm2pLpejIarUg$v9FPZLrS9Y6Vz0vx6hvr6nk5e8RpUdC+NzSF79RyD/Y")
+  }
+
   readonly maskData: WritableSignal<string> = signal<string>(this.getNewMaskData())
 
   form: FormGroup;
