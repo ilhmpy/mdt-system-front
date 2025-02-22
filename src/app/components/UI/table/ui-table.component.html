@@ -44,37 +44,43 @@
       </tr>
     </thead>
     <tbody> 
-        @for (value of this.sortedAndFilteredValues(); track $index) {
-            @if (this.group && value?.["0"]) {
-                <div class="table-crew-item_container">
-                    <table-item [columns]="this.columns()" [contentTemplate]="sTemplate" class="table-crew-item"></table-item>
-                    <ng-template #sTemplate let-column class="table-crew-item">
+        @if (this.sortedAndFilteredValues().length > 0) {
+            @for (value of this.sortedAndFilteredValues(); track $index) {
+                @if (this.group && value?.["0"]) {
+                    <div class="table-crew-item_container">
+                        <table-item [columns]="this.columns()" [contentTemplate]="sTemplate" class="table-crew-item"></table-item>
+                        <ng-template #sTemplate let-column class="table-crew-item">
+                            @if (column.type == "rank") {
+                                <ui-rank [src]="value['0'].rank.icon" [rankLabel]="value['0'].rank.name" />
+                            } @else {
+                                {{ this.getValueByTape(value["0"], column) }}
+                            }
+                        </ng-template>
+        
+                        <table-item [columns]="this.columns()" [contentTemplate]="contentTemplate" class="table-crew-item"></table-item>
+                        <ng-template #contentTemplate let-column>
+                            @if (column.type == "rank") {
+                                <ui-rank [src]="value['1'].rank.icon" [rankLabel]="value['1'].rank.name" />
+                            } @else {
+                                {{ this.getValueByTape(value["1"], column) }}
+                            }
+                        </ng-template>
+                    </div>
+                } @else {
+                    <table-item [columns]="this.columns()" [contentTemplate]="tableContainerTemplate"></table-item>
+                    <ng-template #tableContainerTemplate let-column>
                         @if (column.type == "rank") {
-                            <ui-rank [src]="value['0'].rank.icon" [rankLabel]="value['0'].rank.name" />
+                            <ui-rank [src]="value['rank'].icon" [rankLabel]="value['rank'].name" />
                         } @else {
-                            {{ this.getValueByTape(value["0"], column) }}
+                            {{ this.getValueByTape(value, column) }}
                         }
                     </ng-template>
-    
-                    <table-item [columns]="this.columns()" [contentTemplate]="contentTemplate" class="table-crew-item"></table-item>
-                    <ng-template #contentTemplate let-column>
-                        @if (column.type == "rank") {
-                            <ui-rank [src]="value['1'].rank.icon" [rankLabel]="value['1'].rank.name" />
-                        } @else {
-                            {{ this.getValueByTape(value["1"], column) }}
-                        }
-                    </ng-template>
-                </div>
-            } @else {
-                <table-item [columns]="this.columns()" [contentTemplate]="tableContainerTemplate"></table-item>
-                <ng-template #tableContainerTemplate let-column>
-                    @if (column.type == "rank") {
-                        <ui-rank [src]="value['rank'].icon" [rankLabel]="value['rank'].name" />
-                    } @else {
-                        {{ this.getValueByTape(value, column) }}
-                    }
-                </ng-template>
+                }
             }
+        } @else {
+            <div class="search-nothing">
+                <img class="nothing-img" src="/assets/images/no-results.svg" />
+            </div>
         }
     </tbody>
     <div class="pagination_buttons">
