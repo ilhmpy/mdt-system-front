@@ -11,15 +11,29 @@ export interface RankInterface {
     icon: string | null;
 }
 
+export interface Permission {
+    canActivateName: string;
+    get?: boolean;
+    create?: boolean;
+    delete?: boolean;
+    selfUpdate?: boolean;
+}
+
+export interface RoleInterface {
+    name: string;
+    permissions: Permission[];
+}
+
 export interface OfficerDTO {
+    id: number;
     name: string;
     marking: string | null;
     markingNumber: number | null;
     status: StatusDTO | null;   
     rank?: RankInterface;
-    role?: string;
+    role?: RoleInterface;
     badgeNumber: string;
-    shift: number;
+    shift: { id: number };
 }
 
 export interface OfficerTableItem extends OfficerDTO {

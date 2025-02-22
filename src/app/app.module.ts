@@ -25,6 +25,8 @@ import { AuthGuard } from './guards/auth.guard';
 import { LoadingInterceptor } from './interceptors/loading.interceptor';
 import { UiLoadingComponent } from './components/UI/loading/ui-loading.component';
 import { TableItemComponent } from './components/UI/table/table-item/table-item.component';
+import { ModalComponent } from './components/modal/modal.component';
+import { ProfileComponent } from './components/layout/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +44,8 @@ import { TableItemComponent } from './components/UI/table/table-item/table-item.
     UiRankComponent,
     UiLoadingComponent,
     TableItemComponent,
+    ModalComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,     

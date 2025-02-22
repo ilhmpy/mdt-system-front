@@ -9,7 +9,6 @@ export const routes: Routes = [
     { path: "calls", component: OfficersComponent, canActivate: [ AuthGuard ] },
     { path: "ncinc", component: OfficersComponent, canActivate: [ AuthGuard ] },
     { path: "reports", component: OfficersComponent, canActivate: [ AuthGuard ] },
-    { path: "profile", component: OfficersComponent, canActivate: [ AuthGuard ] },
     { path: "forum", component: OfficersComponent, canActivate: [ AuthGuard ] },
     { path: "control", component: OfficersComponent, canActivate: [ AuthGuard ] },
 ];

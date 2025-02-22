@@ -93,4 +93,12 @@ export class OfficersComponent {
       markingValue: newMaskData
     })
   }
+
+  setCurrentOfficer = (id: number) => {
+    const officer = this.officers().find((officer) => officer.id == id);
+
+    if (officer) {
+      this.ContextService.setCurrentOfficer(officer);
+    }
+  }
 }

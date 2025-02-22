@@ -1,7 +1,6 @@
 body {
     font-family: "Roboto", serif;
     height: 100vh;
-    margin: 0;
     width: 100%;
     background: var(--main-background);
     padding: 2em;
@@ -73,3 +72,11 @@ button {
 }
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+h4 {
+    line-height: 1em;
+    padding: 0;
+    margin: 0;
+    font-size: 1em;
+}

@@ -2,6 +2,11 @@
     @if (this.isLoading()) {
         <ui-loading></ui-loading>
     } @else {
+        <modal 
+            [show]="!!this.ContextService.getCurrentOfficer().getValue()"
+        >
+            <profile></profile>
+        </modal>
         <layout>
             <router-outlet />
         </layout>

@@ -20,11 +20,14 @@ export class ContextService {
       private isLoadingObject = new BehaviorSubject<boolean>(false);
       private officerObject = new BehaviorSubject<OfficerDTO | null>(null);
       private officersObject = new BehaviorSubject<OfficerDTO[] | null>(null);
+      readonly profileShow = new BehaviorSubject<boolean>(false);
+      private currentOfficerObject = new BehaviorSubject<OfficerDTO | null>(null);
 
       private isAuth$ = this.isAuthObject.asObservable();
       private isLoading$ = this.isLoadingObject.asObservable();
       private officer$ = this.officerObject.asObservable();
       private officers$ = this.officersObject.asObservable();
+      private currentOfficer$ = this.currentOfficerObject.asObservable();
 
       private Config: WritableSignal<ConfigInterface> = signal<ConfigInterface>({
         markings: [ 
@@ -46,12 +49,20 @@ export class ContextService {
         return this.isLoading$;
       }
 
+      getCurrentOfficer() {
+        return this.currentOfficerObject;
+      }
+
       setIsAuth(status: boolean) {
         this.isAuthObject.next(status);
       }
 
       setIsLoading(status: boolean) {
         this.isLoadingObject.next(status);
+      }
+
+      setCurrentOfficer(officer: OfficerDTO | null) {
+        this.currentOfficerObject.next(officer);
       }
 
       getOfficer() {
