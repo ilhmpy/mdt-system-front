@@ -45,7 +45,7 @@ export class UiTableComponent {
   }
 
   clickTrigger(id: number) {
-    this.clickTriggerOnContainer(id);
+    this.clickTriggerOnContainer(id)
   }
 
   ngOnInit() {

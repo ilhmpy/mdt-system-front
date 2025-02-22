@@ -20,7 +20,6 @@ export class StatusComponent {
     }
 
     handleStatus(newStatus: StatusDTO) {
-      console.log("newStatus", newStatus)
-      this.DataService.updateStatus(newStatus).subscribe((data) => console.log(data));
+      this.DataService.updateStatus(newStatus).subscribe();
     }
 }

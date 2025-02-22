@@ -44,8 +44,8 @@
       </tr>
     </thead>
     <tbody> 
-        @if (this.sortedAndFilteredValues().length > 0) {
-            @for (value of this.sortedAndFilteredValues(); track $index) {
+        @if (this.values().length > 0) {
+            @for (value of this.values(); track value?.["id"]) {
                 @if (this.group && value?.["0"]) {
                     <div class="table-crew-item_container">
                         <table-item (click)="this.clickTrigger(value['0']?.['id'])" [columns]="this.columns()" [contentTemplate]="sTemplate" class="table-crew-item"></table-item>
@@ -84,7 +84,7 @@
         }
     </tbody>
     <div class="pagination_buttons">
-        @if (this.paginationRenderField()['label'] !== "max" && this.sortedAndFilteredValues().length > 0) {
+        @if (this.paginationRenderField()['label'] !== "max" && this.values().length > 0) {
             @for (page of this.getNumberOfPages(); track $index) {
                 <ui-button 
                     [type]="['no-size', 'circle', this.currentPagPage() == $index + 1 ? 'pag-activated' : '']" 

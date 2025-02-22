@@ -65,15 +65,18 @@ export class ContextService {
         this.currentOfficerObject.next(officer);
       }
 
+      setOfficer(newOfficer: OfficerDTO) {
+        this.officerObject.next(newOfficer);
+      }
+
       getOfficer() {
         return this.officer$.pipe(
           switchMap((officer) => {
             if (officer) {
-              console.log(officer);
               return of(officer);
             } else {
               return this.DataService.getOfficer().pipe(
-                tap((data) => this.officerObject.next(data)) // Кладем в BehaviorSubject
+                tap((data) => this.officerObject.next(data))
               );
             }
           })
