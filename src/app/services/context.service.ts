@@ -2,7 +2,7 @@ import { Injectable, WritableSignal, inject, signal } from "@angular/core";
 import { OfficerDTO, OfficerTableItem } from "../dtos/officer.dto";
 import { HttpClient } from "@angular/common/http";
 import { MarkingInterface } from "../dtos/markings.dto";
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, switchMap, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { DataService } from "./data.service";
 
@@ -66,16 +66,18 @@ export class ContextService {
       }
 
       getOfficer() {
-        const officer = this.officerObject.getValue();
-
-        if (!officer) {
-          this.DataService.getOfficer().subscribe((data) => {
-            console.log("currentOfficer", data);
-            this.officerObject.next(data);
+        return this.officer$.pipe(
+          switchMap((officer) => {
+            if (officer) {
+              console.log(officer);
+              return of(officer);
+            } else {
+              return this.DataService.getOfficer().pipe(
+                tap((data) => this.officerObject.next(data)) // Кладем в BehaviorSubject
+              );
+            }
           })
-        }
-
-        return this.officer$
+        );
       }
 
       getAllOfficers() {

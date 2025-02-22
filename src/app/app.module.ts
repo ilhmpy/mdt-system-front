@@ -27,6 +27,7 @@ import { UiLoadingComponent } from './components/UI/loading/ui-loading.component
 import { TableItemComponent } from './components/UI/table/table-item/table-item.component';
 import { ModalComponent } from './components/modal/modal.component';
 import { ProfileComponent } from './components/layout/profile/profile.component';
+import { StatusComponent } from './components/status/status.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { ProfileComponent } from './components/layout/profile/profile.component'
     UiLoadingComponent,
     TableItemComponent,
     ModalComponent,
-    ProfileComponent
+    ProfileComponent,
+    StatusComponent
   ],
   imports: [
     BrowserModule,     

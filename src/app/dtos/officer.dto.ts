@@ -1,4 +1,4 @@
-import { StatusDTO } from "../officers/officers.dto";
+import { StatusDTO } from "../components/status/status.dto";
 
 type RankType = 
     "officer" | "officerII" | "officerIII" | 

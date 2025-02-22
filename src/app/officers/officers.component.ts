@@ -2,7 +2,7 @@ import { Component, ElementRef, signal, ViewChild, WritableSignal } from '@angul
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MarkingInterface } from '../dtos/markings.dto';
 import { UiInputComponent } from '../components/UI/input/ui-input.component';
-import { StatusDTO } from './officers.dto';
+import { StatusDTO } from '../components/status/status.dto';
 import { Column, Value } from '../components/UI/table/ui-table.dto';
 import { ContextService } from '../services/context.service';
 import { OfficerDTO } from '../dtos/officer.dto';
@@ -61,10 +61,6 @@ export class OfficersComponent {
         [ Validators.maxLength(400) ]
       ]
     })
-  }
-
-  handleStatus(newStatus: StatusDTO) {
-    this.status.set(newStatus);
   }
 
   onMarkingValue = () => {
