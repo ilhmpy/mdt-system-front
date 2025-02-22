@@ -1,85 +1,42 @@
-table {
-    table-layout: fixed;
+.columns {
+  display: none;
+}
+
+.table-container {
     width: 95%;
 }
 
-tbody {
-    height: 100%;
+.table-container {
+    padding-left: .6em;
 }
 
-.table-headers_container {
-    display: flex;
-    grid-template-columns: 1fr;
-}
-
-.table-headers_item {
-    text-align: center;
-    justify-content: center;
-}
-
-.table-items_container {
-    height: 3.3em;
-    gap: 3em;
-    display: flex;
-    cursor: pointer;
-    align-items: center;
-    padding-left: var(--padding-side);
-    padding-right: var(--padding-side);
-}
-
-.table-items_container:hover {
-    background: var(--active-table-item-color);
-}
-
-.table-crew-item {
-    border-bottom: 2px solid var(--links-button);
-    border-top: 2px solid var(--links-button);
-    position: relative;
-    margin-bottom: 0.1em;
-}
-
-.table-crew-item_container:hover {
-    background: #147BCA;
-}
-
-.pagination_buttons {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    height: 3em;
-    margin-top: 1em;
-    gap: .5em;
+.table {
+    background: 0;
+    color: var(--text-light-color);
+    margin-bottom: var(--padding);
 }
 
 .search-container {
-    display: flex;
+    display: grid;
+    grid-template-columns: 20% 20%;
     align-items: center;
-    justify-content: space-between;
+    padding-left: .8em;
+    z-index: 99999;
     margin-bottom: 1em;
-    padding-left: var(--padding-side);
-    padding-right: var(--padding-side);
 }
 
-.search-container > div {
-    display: flex;
+.table-item:hover {
+    background: red;
 }
 
-.search-nothing {
-    padding: var(--padding);
-    padding-left: var(--padding-side);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-    position: relative;
+.table-td {
+    color: var(--text-light-color);
 }
 
-.nothing-img {
-    top: 0;
-    bottom: 0;
-    position: absolute;
-    width: 5em;
-    height: 5em;
-    display: flex;
+::ng-deep .mat-mdc-paginator .mat-mdc-select {
+    color: #ffff !important;
+}
+
+::ng-deep .mat-mdc-paginator .mat-mdc-select:focus {
+    border: 0;
 }

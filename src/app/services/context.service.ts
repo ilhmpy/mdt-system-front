@@ -91,7 +91,7 @@ export class ContextService {
             this.officersObject.next(data);
           })
         }
-
+        
         return this.officers$;
       }
 

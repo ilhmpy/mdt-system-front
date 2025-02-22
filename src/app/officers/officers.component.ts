@@ -18,15 +18,9 @@ export class OfficersComponent {
   readonly status: WritableSignal<StatusDTO> = signal<StatusDTO>(null);
   readonly marking: WritableSignal<MarkingInterface> = signal<MarkingInterface>({ label: "Linkoln", marking: "L", pairedPatrolCrew: false });
  
-  readonly officersColumns: WritableSignal<Column[]> = signal<Column[]>([
-    { label: "Last update", field: "lastUpdate", type: "date" },
-    { label: "Badge", field: "badgeNumber" },
-    { label: "Name", field: "name" },
-    { label: "Marking", field: "marking", type: "marking" },
-    { label: "Status", field: "status", type: "status" },
-    { label: "Location", field: "location" },
-    { label: "Rank", type: "rank" },
-  ])
+  readonly officersColumns: WritableSignal<string[]> = signal<string[]>([
+    "lastUpdate", "badgeNumber", "name", "marking", "status", "location", "rank"
+  ]);
   @ViewChild('inputRef') inputRef!: UiInputComponent;
 
   readonly officer: WritableSignal<OfficerDTO | null> = signal<OfficerDTO | null>(null);

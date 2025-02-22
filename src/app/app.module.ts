@@ -29,6 +29,11 @@ import { ModalComponent } from './components/modal/modal.component';
 import { ProfileComponent } from './components/layout/profile/profile.component';
 import { StatusComponent } from './components/status/status.component';
 
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+
 @NgModule({
   declarations: [
     AppComponent,       
@@ -56,6 +61,11 @@ import { StatusComponent } from './components/status/status.component';
     RouterModule.forRoot(routes),
     ReactiveFormsModule,
     BrowserAnimationsModule,
+    MatTableModule, 
+    MatPaginatorModule, 
+    MatSortModule, 
+    MatInputModule,
+    MatFormFieldModule
   ],
   providers: [
     provideAnimationsAsync(),

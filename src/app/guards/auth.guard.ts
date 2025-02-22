@@ -18,7 +18,6 @@ export class AuthGuard implements CanActivate {
             map((isAuth) => {
                 this.ContextService.setIsAuth(isAuth);
 
-                console.log(isAuth);
                 return isAuth;
             }),
             catchError(() => of(false))

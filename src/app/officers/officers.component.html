@@ -36,15 +36,12 @@
         </ui-container>
         <ui-container>
             <ui-table 
-                [values]="this.officers" 
-                [columns]="this.officersColumns" 
-                [isSearchAndSortNeed]="true"
-                [group]="true" 
+                [values]="this.officers()" 
+                [columns]="this.officersColumns"  
                 [clickTriggerOnContainer]="this.setCurrentOfficer"
-                [searchFields]="['name', 'badgeNumber']"
-                searchPlaceholder="Name or number of badge"
                 [sortBy]="[
                     { label: 'Default' },
+                    { label: 'Marking' },
                     { label: 'Status' },
                 ]"
             />

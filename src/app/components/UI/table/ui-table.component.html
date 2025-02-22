@@ -1,98 +1,38 @@
-@if (this.isSearchAndSortNeed) {
-    <ui-container>
-        <div class="search-container">
-            <div>
-                <ui-input
-                    [change]="this.onSearchValue"
-                    [form]="this.form"
-                    formValue="searchValue"
-                    [placeholder]="searchPlaceholder"
-                    maxLength="40"
-                /> 
-                
-                @if (this.sortBy) {
-                    <ui-list 
-                        class="small"
-                        [list]="this.sortBy"
-                        [renderField]="this.sortRenderField"
-                        [handleRender]="this.handleSortRender"
-                    />
-                }
-
-                <ui-list 
-                    class="small"
-                    [list]="this.paginationsList()"
-                    [renderField]="this.paginationRenderField"
-                    [handleRender]="this.handlePaginationRender"
-                />
-            </div>
-            <div>
-                @if (this.searchDefault()) {
-                    <ui-button (click)="this.resetSearch()" [type]="['mini']">Reset search</ui-button>
-                }
-            </div>
-        </div>
-    </ui-container>
-}
-
-<table>
-    <thead>
-      <tr class="table-headers_container">
-        @if (this.isTableHeadersNeed) {
-            <th class="table-headers_item" *ngFor="let column of this.columns()">{{ column.label }}</th>
-        }
-      </tr>
-    </thead>
-    <tbody> 
-        @if (this.values().length > 0) {
-            @for (value of this.values(); track value?.["id"]) {
-                @if (this.group && value?.["0"]) {
-                    <div class="table-crew-item_container">
-                        <table-item (click)="this.clickTrigger(value['0']?.['id'])" [columns]="this.columns()" [contentTemplate]="sTemplate" class="table-crew-item"></table-item>
-                        <ng-template #sTemplate let-column class="table-crew-item">
-                            @if (column.type == "rank") {
-                                <ui-rank [src]="value['0'].rank.icon" [rankLabel]="value['0'].rank.name" />
-                            } @else {
-                                {{ this.getValueByTape(value["0"], column) }}
-                            }
-                        </ng-template>
-        
-                        <table-item (click)="this.clickTrigger(value['1']?.['id'])" [columns]="this.columns()" [contentTemplate]="contentTemplate" class="table-crew-item"></table-item>
-                        <ng-template #contentTemplate let-column>
-                            @if (column.type == "rank") {
-                                <ui-rank [src]="value['1'].rank.icon" [rankLabel]="value['1'].rank.name" />
-                            } @else {
-                                {{ this.getValueByTape(value["1"], column) }}
-                            }
-                        </ng-template>
-                    </div>
-                } @else {
-                    <table-item (click)="this.clickTrigger(value?.['id'])" [columns]="this.columns()" [contentTemplate]="tableContainerTemplate"></table-item>
-                    <ng-template #tableContainerTemplate let-column>
-                        @if (column.type == "rank") {
-                            <ui-rank [src]="value['rank'].icon" [rankLabel]="value['rank'].name" />
-                        } @else {
-                            {{ this.getValueByTape(value, column) }}
-                        }
-                    </ng-template>
-                }
-            }
-        } @else {
-            <div class="search-nothing">
-                <img class="nothing-img" src="/assets/images/no-results.svg" />
-            </div>
-        }
-    </tbody>
-    <div class="pagination_buttons">
-        @if (this.paginationRenderField()['label'] !== "max" && this.values().length > 0) {
-            @for (page of this.getNumberOfPages(); track $index) {
-                <ui-button 
-                    [type]="['no-size', 'circle', this.currentPagPage() == $index + 1 ? 'pag-activated' : '']" 
-                    (click)="this.changeCurrentPage(page + 1)"
-                >
-                    {{ page + 1 }}
-                </ui-button>
-            }
-        }
+<div class="table-container">
+    <div class="search-container">
+        <ui-input  
+            #inputRef
+            [change]="applyFilter"
+            [form]="this.form" 
+            formValue="searchValue"
+            placeholder="Search"
+        />
+        <ui-list 
+            [list]="sortBy || []" 
+            [renderField]="this.sortRenderField"
+            [handleRender]="sortChange"
+        />
     </div>
-  </table>
+      
+    <div class="table-container">
+        <table mat-table [dataSource]="dataSource" matSort class="table">
+            @for (column of this.columns(); track $index) {
+                <div [matColumnDef]="column">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="columns">{{ column }}</th>
+                    <td mat-cell *matCellDef="let element" class="table-td" (click)="clickTrigger(element.id)">
+                        @if (column == "rank") {
+                            <ui-rank [src]="element.rank.icon" [rankLabel]="element.rank.name"></ui-rank>
+                        } @else {
+                            {{ this.PresentationService.getValueByType(element, column) }}
+                        }
+                    </td>
+                </div>
+            } 
+            <tr mat-header-row *matHeaderRowDef="this.columns()"></tr>
+            <tr mat-row *matRowDef="let row; columns: this.columns();"></tr>
+        </table>
+        <div class="pagination-container">
+            <mat-paginator class="paginator-container" [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons></mat-paginator>
+        </div>
+    </div>
+</div>

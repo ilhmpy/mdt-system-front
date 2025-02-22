@@ -80,3 +80,49 @@ h4 {
     margin: 0;
     font-size: 1em;
 }
+.mat-mdc-row:hover {
+    background: var(--active-table-item-color);
+    cursor: pointer;
+}
+
+.mat-mdc-select {
+    color: var(--text-light-color);
+}
+
+.mat-mdc-text-field-wrapper {
+    border: .5px solid var(--text-light-color) !important;
+}
+
+.mat-mdc-text-field-wrapper:hover {
+    border: 1px solid var(--text-light-color) !important;
+}
+
+.mat-mdc-paginator-page-size-label {
+    color: var(--text-light-color) !important;
+}
+
+.mat-mdc-paginator-range-label {
+    color: var(--text-light-color) !important;
+}
+
+.mat-mdc-paginator {
+    background: 0 !important;
+}
+
+.mat-mdc-header-row {
+    height: 0 !important;
+}
+
+.mat-mdc-paginator-container  {
+    display: flex;
+    justify-content: center !important;
+    background: 0;
+}
+
+.mat-mdc-paginator-page-size-select {
+    color: var(--text-light-color) !important;
+}
+
+.mat-mdc-paginator-touch-target {
+    color: var(--text-light-color) !important;
+}
