@@ -68,7 +68,6 @@ export class UiTableComponent {
     if (this.group) {
       dozenLength = Math.floor(this.groupedValuesDefault().length / 10) * 10;
     } else {
-      console.log(this.sortedAndFilteredValues())
       dozenLength = Math.floor(this.sortedAndFilteredDefaultValues().length / 10) * 10;
     }
 
@@ -95,6 +94,10 @@ export class UiTableComponent {
   handlePaginationRender = () => {
     const label = this.paginationRenderField().label
     
+    if (label == "max") {
+      this.changeCurrentPage(1);
+    }
+
     if (this.group) {
       this.itemsPerPage.set(label == "max" ? this.groupedValuesDefault().length : Number(label));
       this.sortedAndFilteredValues.set(this.getSortedAndFilteredValues(this.groupedValuesDefault()));
@@ -284,8 +287,8 @@ export class UiTableComponent {
         idx !== i && this.isCrew(current, item) && !usedIndices.has(idx)
       );
 
-      const isCurrentPaired = current?.["marking"].marking ? this.ContextService.isMarkingPaired(current["marking"].marking) : false;
-      const isPairPaired = pair?.["marking"].marking ? this.ContextService.isMarkingPaired(pair["marking"].marking) : false;
+      const isCurrentPaired = current?.["marking"].marking && current?.["markingNumber"] ? this.ContextService.isMarkingPaired(current["marking"].marking) : false;
+      const isPairPaired = pair?.["marking"].marking && pair?.["markingNumber"] ? this.ContextService.isMarkingPaired(pair["marking"].marking) : false;
   
       if (pair && isCurrentPaired && isPairPaired) {
         groupedArr.push({ "0": current, "1": pair });

@@ -1,0 +1,19 @@
+.table-items_container {
+    height: 3.3em;
+    gap: 3em;
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    padding-left: var(--padding-side);
+    padding-right: var(--padding-side);
+}
+
+.table-items_container:hover {
+    background: var(--active-table-item-color);
+}
+
+.table_item {
+    width: 5em;
+    justify-content: center;
+    text-align: center;
+}

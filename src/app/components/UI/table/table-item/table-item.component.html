@@ -1,0 +1,5 @@
+<tr class="table-items_container"> 
+    <td class="table_item" *ngFor="let column of this.columns" [ngClass]="this.class">
+        <ng-container *ngTemplateOutlet="contentTemplate; context: { $implicit: column }"></ng-container>
+    </td>
+</tr>
