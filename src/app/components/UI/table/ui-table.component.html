@@ -48,7 +48,7 @@
             @for (value of this.sortedAndFilteredValues(); track $index) {
                 @if (this.group && value?.["0"]) {
                     <div class="table-crew-item_container">
-                        <table-item [columns]="this.columns()" [contentTemplate]="sTemplate" class="table-crew-item"></table-item>
+                        <table-item (click)="this.clickTrigger(value['0']?.['id'])" [columns]="this.columns()" [contentTemplate]="sTemplate" class="table-crew-item"></table-item>
                         <ng-template #sTemplate let-column class="table-crew-item">
                             @if (column.type == "rank") {
                                 <ui-rank [src]="value['0'].rank.icon" [rankLabel]="value['0'].rank.name" />
@@ -57,7 +57,7 @@
                             }
                         </ng-template>
         
-                        <table-item [columns]="this.columns()" [contentTemplate]="contentTemplate" class="table-crew-item"></table-item>
+                        <table-item (click)="this.clickTrigger(value['1']?.['id'])" [columns]="this.columns()" [contentTemplate]="contentTemplate" class="table-crew-item"></table-item>
                         <ng-template #contentTemplate let-column>
                             @if (column.type == "rank") {
                                 <ui-rank [src]="value['1'].rank.icon" [rankLabel]="value['1'].rank.name" />
@@ -67,7 +67,7 @@
                         </ng-template>
                     </div>
                 } @else {
-                    <table-item [columns]="this.columns()" [contentTemplate]="tableContainerTemplate"></table-item>
+                    <table-item (click)="this.clickTrigger(value?.['id'])" [columns]="this.columns()" [contentTemplate]="tableContainerTemplate"></table-item>
                     <ng-template #tableContainerTemplate let-column>
                         @if (column.type == "rank") {
                             <ui-rank [src]="value['rank'].icon" [rankLabel]="value['rank'].name" />

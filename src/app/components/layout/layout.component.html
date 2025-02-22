@@ -10,7 +10,7 @@
                     {{ link.label }}
                 </ui-button>
             }
-            <ui-button [link]="true" path="/profile">
+            <ui-button [click]="this.onProfile">
                <ui-rank [src]="this.officer()?.rank?.icon || ''" [rankLabel]="this.officer()?.rank?.name || ''" /> 
             </ui-button>
             <ui-button [type]="this.isAlarmActivated() ? ['alarm', 'light'] : ['light', 'standart']" [click]="this.onAlarm">
@@ -24,6 +24,6 @@
         </div>
     </div>
     <div>
-        <ng-content></ng-content>
+        <ng-content />
     </div>
 </section>

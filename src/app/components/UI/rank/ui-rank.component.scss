@@ -21,11 +21,58 @@ img {
     height: 1.3em;
 }
 
+.big {
+    width: 3em;
+    height: 3em;
+}
+
+.big.officerII {
+    width: 3.5em;
+    height: 3.5em;
+}
+
+.big.officerIII {
+    width: 4em;
+    height: 4em;
+}
+
+.big.sergeant {
+    width: 4em;
+    height: 4em;
+}
+
+.big.lieutenant {
+    width: 1.5em;
+    height: 5em;
+}
+
+.big.captain {
+    width: 3.7em;
+    height: 4.5em;
+}
+
+.big.divisionchief {
+    width: 4.8em;
+    height: 2em;
+}
+
+.big.deputychief {
+    width: 6.5em;
+    height: 2em;
+}
+
+.big.chiefofpolice {
+    width: 7em;
+    height: 2em;
+}
+
+
 div {
     min-width: 2em;
     display: flex;
     align-items: center;
     justify-content: center;
     min-height: 2em;
+    cursor: pointer;
     position: relative;
 }

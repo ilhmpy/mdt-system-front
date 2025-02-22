@@ -27,7 +27,6 @@ export class LayoutComponent {
   ];
 
   readonly officer: WritableSignal<OfficerDTO | null> = signal<OfficerDTO | null>(null);
-
   readonly isAlarmActivated: WritableSignal<boolean> = signal<boolean>(false);
 
   readonly runningLine: WritableSignal<string> = signal(
@@ -40,6 +39,14 @@ export class LayoutComponent {
           this.officer.set(data);
         }
       });
+  }
+
+  onProfile = () => {
+    const officer = this.officer();
+     
+    if (officer) {
+      this.ContextService.setCurrentOfficer(officer)
+    }
   }
 
   onAlarm() {

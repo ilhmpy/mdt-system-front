@@ -9,19 +9,23 @@ import { Component, Input, signal, WritableSignal } from '@angular/core';
 export class UiRankComponent {
   @Input() src: string = "";
   @Input() rankLabel: string = "";
+  @Input() type: "big" | null = null;
 
   readonly isRankLabelActivated: WritableSignal<boolean> = signal<boolean>(false);
 
-  // при наведении показывать ранг
   getClass(src: string) {
-    return src?.replace(".svg", "") || "";
+    return [src?.replace(".svg", "") || "", this.type || ""];
   }
 
   mouseEnter() {
-    this.isRankLabelActivated.set(true);
+    if (!this.type) {
+      this.isRankLabelActivated.set(true);
+    }
   }
 
   mouseLeave() {
-    this.isRankLabelActivated.set(false);
+     if (!this.type) {
+      this.isRankLabelActivated.set(false);
+     }
   }
 }

@@ -1,0 +1,20 @@
+<div class="profile" *ngIf="this.officer()" (mouseleave)="this.mouseleave()">
+    <div class="profile_info">
+        <div class="profile_rank">
+            <ui-rank [rankLabel]="this.officer()?.rank?.name || ''" [src]="this.officer()?.rank?.icon || ''" type="big"></ui-rank>
+        </div>
+        <div class="profile_info-data">
+            <ui-button class="profile_info-item" [type]="['no-size']">{{ this.officer()?.name }}</ui-button>
+            <span class="profile_info-item">{{ this.officer()?.badgeNumber }}</span>
+            <span class="profile_info-item">{{ this.officer()?.rank?.name }}</span>
+            <span class="profile_info-item">Shift number: {{ this.officer()?.shift?.id }}</span>
+            <span class="profile_info-item">{{ this.PresentationService.getRoleNameFromServerView(this.officer()?.role?.name || "") }}</span>
+            <div class="calls-list">
+                <ui-button [type]="['no-size']" [click]="this.callsClick">Calls</ui-button>
+                <div class="calls-list_data" *ngIf="this.isCallsActivated()">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

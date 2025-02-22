@@ -22,6 +22,7 @@ export class UiTableComponent {
   @Input() searchFields: string[] = [];
   @Input() searchPlaceholder: string = "";
   @Input() sortBy: ListInterface[] | null = null;
+  @Input() clickTriggerOnContainer: ((id: number) => void) = () => {};
 
   readonly currentPagPage: WritableSignal<number> = signal<number>(1);
   readonly sortedAndFilteredValues: WritableSignal<Value[]> = signal<Value[]>([]);
@@ -41,6 +42,10 @@ export class UiTableComponent {
         [ Validators.required ]
       ]
     })
+  }
+
+  clickTrigger(id: number) {
+    this.clickTriggerOnContainer(id);
   }
 
   ngOnInit() {

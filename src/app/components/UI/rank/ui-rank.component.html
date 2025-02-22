@@ -9,7 +9,7 @@
         >
     }
     <span 
-        *ngIf="this.isRankLabelActivated()"
+        *ngIf="this.isRankLabelActivated() && !this.type"
     >
         {{ this.rankLabel }}
     </span>
