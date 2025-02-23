@@ -1,4 +1,4 @@
-import { Component, Input, signal, SimpleChanges, ViewChild, WritableSignal } from '@angular/core';
+import { Component, computed, effect, Input, signal, SimpleChanges, ViewChild, WritableSignal } from '@angular/core';
 import { Column, Value } from './ui-table.dto';
 import { ContextService } from '../../../services/context.service';
 import { OfficerDTO, OfficerTableItem } from '../../../dtos/officer.dto';
@@ -21,8 +21,7 @@ export class UiTableComponent {
   @Input() sortBy: ListInterface[] | null = null;
   @Input() clickTriggerOnContainer: ((id: number) => void) = () => {};
   @Input() group: boolean = false;
-
-  readonly sortRenderField: WritableSignal<ListInterface> = signal<ListInterface>({ label: "" })
+  @Input() data: Value | null = null;
 
   form: FormGroup;
 
@@ -37,12 +36,25 @@ export class UiTableComponent {
 
   dataSource = new MatTableDataSource<any>(this.values);
 
+  readonly sortedData = computed(() => {
+    return this.PresentationService.handleSort(
+      this.dataSource.data,
+      this.sortRenderField().label,
+      this.values,
+      this.data || {}
+    );
+  });
+
+  readonly sortRenderField: WritableSignal<ListInterface> = signal<ListInterface>({ label: "" })
+
+
   @ViewChild(MatPaginator) paginator!: MatPaginator; 
   @ViewChild(MatSort) sort!: MatSort;
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+    this.dataSource.data = this.PresentationService.handleSort(this.dataSource.data, "Default", this.values, this.data || {});
 
     if (this.group) {
       //this.dataSource.data = this.PresentationService.crewGroup(this.values)
@@ -56,8 +68,8 @@ export class UiTableComponent {
     }
   }
 
-  sortChange = () => {
-    this.dataSource.data = this.PresentationService.handleSort(this.dataSource.data, this.sortRenderField()["label"], this.values);
+  sortChange = (sort?: string) => {
+    this.dataSource.data = this.PresentationService.handleSort(this.dataSource.data, sort ? sort : this.sortRenderField()["label"], this.values, this.data || {});
   } 
 
   clickTrigger(id: number) {

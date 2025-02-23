@@ -26,7 +26,7 @@
 }
 
 .table-item:hover {
-    background: red;
+    background: #1183DA;
 }
 
 .table-td {
@@ -90,4 +90,8 @@
 
 ::ng-deep .mat-mdc-cell {
     color: #ffff !important;
+}
+
+.same-obj {
+    background: #086CB9;
 }

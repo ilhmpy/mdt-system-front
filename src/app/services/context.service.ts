@@ -36,7 +36,7 @@ export class ContextService {
       }
 
       getIsLoading() {
-        return this.isLoading$;
+        return this.isLoadingObject;
       }
 
       getIsValidation() {

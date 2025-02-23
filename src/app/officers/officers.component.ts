@@ -7,6 +7,7 @@ import { ContextService } from '../services/context.service';
 import { OfficerDTO } from '../dtos/officer.dto';
 import { WebSocketsService } from '../services/websockets.service';
 import { DataService } from '../services/data.service';
+import { PresentationService } from '../services/presentation.service';
 
 @Component({
   selector: 'app-officers',
@@ -20,8 +21,11 @@ export class OfficersComponent {
   readonly markings: WritableSignal<MarkingInterface[]> = signal<MarkingInterface[]>([]);
  
   readonly officersColumns: WritableSignal<string[]> = signal<string[]>([
-    "lastUpdate", "badgeNumber", "name", "marking", "status", "location", "rank"
+    "lastUpdate", "badgeNumber", 
+    "name", "marking", "status", 
+    "location", "rank"
   ]);
+
   @ViewChild('inputRef') inputRef!: UiInputComponent;
 
   readonly officer: WritableSignal<OfficerDTO | null> = signal<OfficerDTO | null>(null);
@@ -33,14 +37,14 @@ export class OfficersComponent {
   form: FormGroup;
   markingTimeout: any = "";
 
-  constructor(private fb: FormBuilder, readonly ContextService: ContextService, private WebSocketsService: WebSocketsService, private DataService: DataService) {
+  constructor(private fb: FormBuilder, readonly ContextService: ContextService, private WebSocketsService: WebSocketsService, private DataService: DataService, private PresentationService: PresentationService) {
     this.form = this.fb.group({
       markingValue: [
         '',
         [ Validators.required, this.lastTwoCharValidator(2) ]
       ],
       notebookValue: [
-        '',
+        localStorage.getItem("notebook"),
         [ Validators.maxLength(400) ]
       ]
     })
@@ -89,7 +93,7 @@ export class OfficersComponent {
       this.officers.set(newOfficers);
     })
     this.ContextService.getAllOfficers().subscribe((data) => {
-      this.officers.set(data || []);
+      this.officers.set(this.PresentationService.defaultSort(data || [], this.officer()));
     });
   }
 
@@ -158,6 +162,6 @@ export class OfficersComponent {
   }
 
   onNoteBookValue() {
-
+    localStorage.setItem("notebook", this.form.get("notebookValue")?.value);
   }
 }

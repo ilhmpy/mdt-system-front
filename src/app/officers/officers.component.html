@@ -12,7 +12,7 @@
                 [maskData]="this.maskData()"
                 [placeholder]="this.maskData()"
                 [maxLength]="this.getMaxInputCharactersByMarking().toString()"
-                [validation]="this.markingValidation"
+                [validation]="true"
             />
             <ui-list 
                 [list]="this.markings()" 
@@ -41,8 +41,11 @@
                 [columns]="this.officersColumns"  
                 [clickTriggerOnContainer]="this.setCurrentOfficer"
                 [group]="true"
+                [data]="this.officer()"
                 [sortBy]="[
                     { label: 'Default' },
+                    { label: 'Crew' },
+                    { label: 'Marking' },
                     { label: 'Status' },
                 ]"
             />

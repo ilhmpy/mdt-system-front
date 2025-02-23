@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { Column, Value } from "../components/UI/table/ui-table.dto";
 import { ListInterface } from "../components/UI/list/ui-list.dto";
 import { ContextService } from "./context.service";
+import { OfficerDTO } from "../dtos/officer.dto";
 
 @Injectable({
     providedIn: "root"
@@ -32,20 +33,52 @@ export class PresentationService {
         }
 
       
-        handleSort(values: Value[], sortLabel: string, defaultValues: Value[]) {
+        defaultSort(arr: OfficerDTO[], data: OfficerDTO | null): OfficerDTO[] {
+            const id = data?.id;
+            let sortedArr: OfficerDTO[] = [];
+
+            sortedArr = arr.sort((a, b) => {
+                if (a["id"] == id) {
+                    return -1;
+                }
+
+                return 1;
+            })
+
+            return sortedArr
+        }
+
+        handleSort(values: Value[], sortLabel: string, defaultValues: Value[], data?: Value) {
             let sortedArr = [...values];
 
                 switch(sortLabel) {
                     case("Default"): {
-                        sortedArr = defaultValues;
+                        if (data) {
+                            const id = data["id"];
 
+                            sortedArr = defaultValues.sort((a, b) => {
+                                if (a["id"] == id) {
+                                    return -1;
+                                }
+
+                                return 1;
+                            })
+                        } else {
+                            sortedArr = defaultValues;
+                        }
+
+                        return sortedArr;
+                    }
+
+                    case("Crew"): {
                         return sortedArr;
                     }
 
                     case("Marking"): {
                         sortedArr = sortedArr.sort((a, b) => {
                             if ( 
-                                a["marking"].pairedPatrolCrew && b["marking"].pairedPatrolCrew
+                                a["marking"].pairedPatrolCrew &&
+                                a?.["marking"] && a["markingNumber"]
                             ) {
                                 return -1
                             }
