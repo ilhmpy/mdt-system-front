@@ -39,9 +39,9 @@
                 [values]="this.officers()" 
                 [columns]="this.officersColumns"  
                 [clickTriggerOnContainer]="this.setCurrentOfficer"
+                [group]="true"
                 [sortBy]="[
                     { label: 'Default' },
-                    { label: 'Marking' },
                     { label: 'Status' },
                 ]"
             />

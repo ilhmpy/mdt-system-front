@@ -19,7 +19,7 @@
             @for (column of this.columns(); track $index) {
                 <div [matColumnDef]="column">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header class="columns">{{ column }}</th>
-                    <td mat-cell *matCellDef="let element" class="table-td" (click)="clickTrigger(element.id)">
+                    <td mat-cell *matCellDef="let element" class=""(click)="clickTrigger(element.id)">
                         @if (column == "rank") {
                             <ui-rank [src]="element.rank.icon" [rankLabel]="element.rank.name"></ui-rank>
                         } @else {
@@ -32,7 +32,7 @@
             <tr mat-row *matRowDef="let row; columns: this.columns();"></tr>
         </table>
         <div class="pagination-container">
-            <mat-paginator class="paginator-container" [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons></mat-paginator>
+            <mat-paginator class="paginator-container" [pageSizeOptions]="[5, 3, 10, 25, this.values.length]"></mat-paginator>
         </div>
     </div>
 </div>

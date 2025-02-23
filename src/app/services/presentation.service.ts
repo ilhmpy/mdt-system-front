@@ -52,7 +52,6 @@ export class PresentationService {
 
                 switch(sortLabel) {
                     case("Default"): {
-                        console.log(sortedArr, defaultValues)
                         sortedArr = defaultValues;
 
                         return sortedArr;
@@ -94,10 +93,10 @@ export class PresentationService {
                 return sortedArr;
             }
 
-        getPaginationsList(itemsPerPage: number, values: Value[], group: boolean): ListInterface[] {
+        getPaginationsList(itemsPerPage: number, values: Value[]): number[] {
             const basedPag = itemsPerPage;
             const options = new Set<number>();
-            const paginationsList: ListInterface[] = []
+            const paginationsList: number[] = []
         
             let dozenLength: number = 0;
             let value = basedPag;
@@ -105,13 +104,13 @@ export class PresentationService {
             dozenLength = Math.floor(values.length / 10) * 10;
         
             while(value < dozenLength) {
-            options.add(value);
-            value += basedPag;
+                options.add(value);
+                value += basedPag;
             }
         
-            paginationsList.push({ label: "3" })
-            options.forEach((label) => paginationsList.push({ label: label.toString() }))
-            paginationsList.push({ label: "max" })
+            paginationsList.push(3);
+            options.forEach((option) => paginationsList.push(option));
+            paginationsList.push(values.length)
         
             return paginationsList;
         }
@@ -131,34 +130,42 @@ export class PresentationService {
         }
 
         isCrew(a: any, b: any) {
-            return a["marking"].marking === b["marking"].marking && a["markingNumber"] === b["markingNumber"]
+            return !!a["markingNumber"] && !!b["markingNumber"] &&
+                   a["marking"].marking === b["marking"].marking && 
+                   a["markingNumber"] === b["markingNumber"] &&
+                   a["marking"].pairedPatrolCrew && b["marking"].pairedPatrolCrew;
         }
     
         crewGroup(arr: any[]) {
             let groupedArr: any[] = [];
-            let usedIndices = new Set(); 
+            let usedIndices = new Set<number>();
             
             for (let i = 0; i < arr.length; i++) {
                 if (usedIndices.has(i)) continue;
-                
+            
                 const current = arr[i];
-                const pair = arr.find((item, idx) => 
-                    idx !== i && this.isCrew(current, item) && !usedIndices.has(idx)
-                );
-                
-                const isCurrentPaired = current?.["marking"].marking && current?.["markingNumber"] ? this.ContextService.isMarkingPaired(current["marking"].marking) : false;
-                const isPairPaired = pair?.["marking"].marking && pair?.["markingNumber"] ? this.ContextService.isMarkingPaired(pair["marking"].marking) : false;
-                
-                if (pair && isCurrentPaired && isPairPaired) {
-                    groupedArr.push({ "0": current, "1": pair });
+                const pairItems = arr
+                    .map((item, idx) => ({ item, idx }))
+                    .filter(({ item, idx }) => 
+                        idx !== i && this.isCrew(current, item) && !usedIndices.has(idx)
+                    );
+            
+                if (pairItems.length > 0) {
+                    let newPairObject: any = { "0": current };
                     usedIndices.add(i);
-                    usedIndices.add(arr.indexOf(pair));
+            
+                    for (let j = 0; j < pairItems.length && j < 3; j++) { 
+                        newPairObject[(j + 1).toString()] = pairItems[j].item;
+                        usedIndices.add(pairItems[j].idx);
+                    }
+            
+                    groupedArr.push(newPairObject);
                 } else {
                     groupedArr.push(current);
                 }
             }
-            
-                return groupedArr;
+
+            return groupedArr;
         }
 
         getValueByType(element: Value, column: string) {        

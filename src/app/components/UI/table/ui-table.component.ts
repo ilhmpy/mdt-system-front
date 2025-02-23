@@ -20,8 +20,8 @@ export class UiTableComponent {
   @Input() values: Value[] = []
   @Input() sortBy: ListInterface[] | null = null;
   @Input() clickTriggerOnContainer: ((id: number) => void) = () => {};
+  @Input() group: boolean = false;
 
-  readonly currentPagPage: WritableSignal<number> = signal<number>(1);
   readonly sortRenderField: WritableSignal<ListInterface> = signal<ListInterface>({ label: "" })
 
   form: FormGroup;
@@ -44,11 +44,15 @@ export class UiTableComponent {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
 
+    if (this.group) {
+      //this.dataSource.data = this.PresentationService.crewGroup(this.values)
+      //console.log(this.dataSource.data);
+    }
   }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['values'] && changes['values'].currentValue) {
-      this.dataSource.data = changes['values'].currentValue;
+        this.dataSource.data = changes['values'].currentValue;
     }
   }
 
@@ -57,7 +61,6 @@ export class UiTableComponent {
   } 
 
   clickTrigger(id: number) {
-    console.log(id);
     this.clickTriggerOnContainer(id)
   }
 
