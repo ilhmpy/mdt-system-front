@@ -67,3 +67,12 @@ button {
 .mini {
     width: 10em;
 }
+
+.validation-btn {
+  //  position: absolute;
+    top: 0;
+    padding: .5em;
+    height: auto;
+    right: 0;
+    z-index: 9999;
+}

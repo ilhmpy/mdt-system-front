@@ -1,5 +1,6 @@
 import { Component, ElementRef, forwardRef, HostListener, Input, signal, ViewChild, WritableSignal } from '@angular/core';
 import { ControlValueAccessor, FormBuilder, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ContextService } from '../../../services/context.service';
 
 @Component({
   selector: 'ui-input',
@@ -24,11 +25,12 @@ export class UiInputComponent implements ControlValueAccessor {
     @Input() placeholder: string = "";
     @Input() mask: boolean = false;
     @Input() maskData: string = "";
-    @Input() maxLength: string = "25"
+    @Input() maxLength: string = "25";
+    @Input() validation: boolean = false;
 
     @ViewChild('inputField') inputElement!: ElementRef<HTMLInputElement>;
 
-    constructor(private fb: FormBuilder) {
+    constructor(private fb: FormBuilder, private ContextService: ContextService) {
       this.form = this.fb.group({})
     }
     
@@ -87,14 +89,18 @@ export class UiInputComponent implements ControlValueAccessor {
             [this.formValue]: this.maskData
           });
 
+          if (this.validation) {
+            this.ContextService.setIsValidation(null);
+          }
+
           this.isBackspacePressed.set(false);
         } else {
+          this.change(Number(input.value.match(/(\d{1,2})$/)?.[0]));
           this.form.patchValue({
             [this.formValue]: /^\d+$/.test(input.value.slice(-1)) ? input.value : input.value.slice(0, -1)
           })
         }
 
-        this.change();
       } else {
         this.change();
       }

@@ -31,21 +31,6 @@ export class PresentationService {
             return [...endElementsArray.filter((i, idx) => idx == 0 || !idxsToDelete.includes(idx))].join("");
         }
 
-        getRealNumberOfItems(values: Value[]) {
-            let realNumber = [];
-        
-            for (let i = 0; i < values.length; i++) {
-            if (!!values[i]["0"] && !!values[i]["1"]) {
-                realNumber.push(i)
-                realNumber.push(i)
-            } else {
-                realNumber.push(i);
-            }
-            }
-        
-            return realNumber.length;
-        }
-
       
         handleSort(values: Value[], sortLabel: string, defaultValues: Value[]) {
             let sortedArr = [...values];
@@ -123,7 +108,7 @@ export class PresentationService {
             const numberOfPagesArray = [];
         
             for (let i = 0; i < numberOfPages; i++) {
-            numberOfPagesArray.push(i);
+                numberOfPagesArray.push(i);
             }
         
             return numberOfPagesArray;

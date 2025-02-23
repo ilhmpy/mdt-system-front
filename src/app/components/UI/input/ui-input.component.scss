@@ -7,6 +7,10 @@ input {
     caret-color: transparent;
 } 
 
+.input-form {
+    position: relative;
+}
+
 input::placeholder {
     color: var(--text-light-color);
     opacity: 1;
@@ -24,3 +28,7 @@ input::-webkit-input-placeholder { color: var(--text-light-color); }
 input::-moz-placeholder { color: var(--text-light-color); }
 input:-ms-input-placeholder { color: var(--text-light-color); }
 input:-moz-placeholder { color: var(--text-light-color); }
+
+.validation-input {
+    margin-top: 1em;
+}

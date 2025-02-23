@@ -15,7 +15,7 @@ interface Link {
   styleUrl: './layout.component.scss'
 })
 export class LayoutComponent {
-  constructor(private ContextService: ContextService) {}
+  constructor(public ContextService: ContextService) {}
     
   readonly links: Link[] = [
     { label: "Officers", path: "/officers" },

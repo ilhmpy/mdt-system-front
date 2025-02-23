@@ -22,24 +22,14 @@ export class ContextService {
       private officersObject = new BehaviorSubject<OfficerDTO[] | null>(null);
       readonly profileShow = new BehaviorSubject<boolean>(false);
       private currentOfficerObject = new BehaviorSubject<OfficerDTO | null>(null);
+      private markingsObject = new BehaviorSubject<MarkingInterface[] | null>(null);
+      private validationObject = new BehaviorSubject<string | null>(null);
 
       private isAuth$ = this.isAuthObject.asObservable();
       private isLoading$ = this.isLoadingObject.asObservable();
       private officer$ = this.officerObject.asObservable();
       private officers$ = this.officersObject.asObservable();
-      private currentOfficer$ = this.currentOfficerObject.asObservable();
-
-      private Config: WritableSignal<ConfigInterface> = signal<ConfigInterface>({
-        markings: [ 
-          { label: "Linkoln", marking: "L", pairedPatrolCrew: false, },
-          { label: "Adam", marking: "A", pairedPatrolCrew: true, },
-          { label: "Mary", marking: "M", pairedPatrolCrew: false,},
-          { label: "Henry", marking: "H", pairedPatrolCrew: true, },
-          { label: "Air", marking: "AIR", pairedPatrolCrew: true,},
-          { label: "King", marking: "K", pairedPatrolCrew: true, },
-          { label: "Robert", marking: "R", pairedPatrolCrew: true, },
-        ]
-      })
+      private markings$ = this.markingsObject.asObservable();
 
       getIsAuth() {
         return this.isAuth$
@@ -47,6 +37,10 @@ export class ContextService {
 
       getIsLoading() {
         return this.isLoading$;
+      }
+
+      getIsValidation() {
+        return this.validationObject;
       }
 
       getCurrentOfficer() {
@@ -67,6 +61,10 @@ export class ContextService {
 
       setOfficer(newOfficer: OfficerDTO) {
         this.officerObject.next(newOfficer);
+      }
+
+      setIsValidation(validation: string | null) {
+        this.validationObject.next(validation);
       }
 
       getOfficer() {
@@ -95,14 +93,22 @@ export class ContextService {
         return this.officers$;
       }
 
+      getMarkings() {
+        const markings = this.markingsObject.getValue();
+
+        if (!markings) {
+          this.DataService.getMarkings().subscribe((data: MarkingInterface[]) => {
+            this.markingsObject.next(data);
+          })
+        }
+
+        return this.markings$;
+      }
+
 
       ///////////////////////////////////////////////
 
-      getMarkingsList() {
-        return this.Config().markings;
-      }
-
       isMarkingPaired(marking: string) {
-        return this.Config().markings.find((item: any) => item.marking == marking)?.pairedPatrolCrew;
+        //return this.Config().markings.find((item: any) => item.marking == marking)?.pairedPatrolCrew;
       }
 }

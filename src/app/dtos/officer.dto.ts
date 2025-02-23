@@ -1,4 +1,5 @@
 import { StatusDTO } from "../components/status/status.dto";
+import { MarkingInterface } from "./markings.dto";
 
 type RankType = 
     "officer" | "officerII" | "officerIII" | 
@@ -27,7 +28,7 @@ export interface RoleInterface {
 export interface OfficerDTO {
     id: number;
     name: string;
-    marking: string | null;
+    marking: MarkingInterface | null;
     markingNumber: number | null;
     status: StatusDTO | null;   
     rank?: RankInterface;

@@ -16,6 +16,7 @@ header {
     display: flex;
     gap: .5em;
     align-items: center;
+    position: relative;
 }
 
 .logo {
@@ -74,4 +75,8 @@ img {
 .rank_img {
     width: 4em;
     height: 1em;
+}
+
+.validation_btn-container {
+    width: 100%;
 }

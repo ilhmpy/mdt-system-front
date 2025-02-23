@@ -2,8 +2,8 @@
     display: grid;
     gap: 1em;
     grid-template-columns: repeat(3, minmax(30%, 1fr));
+    position: relative;
 }
-
 
 .status > :last-child {
     grid-column: 1 / -1;

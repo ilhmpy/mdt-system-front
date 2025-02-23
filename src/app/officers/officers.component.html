@@ -12,9 +12,10 @@
                 [maskData]="this.maskData()"
                 [placeholder]="this.maskData()"
                 [maxLength]="this.getMaxInputCharactersByMarking().toString()"
+                [validation]="this.markingValidation"
             />
             <ui-list 
-                [list]="this.ContextService.getMarkingsList()" 
+                [list]="this.markings()" 
                 [renderField]="this.marking"
                 [handleRender]="handleMarkingChange"
             />

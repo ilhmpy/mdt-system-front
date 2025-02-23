@@ -14,6 +14,7 @@ export class UiButtonComponent {
   readonly path: InputSignal<string | undefined> = input<string | undefined>("");
   @Input() click: () => void = () => {};
   readonly alarm: InputSignal<boolean> = input<boolean>(false);
+  @Input() class: string = "";
 
   constructor(
     private router: Router

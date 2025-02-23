@@ -6,10 +6,19 @@
         </div>
         <div class="links">
             @for (link of this.links; track $index) {
-                <ui-button [link]="true" [path]="link.path">
+                <ui-button [link]="true" [path]="link.path" *ngIf="!this.ContextService.getIsValidation().getValue()">
                     {{ link.label }}
                 </ui-button>
             }
+            <div class="validation_btn-container">
+                <ui-button 
+                    class="validation-btn"
+                    *ngIf="this.ContextService.getIsValidation().getValue()" 
+                    [type]="['busy', 'no-size']"
+                >
+                    {{ this.ContextService.getIsValidation().getValue() }}
+                </ui-button>
+            </div>
             <ui-button [click]="this.onProfile">
                <ui-rank [src]="this.officer()?.rank?.icon || ''" [rankLabel]="this.officer()?.rank?.name || ''" /> 
             </ui-button>
