@@ -5,6 +5,7 @@ import { MarkingInterface } from "../dtos/markings.dto";
 import { BehaviorSubject, Observable, switchMap, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { DataService } from "./data.service";
+import { PanicDTO } from "../dtos/panic.dto";
 
 interface ConfigInterface {
   markings: MarkingInterface[];
@@ -24,6 +25,7 @@ export class ContextService {
       private currentOfficerObject = new BehaviorSubject<OfficerDTO | null>(null);
       private markingsObject = new BehaviorSubject<MarkingInterface[] | null>(null);
       private validationObject = new BehaviorSubject<string | null>(null);
+      private isPanic = new BehaviorSubject<PanicDTO | null>(null);
 
       private isAuth$ = this.isAuthObject.asObservable();
       private isLoading$ = this.isLoadingObject.asObservable();
@@ -45,6 +47,14 @@ export class ContextService {
 
       getCurrentOfficer() {
         return this.currentOfficerObject;
+      }
+
+      getIsPanic() {
+        return this.isPanic;
+      }
+
+      setIsPanic(status: PanicDTO | null) {
+        this.isPanic.next(status);
       }
 
       setIsAuth(status: boolean) {

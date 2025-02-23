@@ -35,6 +35,8 @@ export interface OfficerDTO {
     role?: RoleInterface;
     badgeNumber: string;
     shift: { id: number };
+    location: string;
+    lastUpdate: Date;
 }
 
 export interface OfficerTableItem extends OfficerDTO {

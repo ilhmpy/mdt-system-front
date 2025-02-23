@@ -2,6 +2,9 @@ import { Component, signal, WritableSignal, ɵunwrapWritableSignal } from '@angu
 import { ContextService } from '../../services/context.service';
 import { finalize } from 'rxjs';
 import { OfficerDTO } from '../../dtos/officer.dto';
+import { WebSocketsService } from '../../services/websockets.service';
+import { DataService } from '../../services/data.service';
+import { AudioService } from '../../services/audio.service';
 
 interface Link {
   label: string;
@@ -15,8 +18,8 @@ interface Link {
   styleUrl: './layout.component.scss'
 })
 export class LayoutComponent {
-  constructor(public ContextService: ContextService) {}
-    
+  constructor(private AudioService: AudioService, public ContextService: ContextService, private WebSocketsService: WebSocketsService, private DataService: DataService) {}
+
   readonly links: Link[] = [
     { label: "Officers", path: "/officers" },
     { label: "NCINC", path: "/ncinc" },
@@ -34,6 +37,16 @@ export class LayoutComponent {
   );
 
   ngOnInit() {
+      this.WebSocketsService.listen("panicIsActivated").subscribe((data: any) => {
+        console.log("isActivated", data);
+        this.ContextService.setIsPanic(data);
+        this.isAlarmActivated.set(true);
+
+        setInterval(() => {
+          this.AudioService.playPanicAudio(0.5);
+        }, 3000);
+      })
+      this.isAlarmActivated.set(!!this.ContextService.getIsPanic().getValue());
       this.ContextService.getOfficer().subscribe(data => {
         if (data) {
           this.officer.set(data);
@@ -49,7 +62,10 @@ export class LayoutComponent {
     }
   }
 
-  onAlarm() {
-    
+  onAlarm = () => {
+    const officer = this.officer();
+    if (officer) {
+      this.DataService.panic(officer).subscribe();
+    }
   }
 }

@@ -4,6 +4,7 @@ import { env } from "../../env";
 import { Injectable } from "@angular/core";
 import { StatusDTO } from "../components/status/status.dto";
 import { MarkingInterface } from "../dtos/markings.dto";
+import { PanicDTO } from "../dtos/panic.dto";
 
 @Injectable({
     providedIn: "root"
@@ -29,5 +30,9 @@ export class DataService {
 
     updateMarking(marking: { markingId: number; markingNumber: number; }) {
         return this.http.put<null>(`${env.API_URL}/officers/update-marking`, marking );
+    }
+
+    panic({ id, name, badgeNumber, location }: OfficerDTO) {
+        return this.http.put<PanicDTO>(`${env.API_URL}/panic/activate-signal`, { id, lastUpdate: new Date(), name, badgeNumber, location });
     }
 }
