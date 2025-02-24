@@ -3,7 +3,7 @@ import { OfficerDTO, OfficerTableItem } from "../dtos/officer.dto";
 import { HttpClient } from "@angular/common/http";
 import { MarkingInterface } from "../dtos/markings.dto";
 import { BehaviorSubject, Observable, switchMap, of } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { shareReplay, tap } from 'rxjs/operators';
 import { DataService } from "./data.service";
 import { PanicDTO } from "../dtos/panic.dto";
 
@@ -74,7 +74,6 @@ export class ContextService {
 
         if (!panics) {
           this.DataService.getPanics().subscribe((data) => {
-            console.log("data", data)
             this.isPanic.next(data);
           });
         }
@@ -112,18 +111,21 @@ export class ContextService {
                 tap((data) => this.officerObject.next(data))
               );
             }
-          })
+          }), shareReplay(1)
         );
       }
 
       getAllOfficers() {
         const officers = this.officersObject.getValue();
 
-        if (!officers) {
-          this.DataService.getOfficers().subscribe((data) => {
-            this.officersObject.next(data);
-          })
-        }
+        try {
+          if (!officers) {
+            this.DataService.getOfficers().subscribe((data) => {
+              this.officersObject.next(data);
+            })
+          }
+        } catch(e) {}
+  
         
         return this.officers$;
       }

@@ -4,6 +4,7 @@ import { ContextService } from '../../services/context.service';
 import { OfficerDTO } from '../../dtos/officer.dto';
 import { DataService } from '../../services/data.service';
 import { Subscription } from 'rxjs';
+import { WebSocketsService } from '../../services/websockets.service';
 
 @Component({
   selector: 'status',
@@ -12,27 +13,28 @@ import { Subscription } from 'rxjs';
   styleUrl: './status.component.scss'
 })
 export class StatusComponent {
-    constructor(private ContextService: ContextService, private DataService: DataService) {}
+    constructor(private ContextService: ContextService, private DataService: DataService, private WebSocketsService: WebSocketsService) {}
 
     readonly officer: WritableSignal<OfficerDTO | null> = signal<OfficerDTO | null>(null)
-    getOfficerSubscription!: Subscription;
-    updateStatusSubscription!: Subscription;
+    updateOfficerSubscription!: Subscription;
 
     ngOnInit() {
-      this.getOfficerSubscription = this.ContextService.getOfficer().subscribe((data) => this.officer.set(data))
+      this.ContextService.getOfficer().subscribe((data) => this.officer.set(data));
+      this.updateOfficerSubscription = this.WebSocketsService.listen<OfficerDTO>("updateOfficers").subscribe((data: OfficerDTO) => {
+        if (data?.id == this.officer()?.id) {
+          this.officer.set(data);
+          this.ContextService.setOfficer(data);
+        }
+      })
     }
 
     ngOnDestroy(): void {
-      if (this.getOfficerSubscription) {
-    //    this.getOfficerSubscription.unsubscribe();
-      }
-
-      if (this.updateStatusSubscription) {
-      //  this.updateStatusSubscription.unsubscribe();
+      if (this.updateOfficerSubscription) {
+        this.updateOfficerSubscription.unsubscribe();
       }
     }
 
     handleStatus(newStatus: StatusDTO) {
-      this.updateStatusSubscription = this.DataService.updateStatus(newStatus).subscribe();
+      this.DataService.updateStatus(newStatus).subscribe();
     }
 }

@@ -33,6 +33,9 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { CallsComponent } from './calls/calls.component';
+import { NcincComponent } from './ncinc/ncinc.component';
+import { ReportsComponent } from './reports/reports.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +55,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     TableItemComponent,
     ModalComponent,
     ProfileComponent,
-    StatusComponent
+    StatusComponent,
+    CallsComponent,
+    NcincComponent,
+    ReportsComponent
   ],
   imports: [
     BrowserModule,     

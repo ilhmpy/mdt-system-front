@@ -56,7 +56,11 @@ export class OfficersComponent {
   }
 
   async ngOnInit() {
-    this.getOfficerSubscription = await this.ContextService.getOfficer().subscribe((data) => this.officer.set(data));
+    this.getOfficerSubscription = await this.ContextService.getOfficer().subscribe((data) => {
+      if (!this.officer()) {
+        this.officer.set(data)
+      }
+    });
     this.getMarkingsSubscription = this.ContextService.getMarkings().subscribe((data) => {
        if (data) {
         const officer = this.officer();
@@ -86,7 +90,6 @@ export class OfficersComponent {
 
       const newOfficers = this.officers().map((officer) => {
         if (officer.id == data.id) {
-          console.log("updateOfficer", data)
           return { ...data };
         }
 
@@ -105,18 +108,6 @@ export class OfficersComponent {
   ngOnDestroy(): void {
     if (this.updateOfficersSubscription) {
       this.updateOfficersSubscription.unsubscribe();
-    }
-
-    if (this.getOfficerSubscription) {
-     // this.getOfficerSubscription.unsubscribe();
-    }
-
-    if (this.getMarkingsSubscription) {
-    //  this.getMarkingsSubscription.unsubscribe();
-    }
-
-    if (this.updateMarkingSubscription) {
-    //  this.updateMarkingSubscription.unsubscribe();
     }
   }
 
@@ -157,7 +148,10 @@ export class OfficersComponent {
       clearTimeout(this.markingTimeout);
       this.markingTimeout = setTimeout(() => {
         this.updateMarkingSubscription = this.DataService.updateMarking({ markingId: this.marking().id, markingNumber }).subscribe({
-          error: ({ error: { message } }) => this.ContextService.setIsValidation(message)
+          error: ({ error: { message } }) => {
+            this.ContextService.setIsValidation(message)
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }
         });
       }, 500);
     }
