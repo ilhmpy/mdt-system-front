@@ -80,3 +80,38 @@ img {
 .validation_btn-container {
     width: 100%;
 }
+
+.panic-container {
+    width: 100%;
+    display: grid;
+    grid-template-rows: 20% 80%;
+    padding: var(--padding);
+}
+
+.panic_items {
+    display: flex;
+    width: 100%;
+    gap: 1em;
+    overflow: hidden;
+}
+
+.panic_item {
+    min-width: 13em; 
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+    gap: .5em;
+    padding: var(--padding);
+    padding-top: var(--padding-side);
+    padding-bottom: var(--padding-side);
+    cursor: pointer;
+    background: var(--panic-button-color);
+}
+
+.panic_item-data {
+    width: 80%;
+    text-align: left;
+}

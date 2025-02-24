@@ -8,6 +8,7 @@ import { OfficerDTO } from '../dtos/officer.dto';
 import { WebSocketsService } from '../services/websockets.service';
 import { DataService } from '../services/data.service';
 import { PresentationService } from '../services/presentation.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-officers',
@@ -36,6 +37,10 @@ export class OfficersComponent {
 
   form: FormGroup;
   markingTimeout: any = "";
+  updateOfficersSubscription!: Subscription;
+  getOfficerSubscription!: Subscription;
+  getMarkingsSubscription!: Subscription;
+  updateMarkingSubscription!: Subscription;
 
   constructor(private fb: FormBuilder, readonly ContextService: ContextService, private WebSocketsService: WebSocketsService, private DataService: DataService, private PresentationService: PresentationService) {
     this.form = this.fb.group({
@@ -51,8 +56,8 @@ export class OfficersComponent {
   }
 
   async ngOnInit() {
-    await this.ContextService.getOfficer().subscribe((data) => this.officer.set(data));
-    this.ContextService.getMarkings().subscribe((data) => {
+    this.getOfficerSubscription = await this.ContextService.getOfficer().subscribe((data) => this.officer.set(data));
+    this.getMarkingsSubscription = this.ContextService.getMarkings().subscribe((data) => {
        if (data) {
         const officer = this.officer();
         let newMaskData;
@@ -74,14 +79,14 @@ export class OfficersComponent {
        }
     })
 
-    this.WebSocketsService.listen("updateOfficers").subscribe((data: any) => {
+    this.updateOfficersSubscription = this.WebSocketsService.listen("updateOfficers").subscribe((data: any) => {
       if (data.id == this.officer()?.id) {
         this.ContextService.setOfficer(data);
       }
 
       const newOfficers = this.officers().map((officer) => {
         if (officer.id == data.id) {
-          console.log("data", data)
+          console.log("updateOfficer", data)
           return { ...data };
         }
 
@@ -95,6 +100,24 @@ export class OfficersComponent {
     this.ContextService.getAllOfficers().subscribe((data) => {
       this.officers.set(this.PresentationService.defaultSort(data || [], this.officer()));
     });
+  }
+
+  ngOnDestroy(): void {
+    if (this.updateOfficersSubscription) {
+      this.updateOfficersSubscription.unsubscribe();
+    }
+
+    if (this.getOfficerSubscription) {
+     // this.getOfficerSubscription.unsubscribe();
+    }
+
+    if (this.getMarkingsSubscription) {
+    //  this.getMarkingsSubscription.unsubscribe();
+    }
+
+    if (this.updateMarkingSubscription) {
+    //  this.updateMarkingSubscription.unsubscribe();
+    }
   }
 
   getNewMaskData(marking: string) {
@@ -133,7 +156,7 @@ export class OfficersComponent {
     ) {
       clearTimeout(this.markingTimeout);
       this.markingTimeout = setTimeout(() => {
-        this.DataService.updateMarking({ markingId: this.marking().id, markingNumber }).subscribe({
+        this.updateMarkingSubscription = this.DataService.updateMarking({ markingId: this.marking().id, markingNumber }).subscribe({
           error: ({ error: { message } }) => this.ContextService.setIsValidation(message)
         });
       }, 500);

@@ -1,6 +1,7 @@
 export interface PanicDTO {
-    id: number;
+    officerId: number;
     lastUpdate: Date; 
-    name: string; badgeNumber: string; 
+    name: string; 
+    badgeNumber: string; 
     location: string
 }

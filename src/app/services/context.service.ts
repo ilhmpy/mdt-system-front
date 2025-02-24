@@ -25,13 +25,14 @@ export class ContextService {
       private currentOfficerObject = new BehaviorSubject<OfficerDTO | null>(null);
       private markingsObject = new BehaviorSubject<MarkingInterface[] | null>(null);
       private validationObject = new BehaviorSubject<string | null>(null);
-      private isPanic = new BehaviorSubject<PanicDTO | null>(null);
+      private isPanic = new BehaviorSubject<PanicDTO[] | null>(null);
 
       private isAuth$ = this.isAuthObject.asObservable();
       private isLoading$ = this.isLoadingObject.asObservable();
       private officer$ = this.officerObject.asObservable();
       private officers$ = this.officersObject.asObservable();
       private markings$ = this.markingsObject.asObservable();
+      private isPanic$ = this.isPanic.asObservable();
 
       getIsAuth() {
         return this.isAuth$
@@ -53,8 +54,32 @@ export class ContextService {
         return this.isPanic;
       }
 
-      setIsPanic(status: PanicDTO | null) {
-        this.isPanic.next(status);
+      setIsPanic(status: PanicDTO | number, get?: PanicDTO[]) {
+        if (get) {
+          this.isPanic.next([...get])
+        } else {
+          const panics = this.isPanic?.getValue();
+          if (panics) {
+            if (typeof status == "object") {
+              this.isPanic.next([...panics, status]);
+            } else {
+              this.isPanic.next(panics.filter((item: PanicDTO) => item.officerId != status));
+            }
+          }
+        }
+      }
+
+      getPanics() {
+        const panics = this.isPanic.getValue();
+
+        if (!panics) {
+          this.DataService.getPanics().subscribe((data) => {
+            console.log("data", data)
+            this.isPanic.next(data);
+          });
+        }
+        
+        return this.isPanic$;
       }
 
       setIsAuth(status: boolean) {
@@ -113,12 +138,5 @@ export class ContextService {
         }
 
         return this.markings$;
-      }
-
-
-      ///////////////////////////////////////////////
-
-      isMarkingPaired(marking: string) {
-        //return this.Config().markings.find((item: any) => item.marking == marking)?.pairedPatrolCrew;
       }
 }

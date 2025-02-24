@@ -20,8 +20,11 @@
     "@angular/platform-browser": "^19.1.0",
     "@angular/platform-browser-dynamic": "^19.1.0",
     "@angular/router": "^19.1.0",
+    "ngx-slick-carousel": "^19.0.0",
     "rxjs": "~7.8.0",
+    "slick-carousel": "^1.8.1",
     "socket.io-client": "^4.8.1",
+    "swiper": "^11.2.4",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"
   },

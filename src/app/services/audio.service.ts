@@ -6,7 +6,7 @@ const src = "/assets/audio";
     providedIn: "root"
 })
 export class AudioService {
-    private audio = new Audio();
+    private audio: HTMLAudioElement  = new Audio;
 
     playPanicAudio(volume: number) {
         this.audio.src = `${src}/panic-button.mp3`;
@@ -15,8 +15,10 @@ export class AudioService {
         this.audio.play();
     }
 
-    stopAudio() {
-        this.audio.pause();
-        this.audio.currentTime = 0;
+    async stopAudio() {
+        if (this.audio) {
+            await this.audio.pause();
+            this.audio.currentTime = 0;
+        }
     }
 }

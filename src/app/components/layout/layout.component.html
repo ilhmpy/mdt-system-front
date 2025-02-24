@@ -22,8 +22,14 @@
             <ui-button [click]="this.onProfile">
                <ui-rank [src]="this.officer()?.rank?.icon || ''" [rankLabel]="this.officer()?.rank?.name || ''" /> 
             </ui-button>
-            <ui-button [type]="this.isAlarmActivated() ? ['alarm', 'light'] : ['light', 'standart']" [click]="this.onAlarm">
+            <ui-button [type]="(this.ContextService.getIsPanic().getValue()?.length || 0) > 0 ? ['alarm', 'light'] : ['light', 'standart']" [click]="this.onAlarm">
                 <img class="alarm-icon" src="assets/images/signal-tower.svg">
+            </ui-button>
+            <ui-button 
+                *ngIf="this.isCode4()" [type]="['light']"
+                (click)="this.handleCode4()"
+            >
+                Code 4
             </ui-button>
         </div>
     </header>
@@ -33,6 +39,19 @@
         </div>
     </div>
     <div>
+        <ui-container class="panic-container" *ngIf="(this.ContextService.getIsPanic().getValue()?.length || 0) > 0">
+            Panic button is activated, this officer{{ (this.ContextService.getIsPanic().getValue()?.length || 0) > 1 ? "s" : ""}} need help:
+            <div class="panic_items">
+                @for (panicItem of this.ContextService.getIsPanic().getValue(); track $index) {
+                    <div class="panic_item">
+                        <span class="panic_item-data">{{ panicItem.name }}</span>
+                        <span class="panic_item-data">{{ panicItem.location }}</span>
+                        <span class="panic_item-data">{{ panicItem.badgeNumber }}</span>
+                        <span class="panic_item-data">{{ this.PresentationService.getValueByType(panicItem, "lastUpdate") }}</span>
+                    </div>
+                }
+            </div>
+        </ui-container>
         <ng-content />
     </div>
 </section>

@@ -65,7 +65,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatPaginatorModule, 
     MatSortModule, 
     MatInputModule,
-    MatFormFieldModule
+    MatFormFieldModule,
   ],
   providers: [
     provideAnimationsAsync(),

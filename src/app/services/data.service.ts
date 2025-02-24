@@ -32,7 +32,15 @@ export class DataService {
         return this.http.put<null>(`${env.API_URL}/officers/update-marking`, marking );
     }
 
+    getPanics() {
+        return this.http.get<PanicDTO[]>(`${env.API_URL}/panic/get-signals`);
+    }
+
     panic({ id, name, badgeNumber, location }: OfficerDTO) {
-        return this.http.put<PanicDTO>(`${env.API_URL}/panic/activate-signal`, { id, lastUpdate: new Date(), name, badgeNumber, location });
+        return this.http.put<PanicDTO>(`${env.API_URL}/panic/activate-signal`, { officerId: id, lastUpdate: new Date(), name, badgeNumber, location });
+    }
+
+    deactivatePanic(officerId: number) {
+        return this.http.put<null>(`${env.API_URL}/panic/deactivate-signal`, { officerId });
     }
 }
