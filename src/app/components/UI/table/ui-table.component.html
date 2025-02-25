@@ -14,6 +14,10 @@
         />
     </div>
       
+    <div class="nothing" *ngIf="dataSource.filteredData.length == 0">
+        No Results
+        <img src="assets/images/no-results.svg" class="no-results" />
+    </div>
     <div class="table-container">
         <table mat-table [dataSource]="dataSource" matSort class="table">
             @for (column of this.columns(); track $index) {
@@ -32,7 +36,7 @@
             <tr mat-row *matRowDef="let row; columns: this.columns();"></tr>
         </table>
         <div class="pagination-container">
-            <mat-paginator class="paginator-container" [pageSizeOptions]="[5, 3, 10, 25, this.values.length]"></mat-paginator>
+            <mat-paginator class="paginator-container" [ngClass]="{ 'no-results-none': this.dataSource.filteredData.length == 0}" [pageSizeOptions]="[5, 3, 10, 25, this.values.length]"></mat-paginator>
         </div>
     </div>
 </div>

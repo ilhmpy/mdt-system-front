@@ -79,6 +79,7 @@ export class UiTableComponent {
   applyFilter = () => {
     const filterValue = this.form.get("searchValue")?.value.trim().toLowerCase();
     this.dataSource.filter = filterValue;
+    console.log(this.dataSource.filteredData.length)
   }
 
   ngOnInit() {

@@ -14,7 +14,6 @@ export class ContextService {
       constructor(private DataService: DataService, private WebSocketsService: WebSocketsService) {
         setTimeout(() => {
           this.WebSocketsService.listen("updateOfficers").subscribe((data: any) => {
-            console.log("updateOfficers")
             if (data.id == this.officerObject.getValue()?.id) {
               this.setOfficer(data);
             }
