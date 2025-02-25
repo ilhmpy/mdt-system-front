@@ -1,4 +1,4 @@
-@if (this.isAuth()) {
+@if (this.isAuth() && !this.isNotAllowed()) {
     @if (this.isLoading()) {
         <ui-loading></ui-loading>
     } @else {

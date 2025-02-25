@@ -40,6 +40,8 @@ export class ContextService {
       private markingsObject = new BehaviorSubject<MarkingInterface[] | null>(null);
       private validationObject = new BehaviorSubject<string | null>(null);
       private isPanic = new BehaviorSubject<PanicDTO[] | null>(null);
+      private isAllowed = new BehaviorSubject<boolean>(false);
+      private currentUrl = new BehaviorSubject<string>("");
 
       private isAuth$ = this.isAuthObject.asObservable();
       private officer$ = this.officerObject.asObservable();
@@ -65,6 +67,14 @@ export class ContextService {
 
       getIsPanic() {
         return this.isPanic;
+      }
+
+      setIsAllowed(isAllowed: boolean) {
+        this.isAllowed.next(isAllowed);
+      }
+
+      setCurrentUrl(url: string) {
+        this.currentUrl.next(url)
       }
 
       setIsPanic(status: PanicDTO | number, get?: PanicDTO[]) {

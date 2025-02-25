@@ -12,11 +12,13 @@
 .ncinc_data {
     width: 100%;
     display: grid;
+  //  padding: var(--padding);
+    padding-right: 2em;
+    gap: .5em;
     grid-template-columns: 50% 50%;
 }
 
 .ncinc_data-item {
-    padding: var(--padding);
     padding-top: 0;
     display: flex;
     flex-direction: column;

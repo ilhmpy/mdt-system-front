@@ -1,4 +1,4 @@
-import { Component, signal, WritableSignal } from '@angular/core';
+import { Component, inject, signal, WritableSignal } from '@angular/core';
 import { ContextService } from '../../services/context.service';
 import { OfficerDTO } from '../../dtos/officer.dto';
 import { WebSocketsService } from '../../services/websockets.service';
@@ -7,6 +7,7 @@ import { AudioService } from '../../services/audio.service';
 import { PresentationService } from '../../services/presentation.service';
 import { Subscription } from 'rxjs';
 import { PanicDTO } from '../../dtos/panic.dto';
+import { ActivatedRoute } from '@angular/router';
 
 interface Link {
   label: string;
@@ -46,6 +47,8 @@ export class LayoutComponent {
 
   soundCount: number = 0;
   panicInterval: any;
+
+  route = inject(ActivatedRoute);
 
   readonly runningLine: WritableSignal<string> = signal(
     "Auto is stoped in Vinewood ave at 15:13. Karl Johnson is arrested at 12:15. Auto is stoped in Vinewood ave at 15:13. Karl Johnson is arrested at 12:15. Auto is stoped in Vinewood ave at 15:13. Karl Johnson is arrested at 12:15. Auto is stoped in Vinewood ave at 15:13. Karl Johnson is arrested at 12:15. Auto is stoped in Vinewood ave at 15:13. Karl Johnson is arrested at 12:15.  Auto is stoped in Vinewood ave at 15:13. Karl Johnson is arrested at 12:15. Auto is stoped in Vinewood ave at 15:13. Karl Johnson is arrested at 12:15. v Auto is stoped in Vinewood ave at 15:13. Karl Johnson is arrested at 12:15."
