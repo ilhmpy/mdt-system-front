@@ -17,15 +17,10 @@ export class StatusComponent {
 
     readonly officer: WritableSignal<OfficerDTO | null> = signal<OfficerDTO | null>(null)
     updateOfficerSubscription!: Subscription;
+    updateOfficersSubscription!: Subscription;
 
     ngOnInit() {
       this.ContextService.getOfficer().subscribe((data) => this.officer.set(data));
-      this.updateOfficerSubscription = this.WebSocketsService.listen<OfficerDTO>("updateOfficers").subscribe((data: OfficerDTO) => {
-        if (data?.id == this.officer()?.id) {
-          this.officer.set(data);
-          this.ContextService.setOfficer(data);
-        }
-      })
     }
 
     ngOnDestroy(): void {

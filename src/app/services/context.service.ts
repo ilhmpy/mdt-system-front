@@ -1,21 +1,36 @@
-import { Injectable, WritableSignal, inject, signal } from "@angular/core";
+import { Injectable } from "@angular/core";
 import { OfficerDTO, OfficerTableItem } from "../dtos/officer.dto";
-import { HttpClient } from "@angular/common/http";
 import { MarkingInterface } from "../dtos/markings.dto";
 import { BehaviorSubject, Observable, switchMap, of } from 'rxjs';
 import { shareReplay, tap } from 'rxjs/operators';
 import { DataService } from "./data.service";
 import { PanicDTO } from "../dtos/panic.dto";
-
-interface ConfigInterface {
-  markings: MarkingInterface[];
-}
+import { WebSocketsService } from "./websockets.service";
 
 @Injectable({
     providedIn: "root"
 })
 export class ContextService {
-      constructor(private DataService: DataService) {}
+      constructor(private DataService: DataService, private WebSocketsService: WebSocketsService) {
+        setTimeout(() => {
+          this.WebSocketsService.listen("updateOfficers").subscribe((data: any) => {
+            console.log("updateOfficers")
+            if (data.id == this.officerObject.getValue()?.id) {
+              this.setOfficer(data);
+            }
+      
+            const newOfficers = this.officersObject.getValue()?.map((officer) => {
+              if (officer.id == data.id) {
+                return { ...data };
+              }
+      
+              return { ...officer };
+            });
+  
+            this.officersObject.next(newOfficers || []);
+          })
+        }, 1000);
+      }
 
       private isAuthObject = new BehaviorSubject<boolean>(false);
       private isLoadingObject = new BehaviorSubject<boolean>(false);
@@ -28,7 +43,6 @@ export class ContextService {
       private isPanic = new BehaviorSubject<PanicDTO[] | null>(null);
 
       private isAuth$ = this.isAuthObject.asObservable();
-      private isLoading$ = this.isLoadingObject.asObservable();
       private officer$ = this.officerObject.asObservable();
       private officers$ = this.officersObject.asObservable();
       private markings$ = this.markingsObject.asObservable();
@@ -116,18 +130,20 @@ export class ContextService {
       }
 
       getAllOfficers() {
-        const officers = this.officersObject.getValue();
-
-        try {
-          if (!officers) {
-            this.DataService.getOfficers().subscribe((data) => {
-              this.officersObject.next(data);
-            })
-          }
-        } catch(e) {}
-  
-        
-        return this.officers$;
+        return this.officers$.pipe(
+          switchMap((officers) => {
+            if (officers) {
+              return of(officers);
+            } else {
+              return this.DataService.getOfficers().pipe(
+                tap((data) => {
+                  console.log("getallofficers request");
+                  this.officersObject.next(data)
+                })
+              );
+            }
+          }), shareReplay(1)
+        );
       }
 
       getMarkings() {

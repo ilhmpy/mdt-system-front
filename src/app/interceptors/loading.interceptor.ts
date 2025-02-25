@@ -7,15 +7,14 @@ export const LoadingInterceptor = (
     req: HttpRequest<unknown>, 
     next: HttpHandlerFn): Observable<HttpEvent<unknown>> => {
         const contextService = inject(ContextService);
+
         if (req.method == "GET" && !contextService.getIsLoading().getValue()) {
             contextService.setIsLoading(true); 
         }
 
         return next(req).pipe(
             finalize(() => {
-                if (req.method === "GET") {
-                    contextService.setIsLoading(false);
-                }
+                contextService.setIsLoading(false);
             })
         )
     }

@@ -41,6 +41,7 @@ export class OfficersComponent {
   getOfficerSubscription!: Subscription;
   getMarkingsSubscription!: Subscription;
   updateMarkingSubscription!: Subscription;
+  getAllOfficersSubscription!: Subscription;
 
   constructor(private fb: FormBuilder, readonly ContextService: ContextService, private WebSocketsService: WebSocketsService, private DataService: DataService, private PresentationService: PresentationService) {
     this.form = this.fb.group({
@@ -83,24 +84,7 @@ export class OfficersComponent {
        }
     })
 
-    this.updateOfficersSubscription = this.WebSocketsService.listen("updateOfficers").subscribe((data: any) => {
-      if (data.id == this.officer()?.id) {
-        this.ContextService.setOfficer(data);
-      }
-
-      const newOfficers = this.officers().map((officer) => {
-        if (officer.id == data.id) {
-          return { ...data };
-        }
-
-        return { ...officer };
-      });
-
-
-      this.defaultOfficers.set(newOfficers)
-      this.officers.set(newOfficers);
-    })
-    this.ContextService.getAllOfficers().subscribe((data) => {
+    this.getAllOfficersSubscription = this.ContextService.getAllOfficers().subscribe((data) => {
       this.officers.set(this.PresentationService.defaultSort(data || [], this.officer()));
     });
   }
@@ -108,6 +92,18 @@ export class OfficersComponent {
   ngOnDestroy(): void {
     if (this.updateOfficersSubscription) {
       this.updateOfficersSubscription.unsubscribe();
+    }
+
+    if (this.getAllOfficersSubscription) {
+      this.getAllOfficersSubscription.unsubscribe();
+    }
+
+    if (this.getOfficerSubscription) {
+      this.getOfficerSubscription.unsubscribe();
+    }
+
+    if (this.getMarkingsSubscription) {
+      this.getMarkingsSubscription.unsubscribe();
     }
   }
 

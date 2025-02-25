@@ -71,7 +71,6 @@ export class LayoutComponent {
     })
     
     this.panicSubscription = this.WebSocketsService.listen<PanicDTO | number>("panicStatusIsChanged").subscribe(data => {
-      console.log("PanicButtonisChanged", data)
       const panics = this.ContextService.getIsPanic().getValue();
 
       if (typeof data == "object") {

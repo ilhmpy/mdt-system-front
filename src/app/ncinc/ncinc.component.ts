@@ -7,5 +7,4 @@ import { Component } from '@angular/core';
   styleUrl: './ncinc.component.scss'
 })
 export class NcincComponent {
-
 }
