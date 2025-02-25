@@ -1,19 +1,19 @@
 <layout-container>
-    <div>
+    <ui-container>
         <status></status>
-        <div class="inputs">
+        <ui-container class="inputs">
             <ui-container>
-                <ui-title>Name</ui-title>
+                <ui-title>Civil</ui-title>
                 <ui-container class="inputs_container">
                     <ui-input
                         [change]="this.onNameValue"
                         [form]="this.form" 
                         formValue="nameValue"
-                        placeholder="Search name"
+                        placeholder="Search name or ID card"
                         [validation]="true"
                     />
                     <ui-list 
-                        [list]="this.typeOfData()" 
+                        [list]="this.civilTypeOfData()" 
                         [renderField]="this.nameTypeOfDataRenderField"
                         [handleRender]="onNameListRender"
                     />
@@ -26,19 +26,36 @@
                         [change]="this.onAutoValue"
                         [form]="this.form" 
                         formValue="autoValue"
-                        placeholder="Search auto"
+                        placeholder="Search plate"
                         [validation]="true"
                     />
                     <ui-list 
-                        [list]="this.typeOfData()" 
+                        [list]="this.carTypeOfData()" 
                         [renderField]="this.autoTypeOfDataRenderField"
                         [handleRender]="onAutoListRender"
                     />
                 </ui-container>
             </ui-container>
-        </div>
-    </div>
-    <div>
+            <ui-container>
+                <ui-title>Weapon</ui-title>
+                <ui-container class="inputs_container">
+                    <ui-input
+                        [change]="this.onAutoValue"
+                        [form]="this.form" 
+                        formValue="autoValue"
+                        placeholder="Search serial"
+                        [validation]="true"
+                    />
+                    <ui-list 
+                        [list]="this.carTypeOfData()" 
+                        [renderField]="this.autoTypeOfDataRenderField"
+                        [handleRender]="onAutoListRender"
+                    />
+                </ui-container>
+            </ui-container>
+        </ui-container>
+    </ui-container>
+    <ui-container>
         <ui-container>
             <ui-title class="right-side">NCINC</ui-title>
         </ui-container>
@@ -81,9 +98,12 @@
                 </ui-container>
             </ui-container>
             <ui-container class="ncinc_data-item">
-                <ui-button [type]="['no-size']">Car info</ui-button>
+                <ui-button [type]="['no-size']">Car Owner Jajij Kikrer</ui-button>
                 <ui-button [type]="['no-size']">Benaefactor Schafter</ui-button>
-                <ui-button [type]="['no-size']">Plate number LS3234562</ui-button>
+                <div class="plate-container">
+                    <div class="plate">BP1A90</div>
+                    <img class="plate-img" src="assets/images/plate.svg" draggable="false" />
+                </div>
                 <ui-button [type]="['no-size', 'light']" class="data-item_field">NOT WANTED</ui-button>
                 <ui-items-list
                     placeholder="VIOLATIONS"
@@ -98,5 +118,5 @@
                 </ui-items-list>
             </ui-container>
         </ui-container>
-    </div>  
+    </ui-container>  
 </layout-container>

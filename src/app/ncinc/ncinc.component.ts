@@ -10,13 +10,36 @@ import { Column, Value } from '../components/UI/table/ui-table.dto';
   styleUrl: './ncinc.component.scss'
 })
 export class NcincComponent {
-    readonly typeOfData: InputSignal<ListInterface[]> = input<ListInterface[]>([
-      { label: "General Info" },
-      { label: "Violations" },
+    readonly civilTypeOfData: InputSignal<ListInterface[]> = input<ListInterface[]>([
+      { label: "Name" },
+      { label: "ID Card" },
     ]);
 
-    readonly nameTypeOfDataRenderField: WritableSignal<ListInterface> = signal<ListInterface>({ label: this.typeOfData()[0].label });
-    readonly autoTypeOfDataRenderField: WritableSignal<ListInterface> = signal<ListInterface>({ label: this.typeOfData()[0].label });
+    readonly carTypeOfData: InputSignal<ListInterface[]> = input<ListInterface[]>([
+      { label: "Plate" },
+      { label: "Owner" },
+    ]);
+
+    // написать поиск так же и для Weapon
+    readonly weaponTypeOfData: InputSignal<ListInterface[]> = input<ListInterface[]>([
+      { label: "Serial" },
+      { label: "Owner" },
+    ]);
+
+    /*
+      начинать поиск конкретного элемента только в случае если пользователь нажал на enter
+      если находится несколько элементов, то показать таблицу (для каждых данных свои таблицы)
+      сделать массив где одновременно могут находится четыре любых элемента, то есть допустим человек может написать четыре разных человека
+      или два разных оружия и два разных автомобиля или один человек то есть не важно, просто сделать массив в который попадают все эти данные и все меняется динамически
+      на каждую таку модалку добавить крестик для удаления ее, то есть очистки с массива
+      
+      на civil при нажатии на VIOLATIONS(на конкретный из них) показывать в модальном окне
+
+      в общем надо просто подумать и сделать все максимально логично и удобно для использования
+    */
+
+    readonly nameTypeOfDataRenderField: WritableSignal<ListInterface> = signal<ListInterface>({ label: this.civilTypeOfData()[0].label });
+    readonly autoTypeOfDataRenderField: WritableSignal<ListInterface> = signal<ListInterface>({ label: this.carTypeOfData()[0].label });
 
     carsColumns: string[] = ["plate", "brand", "violations", "bought"];
     gunsColumns: string[] = ["serial", "brand", "violations", "bought"];
