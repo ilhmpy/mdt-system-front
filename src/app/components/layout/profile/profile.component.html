@@ -9,12 +9,9 @@
             <span class="profile_info-item">{{ this.officer()?.rank?.name }}</span>
             <span class="profile_info-item">Shift number: {{ this.officer()?.shift?.id }}</span>
             <span class="profile_info-item">{{ this.PresentationService.getRoleNameFromServerView(this.officer()?.role?.name || "") }}</span>
-            <div class="calls-list">
-                <ui-button [type]="['no-size']" [click]="this.callsClick">Calls</ui-button>
-                <div class="calls-list_data" *ngIf="this.isCallsActivated()">
-                    
-                </div>
-            </div>
+            <ui-items-list 
+                placeholder="Calls"
+            />
         </div>
     </div>
 </div>

@@ -191,6 +191,14 @@ export class PresentationService {
                 case("lastUpdate"): {
                     return new Date(element[column]).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
                 }
+
+                case ("bought"): {
+                    return new Date(element[column]).toLocaleString("en-US", { 
+                        year: "numeric", 
+                        month: "2-digit", 
+                        day: "2-digit" 
+                      });
+                }
                 
                 case("marking"): {
                     if (element?.["marking"] && element["markingNumber"]) {
@@ -220,6 +228,14 @@ export class PresentationService {
                     }
             
                     break
+                }
+
+                case("violations"): {
+                    if (element?.["violations"]) {
+                        return "THERE ARE"
+                    } else {
+                        return "NOT"
+                    }
                 }
             }
             return element[column];

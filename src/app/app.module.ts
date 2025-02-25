@@ -36,42 +36,21 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { CallsComponent } from './calls/calls.component';
 import { NcincComponent } from './ncinc/ncinc.component';
 import { ReportsComponent } from './reports/reports.component';
+import { UiItemsListComponent } from './components/UI/items-list/ui-items-list.component';
 
 @NgModule({
   declarations: [
-    AppComponent,       
-    LayoutComponent,    
-    OfficersComponent,
-    UiButtonComponent,
-    LayoutContainerComponent,
-    UiTitleComponent,
-    UiContainerComponent,
-    UiInputComponent,
-    UiListComponent,
-    UiTextareaComponent,
-    UiTableComponent,
-    UiRankComponent,
-    UiLoadingComponent,
-    TableItemComponent,
-    ModalComponent,
-    ProfileComponent,
-    StatusComponent,
-    CallsComponent,
-    NcincComponent,
-    ReportsComponent
+    AppComponent, LayoutComponent, OfficersComponent, UiButtonComponent,
+    LayoutContainerComponent, UiTitleComponent, UiContainerComponent, UiInputComponent,
+    UiListComponent, UiTextareaComponent, UiTableComponent, UiRankComponent,
+    UiLoadingComponent, TableItemComponent, ModalComponent, ProfileComponent,
+    StatusComponent, CallsComponent, NcincComponent, ReportsComponent,
+    UiItemsListComponent
   ],
   imports: [
-    BrowserModule,     
-    RouterOutlet,
-    NgClass,
-    RouterModule.forRoot(routes),
-    ReactiveFormsModule,
-    BrowserAnimationsModule,
-    MatTableModule, 
-    MatPaginatorModule, 
-    MatSortModule, 
-    MatInputModule,
-    MatFormFieldModule,
+    BrowserModule, RouterOutlet, NgClass, RouterModule.forRoot(routes),
+    ReactiveFormsModule, BrowserAnimationsModule, MatTableModule, 
+    MatPaginatorModule, MatSortModule, MatInputModule, MatFormFieldModule,
   ],
   providers: [
     provideAnimationsAsync(),

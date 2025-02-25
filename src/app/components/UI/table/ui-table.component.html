@@ -1,29 +1,31 @@
-<div class="table-container">
-    <div class="search-container">
-        <ui-input  
-            #inputRef
-            [change]="applyFilter"
-            [form]="this.form" 
-            formValue="searchValue"
-            placeholder="Search"
-        />
-        <ui-list 
-            [list]="sortBy || []" 
-            [renderField]="this.sortRenderField"
-            [handleRender]="sortChange"
-        />
-    </div>
+<div [ngClass]="{ 'table-nosearch': !paginationAndSearch, 'table-container': paginationAndSearch }">
+    @if (this.paginationAndSearch) {
+        <div class="search-container">
+            <ui-input  
+                #inputRef
+                [change]="applyFilter"
+                [form]="this.form" 
+                formValue="searchValue"
+                placeholder="Search"
+            />
+            <ui-list 
+                [list]="sortBy || []" 
+                [renderField]="this.sortRenderField"
+                [handleRender]="sortChange"
+            />
+        </div>
+    }
       
     <div class="nothing" *ngIf="dataSource.filteredData.length == 0">
         No Results
         <img src="assets/images/no-results.svg" class="no-results" />
     </div>
-    <div class="table-container">
+    <div>
         <table mat-table [dataSource]="dataSource" matSort class="table">
-            @for (column of this.columns(); track $index) {
+            @for (column of this.columns; track $index) {
                 <div [matColumnDef]="column">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="columns">{{ column }}</th>
-                    <td mat-cell *matCellDef="let element" class=""(click)="clickTrigger(element.id)" [ngClass]="{ 'same-obj': element.id == this.data?.['id'] }">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="{ 'columns': paginationAndSearch }">{{ column }}</th>
+                    <td mat-cell *matCellDef="let element" class=""(click)="clickTrigger(element.id)" [ngClass]="{ 'same-obj': paginationAndSearch && element.id == this.data?.['id'] }">
                         @if (column == "rank") {
                             <ui-rank [src]="element.rank.icon" [rankLabel]="element.rank.name"></ui-rank>
                         } @else {
@@ -32,11 +34,18 @@
                     </td>
                 </div>
             } 
-            <tr mat-header-row *matHeaderRowDef="this.columns()"></tr>
-            <tr mat-row *matRowDef="let row; columns: this.columns();"></tr>
+            <tr mat-header-row *matHeaderRowDef="this.columns"></tr>
+            <tr mat-row *matRowDef="let row; columns: this.columns;"></tr>
         </table>
         <div class="pagination-container">
-            <mat-paginator class="paginator-container" [ngClass]="{ 'no-results-none': this.dataSource.filteredData.length == 0}" [pageSizeOptions]="[5, 3, 10, 25, this.values.length]"></mat-paginator>
+            <mat-paginator 
+                class="paginator-container" 
+                [ngClass]="{ 
+                    'no-results-none': this.dataSource.filteredData.length == 0,  
+                    'no-pgsr': !this.paginationAndSearch
+                }" 
+                [pageSizeOptions]="[5, 3, 10, 25, this.values.length]"
+            />
         </div>
     </div>
 </div>

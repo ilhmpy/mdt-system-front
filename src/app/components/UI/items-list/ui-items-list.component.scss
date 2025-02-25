@@ -1,0 +1,14 @@
+.items-list {
+    width: 100%;
+    height: auto;
+}
+
+.items-list_data {
+    background: var(--side-buttons-color);
+    width: 100%;
+    padding-top: var(--padding);
+    //padding-bottom: 0.1em;
+    padding-left: 0;
+    min-height: 10em;
+    height: auto;
+}

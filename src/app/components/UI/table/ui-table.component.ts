@@ -16,12 +16,13 @@ import { MatSort } from '@angular/material/sort';
   styleUrl: './ui-table.component.scss'
 })
 export class UiTableComponent {
-  @Input() columns: WritableSignal<string[]> = signal<string[]>([]);
+  @Input() columns: string[] = [];
   @Input() values: Value[] = []
   @Input() sortBy: ListInterface[] | null = null;
   @Input() clickTriggerOnContainer: ((id: number) => void) = () => {};
   @Input() group: boolean = false;
   @Input() data: Value | null = null;
+  @Input() paginationAndSearch: boolean = true;
 
   form: FormGroup;
 

@@ -1,0 +1,34 @@
+.inputs {
+    display: flex;
+    flex-direction: column;
+}
+
+.inputs_container {
+    display: grid;
+    grid-template-columns: 55% 45%;
+    align-items: center;
+}
+
+.ncinc_data {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+
+.ncinc_data-item {
+    padding: var(--padding);
+    padding-top: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.data-item_field {
+    display: flex;
+    margin-top: .8em;
+    margin-bottom: .8em;
+}
+
+.data-lists {
+    display: flex;
+    flex-direction: column;
+}

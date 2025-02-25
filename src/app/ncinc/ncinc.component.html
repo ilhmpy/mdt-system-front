@@ -1,10 +1,101 @@
 <layout-container>
     <div>
         <status></status>
+        <div class="inputs">
+            <ui-container>
+                <ui-title>Name</ui-title>
+                <ui-container class="inputs_container">
+                    <ui-input
+                        [change]="this.onNameValue"
+                        [form]="this.form" 
+                        formValue="nameValue"
+                        placeholder="Search name"
+                        [validation]="true"
+                    />
+                    <ui-list 
+                        [list]="this.typeOfData()" 
+                        [renderField]="this.nameTypeOfDataRenderField"
+                        [handleRender]="onNameListRender"
+                    />
+                </ui-container>
+            </ui-container>
+            <ui-container>
+                <ui-title>Auto</ui-title>
+                <ui-container class="inputs_container">
+                    <ui-input
+                        [change]="this.onAutoValue"
+                        [form]="this.form" 
+                        formValue="autoValue"
+                        placeholder="Search auto"
+                        [validation]="true"
+                    />
+                    <ui-list 
+                        [list]="this.typeOfData()" 
+                        [renderField]="this.autoTypeOfDataRenderField"
+                        [handleRender]="onAutoListRender"
+                    />
+                </ui-container>
+            </ui-container>
+        </div>
     </div>
     <div>
         <ui-container>
             <ui-title class="right-side">NCINC</ui-title>
         </ui-container>
-    </div>
+        <ui-container class="ncinc_data">
+            <ui-container class="ncinc_data-item">
+                <ui-button [type]="['no-size']">Steven Taylor</ui-button>
+                <ui-button [type]="['no-size']">ID Card 3234562</ui-button>
+                <ui-button [type]="['no-size']">Work place: Radio Station LS, Editor</ui-button>
+                <ui-button class="data-item_field" [type]="['no-size', 'light']">Gun License: Yes</ui-button>
+                <ui-container class="data-lists">
+                    <ui-items-list
+                        placeholder="VIOLATIONS"
+                    >
+                        <ui-table 
+                            [values]="guns"
+                            [columns]="this.gunsColumns" 
+                            [paginationAndSearch]="false"
+                        />
+
+                        <ui-button [type]="['no-size', 'busy']">ENTER NEW DATA</ui-button>
+                    </ui-items-list>
+                    <ui-items-list
+                        placeholder="CARS"
+                    >
+                        <ui-table 
+                            [values]="cars"
+                            [columns]="this.carsColumns" 
+                            [paginationAndSearch]="false"
+                        />
+                    </ui-items-list>
+                    <ui-items-list
+                        placeholder="LEGAL GUNS"
+                    >
+                        <ui-table 
+                            [values]="guns"
+                            [columns]="this.gunsColumns" 
+                            [paginationAndSearch]="false"
+                        />
+                    </ui-items-list>
+                </ui-container>
+            </ui-container>
+            <ui-container class="ncinc_data-item">
+                <ui-button [type]="['no-size']">Benaefactor Schafter</ui-button>
+                <ui-button [type]="['no-size']">Plate number LS3234562</ui-button>
+                <ui-button [type]="['no-size', 'light']" class="data-item_field">NOT WANTED</ui-button>
+                <ui-items-list
+                    placeholder="VIOLATIONS"
+                >
+                    <ui-table 
+                        [values]="guns"
+                        [columns]="this.gunsColumns" 
+                        [paginationAndSearch]="false"
+                    />
+
+                    <ui-button [type]="['no-size', 'busy']">ENTER NEW DATA</ui-button>
+                </ui-items-list>
+            </ui-container>
+        </ui-container>
+    </div>  
 </layout-container>

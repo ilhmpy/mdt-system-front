@@ -10,6 +10,14 @@
     padding-left: .6em;
 }
 
+.table-nosearch {
+    width: 100% !important;
+}
+
+.table-nosearch {
+    padding-left: 0 !important;
+}
+
 .table {
     background: 0;
     color: var(--text-light-color);
@@ -92,6 +100,12 @@
     color: #ffff !important;
 }
 
+::ng-deep .mat-sort-header-container  {
+    color: #ffff !important;
+    text-transform: uppercase;
+    padding-bottom: 1em;
+}
+
 .same-obj {
     background: #086CB9;
 }
@@ -111,5 +125,9 @@
 }
 
 .no-results-none {
+    display: none;
+}
+
+.no-pgsr {
     display: none;
 }
