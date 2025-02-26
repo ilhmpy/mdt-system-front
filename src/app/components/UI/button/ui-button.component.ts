@@ -23,6 +23,7 @@ export class UiButtonComponent {
   onClick() {
     if (this.link()) {
       this.router.navigate([ this.path() ]);
+      window.scrollTo(0, 0)
     } else {
       this.click()
     }

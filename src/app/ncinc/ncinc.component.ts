@@ -36,6 +36,8 @@ export class NcincComponent {
       на civil при нажатии на VIOLATIONS(на конкретный из них) показывать в модальном окне
 
       в общем надо просто подумать и сделать все максимально логично и удобно для использования
+
+      но в первую очередь реализовать получение данных пока что
     */
 
     readonly nameTypeOfDataRenderField: WritableSignal<ListInterface> = signal<ListInterface>({ label: this.civilTypeOfData()[0].label });

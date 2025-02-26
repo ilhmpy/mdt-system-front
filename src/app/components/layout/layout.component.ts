@@ -29,14 +29,14 @@ export class LayoutComponent {
     public PresentationService: PresentationService
   ) {}
 
-  readonly links: Link[] = [
-    { label: "Officers", path: "/officers" },
-    { label: "NCINC", path: "/ncinc" },
-    { label: "Calls", path: "/calls" },
-    { label: "Reports", path: "/reports" },
+  readonly links: WritableSignal<Link[]> = signal<Link[]>([
+   // { label: "Officers", path: "/officers" },
+   // { label: "NCINC", path: "/ncinc" },
+   // { label: "Calls", path: "/calls" },
+   // { label: "Reports", path: "/reports" },
     // { label: "Control", path: "/control" },
     //{ label: "Forum", path: "/forum" },
-  ];
+  ]);
 
   readonly officer: WritableSignal<OfficerDTO | null> = signal<OfficerDTO | null>(null);
   readonly isAlarmActivated: WritableSignal<boolean> = signal<boolean>(false);
@@ -117,11 +117,28 @@ export class LayoutComponent {
     }
   }
 
+  getLabel(name: string) {
+
+  }
+
   ngOnInit() {
       document.body.addEventListener("click", () => {}, { once: true });
       this.isAlarmActivated.set(!!this.ContextService.getIsPanic().getValue());
       this.ContextService.getOfficer().subscribe(data => {
         if (data) {
+          console.log("data", data);
+          const linksItems: Link[] = data.role?.permissions.map(
+              (permission) => 
+                permission?.get && permission.canActivateName != "panic" && permission.canActivateName !== "profile" ? 
+              ({ label: permission.canActivateName, path: `/${permission.canActivateName}` }) 
+              : ({ label: "", path: "" })
+          ).filter((item) => item.label.length !== 0) || [];
+          
+
+          console.log(linksItems)
+          this.links.set(linksItems);
+
+
           this.officer.set(data);
         }
       });

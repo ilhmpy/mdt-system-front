@@ -5,7 +5,7 @@
             MDT System
         </div>
         <div class="links">
-            @for (link of this.links; track $index) {
+            @for (link of this.links(); track $index) {
                 <ui-button [link]="true" [path]="link.path" *ngIf="!this.ContextService.getIsValidation().getValue()">
                     {{ link.label }}
                 </ui-button>
