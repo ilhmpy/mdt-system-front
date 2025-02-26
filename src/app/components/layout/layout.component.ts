@@ -126,7 +126,6 @@ export class LayoutComponent {
       this.isAlarmActivated.set(!!this.ContextService.getIsPanic().getValue());
       this.ContextService.getOfficer().subscribe(data => {
         if (data) {
-          console.log("data", data);
           const linksItems: Link[] = data.role?.permissions.map(
               (permission) => 
                 permission?.get && permission.canActivateName != "panic" && permission.canActivateName !== "profile" ? 
@@ -134,11 +133,7 @@ export class LayoutComponent {
               : ({ label: "", path: "" })
           ).filter((item) => item.label.length !== 0) || [];
           
-
-          console.log(linksItems)
           this.links.set(linksItems);
-
-
           this.officer.set(data);
         }
       });

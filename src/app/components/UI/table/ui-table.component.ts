@@ -53,7 +53,9 @@ export class UiTableComponent {
   @ViewChild(MatSort) sort!: MatSort;
 
   ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
+    if (this.paginationAndSearch) {
+      this.dataSource.paginator = this.paginator;
+    }
     this.dataSource.sort = this.sort;
     this.dataSource.data = this.PresentationService.handleSort(this.dataSource.data, "Default", this.values, this.data || {});
 

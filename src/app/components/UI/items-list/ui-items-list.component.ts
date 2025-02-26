@@ -10,8 +10,13 @@ export class UiItemsListComponent {
   readonly isListActivated: WritableSignal<boolean> = signal<boolean>(false);
   
   @Input() placeholder: string = "";
+  @Input() paddings?: boolean = true;
 
-  onListClick = () => {
-    this.isListActivated.set(!this.isListActivated())
+  listEnter = () => {
+    this.isListActivated.set(true)
+  }
+
+  listLeave = () => {
+    this.isListActivated.set(false);
   }
 }

@@ -42,6 +42,8 @@ export class NcincComponent {
 
     readonly nameTypeOfDataRenderField: WritableSignal<ListInterface> = signal<ListInterface>({ label: this.civilTypeOfData()[0].label });
     readonly autoTypeOfDataRenderField: WritableSignal<ListInterface> = signal<ListInterface>({ label: this.carTypeOfData()[0].label });
+    readonly weaponTypeOfDataRenderField: WritableSignal<ListInterface> = signal<ListInterface>({ label: this.weaponTypeOfData()[0].label });
+    
 
     carsColumns: string[] = ["plate", "brand", "violations", "bought"];
     gunsColumns: string[] = ["serial", "brand", "violations", "bought"];
@@ -54,10 +56,18 @@ export class NcincComponent {
     ];
 
     guns: Value[] = [
-      { serial: "LS938145", brand: "Smith & Wesson Model 500 ", violations: true, bought: new Date() },
+      { serial: "LS938145", brand: "Smit32232h & Wesson Model 500 ", violations: true, bought: new Date() },
       { serial: "LS938145", brand: "Colt 1911", violations: false, bought: new Date() },
       { serial: "LS938145", brand: "Glock 17 Pistols", violations: true, bought: new Date() },
       { serial: "LS938145", brand: "HK MP5 Carabine", violations: false, bought: new Date() },
+      { serial: "LS938145", brand: "Smith & Wesson Model 500 ", violations: true, bought: new Date() },
+      { serial: "LS938145", brand: "Colt 221911", violations: false, bought: new Date() },
+      { serial: "LS938145", brand: "Gloc34k 17 Pistols", violations: true, bought: new Date() },
+      { serial: "LS938145", brand: "HK MP5s12das Carabine", violations: false, bought: new Date() },
+      { serial: "LS938145", brand: "Smith 34& Wesson Model 500 ", violations: true, bought: new Date() },
+      { serial: "LS938145", brand: "Colt 19f411", violations: false, bought: new Date() },
+      { serial: "LS938145", brand: "Glock 132417 Pistols", violations: true, bought: new Date() },
+      { serial: "LS938145", brand: "HK MP5 C123arabine", violations: false, bought: new Date() },
     ]
 
     form: FormGroup;
@@ -88,6 +98,10 @@ export class NcincComponent {
     }
 
     onAutoListRender() {
+
+    }
+  
+    onWeaponListRender() {
 
     }
 }

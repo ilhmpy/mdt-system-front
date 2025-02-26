@@ -1,6 +1,9 @@
-<div class="items-list">
-    <ui-button [type]="['no-size']" [click]="this.onListClick">{{ this.placeholder }}</ui-button>
-    <div class="items-list_data" *ngIf="this.isListActivated()">
+<div class="items-list"
+    (mouseenter)="this.listEnter()"
+    (mouseleave)="this.listLeave()"
+>
+    <ui-button [type]="['no-size']" (click)="this.isListActivated() ? this.listLeave() : this.listEnter()" class="items_list-btn">{{ this.placeholder }}</ui-button>
+    <div class="items-list_data" [ngClass]="{ 'paddings': this.paddings }" *ngIf="this.isListActivated()">
         <ng-content></ng-content>
     </div>
 </div>

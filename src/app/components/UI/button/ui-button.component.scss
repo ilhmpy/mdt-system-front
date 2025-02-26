@@ -76,3 +76,24 @@ button {
     right: 0;
     z-index: 9999;
 }
+
+.warning {
+    background: #B3683C;
+}
+
+.crime {
+    background: #8B2B2B;
+}
+
+.fine {
+    background: #924E27;
+}
+
+.namebtn {
+    padding-top: 1em;
+    height: 5em;
+}
+
+.items_list-btn:hover {
+    background: #403836;
+}
