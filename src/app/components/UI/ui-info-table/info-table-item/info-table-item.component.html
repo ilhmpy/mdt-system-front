@@ -1,0 +1,11 @@
+<div class="info-item">
+    <div class="info-label">{{ label }}</div>
+    <div 
+        [ngClass]="{ 
+            'avalaible': typeof this.data == 'boolean' && this.data == true,
+            'notavalaible': typeof this.data == 'boolean' && this.data == false
+        }"
+    >
+        {{  getValueByType() }} <img class="delete_img" src="assets/images/delete.svg" *ngIf="typeof this.data == 'boolean' && this.data == true" />
+    </div>
+</div>

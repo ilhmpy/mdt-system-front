@@ -1,0 +1,35 @@
+.info-item {
+    border: 1px solid var(--side-buttons-color);
+    align-items: center;
+    min-height: 2em;
+    width: 100%;
+    padding-top: 0;
+    padding-bottom: 0;
+    display: grid;
+    grid-template-columns: 30% 70%;
+    position: relative;
+}
+
+.info-item > div {
+    padding-left: 1em;
+}
+
+.info-label {
+    border-right: 1px solid var(--side-buttons-color);
+}
+
+.avalaible {
+    color: var(--normal-button-color);
+}
+
+.notavalaible { 
+    color: var(--panic-button-color);
+}
+
+.delete_img {
+    width: 1.2em;
+    height: 1.2em;
+    position: absolute;
+    right: 1em;
+    cursor: pointer;
+}

@@ -35,8 +35,15 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { CallsComponent } from './calls/calls.component';
 import { NcincComponent } from './ncinc/ncinc.component';
-import { ReportsComponent } from './reports/reports.component';
+import { ReportsComponent } from './reports/reports.component'; 
 import { UiItemsListComponent } from './components/UI/items-list/ui-items-list.component';
+import { CevilComponent } from './ncinc/components/cevil/cevil.component';
+import { CarComponent } from './ncinc/components/car/car.component';
+import { WeaponComponent } from './ncinc/components/weapon/weapon.component';
+import { UiInfoTableComponent } from './components/UI/ui-info-table/ui-info-table.component';
+import { InfoTableItemComponent } from './components/UI/ui-info-table/info-table-item/info-table-item.component';
+import { WantedComponent } from './ncinc/components/wanted/wanted.component';
+import { ButtonsComponent } from './ncinc/components/buttons/buttons.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +52,9 @@ import { UiItemsListComponent } from './components/UI/items-list/ui-items-list.c
     UiListComponent, UiTextareaComponent, UiTableComponent, UiRankComponent,
     UiLoadingComponent, TableItemComponent, ModalComponent, ProfileComponent,
     StatusComponent, CallsComponent, NcincComponent, ReportsComponent,
-    UiItemsListComponent
+    UiItemsListComponent, CevilComponent, CarComponent, WeaponComponent,
+    UiInfoTableComponent, InfoTableItemComponent, WantedComponent,
+    ButtonsComponent
   ],
   imports: [
     BrowserModule, RouterOutlet, NgClass, RouterModule.forRoot(routes),

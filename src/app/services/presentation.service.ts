@@ -3,6 +3,7 @@ import { Column, Value } from "../components/UI/table/ui-table.dto";
 import { ListInterface } from "../components/UI/list/ui-list.dto";
 import { ContextService } from "./context.service";
 import { OfficerDTO } from "../dtos/officer.dto";
+import { CivilHistoryItemTypes } from "../ncinc/ncinc.dto";
 
 @Injectable({
     providedIn: "root"
@@ -186,18 +187,67 @@ export class PresentationService {
             return groupedArr;
         }
 
+        getYearMonthDay(date: Date) {
+            return new Date(date).toLocaleString("en-US", { 
+                year: "numeric", 
+                month: "2-digit", 
+                day: "2-digit" 
+            });  
+        }
+
+        getHourMinute(date: Date) {
+            return new Date(date).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+        }
+
+        getType(data: any) {
+            switch(data) {
+                case ("fine"): {
+                    return "Fine"
+                }
+
+                case ("prisonTerm"): {
+                    return "Prison term"
+                }
+
+                case ("jailTerm"): {
+                    return "Jail term"
+                }
+
+                case ("deprDrivingLicense"): {
+                    return "Deprivation of Driving License"
+                }
+
+                case ("deprGunLicense"): {
+                    return "Deprivation of Gun License"
+                }
+            }
+
+            return data;
+        }
+
         getValueByType(element: Value, column: string) {        
             switch(column) {
                 case("lastUpdate"): {
-                    return new Date(element[column]).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+                    return this.getHourMinute(element[column]);
+                }
+
+                case("happened"): {
+                    return this.getYearMonthDay(element[column]);                   
+                }
+
+                case("freed"): {
+                    if (element[column]) {
+                        return this.getYearMonthDay(element[column])
+                    }
+                    return "N/A"
+                }
+
+                case("type"): {
+                    return this.getType(element[column])
                 }
 
                 case ("bought"): {
-                    return new Date(element[column]).toLocaleString("en-US", { 
-                        year: "numeric", 
-                        month: "2-digit", 
-                        day: "2-digit" 
-                      });
+                    return this.getYearMonthDay(element[column])
                 }
                 
                 case("marking"): {
