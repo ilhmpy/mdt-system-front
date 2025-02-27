@@ -1,0 +1,16 @@
+.owner_link {
+    cursor: pointer;
+}
+
+.owner_link:hover {
+    text-decoration:underline;
+}
+
+.wanted-img {
+    width: 6em;
+    height: 2em;
+    position: absolute;
+    top: 1em;
+    transform: rotate(8deg);
+    right: .8em;
+}

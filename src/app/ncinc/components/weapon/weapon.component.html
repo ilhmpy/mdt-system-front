@@ -1,0 +1,30 @@
+
+    <div class="wanted-container">
+        <img class="wanted-img small-img" src="assets/images/wanted.png" draggable="false">
+    </div>
+    <div class="info-table">
+        <div class="info-item">
+            <div class="info-label">Weapon owner</div>
+            <div class="owner_link">Steven Taylor</div>
+        </div>
+        <div class="info-item">
+            <div class="info-label">Brand</div>
+            <div>Glock 17</div>
+        </div>
+        <div class="info-item">
+            <div class="info-label">Serial</div>
+            <div>X2FL1wsG</div>
+        </div>
+    </div>
+    <div class="car-buttons_container">
+        <ui-button [type]="['no-size']" class="fine">ADD FINE</ui-button>
+        <ui-button [type]="['no-size']" class="warning">ISSUE A WARNING</ui-button>
+        <ui-button [type]="['no-size']" class="crime">WANTED</ui-button>
+    </div>
+    <ui-items-list
+        placeholder="HISTORY"
+    >
+        <ui-table 
+            [paginationAndSearch]="false"
+        />
+    </ui-items-list>  

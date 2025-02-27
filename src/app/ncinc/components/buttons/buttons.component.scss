@@ -1,0 +1,11 @@
+.buttons_container {
+    padding-top: .1em;
+    padding-bottom: .1em;
+    background-color: var(--links-button);
+    display: grid;
+    grid-template-columns: 50% 50%;
+    gap: .1em;
+    justify-content: center;
+    align-items: center;
+    grid-template-columns: repeat(auto-fit, minmax(30%, 1fr));
+}
