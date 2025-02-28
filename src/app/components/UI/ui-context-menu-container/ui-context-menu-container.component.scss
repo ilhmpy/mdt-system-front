@@ -1,0 +1,34 @@
+.ng_container {
+    position: relative;
+}
+
+.context-menu {
+    position: absolute;
+    background: var(--side-buttons-color);
+    height: auto;
+    width: 10em;
+    z-index: 99999;
+}
+
+.context-menu_item {
+    padding-left: .5em;
+    padding-bottom: 0.5em;
+    padding-top: 0.5em;
+    cursor: pointer;
+}
+
+.delete.context-menu_item:hover {
+    background: var(--panic-button-color);
+}
+
+.cevil {
+    height: 34em;
+}
+
+.car {
+    height: 22em;
+}
+
+.weapon {
+    height: 15em;
+}

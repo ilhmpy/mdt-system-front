@@ -51,7 +51,7 @@
                         [renderField]="this.weaponTypeOfDataRenderField"
                         [handleRender]="this.resetForm"
                     />
-                </ui-container>
+                </ui-container> 
             </ui-container>
         </ui-container>
     </ui-container>
@@ -63,18 +63,42 @@
             <div class="ncinc_data" [ngClass]="{ 'halb': NcincDataArray().length == 1}">
                 <div class="ncinc_data-item" *ngFor="let NCINCDataItem of NcincDataArray()">
                     @if (typeGuard(NCINCDataItem, "cevil")) {
-                        <cevil [data]="NCINCDataItem" [columns]="cevilColumns" />
+                        <cevil 
+                            class="cevil"
+                            [data]="NCINCDataItem" 
+                            [cevilColumns]="cevilColumns"
+                            [carColumnns]="carsColumns"
+                            [weaponColumns]="weaponColumns" 
+                            [showCar]="showCar"
+                            [showWeapon]="showWeapon"
+                            [contextMenuItems]="contextMenuItems"
+                            [idx]="NcincDataArray().indexOf(NCINCDataItem)"
+                        />
                     }
                     
                     @if (typeGuard(NCINCDataItem, "car")) {
-                        <car [data]="NCINCDataItem" />
+                        <car 
+                            class="car"
+                            [data]="NCINCDataItem" 
+                            [columns]="cevilColumns"
+                            [showOwner]="showOwner"
+                            [idx]="NcincDataArray().indexOf(NCINCDataItem)"
+                            [contextMenuItems]="contextMenuItems"
+                        /> 
                     }
     
                     @if (typeGuard(NCINCDataItem, "weapon")) {
-                        <weapon [data]="NCINCDataItem" />
+                        <weapon 
+                            class="weapon"
+                            [data]="NCINCDataItem" 
+                            [columns]="cevilColumns"  
+                            [showOwner]="showOwner"  
+                            [idx]="NcincDataArray().indexOf(NCINCDataItem)"
+                            [contextMenuItems]="contextMenuItems"
+                        />
                     }
                 </div>
             </div>
         </ui-container>
     </ui-container>  
-</layout-container>
+</layout-container> 

@@ -1,0 +1,30 @@
+.plate-container {
+    width: 100%;
+    height: 5em;
+    justify-content: center;
+    display: flex;
+    position: relative;
+    align-items: center;
+    padding: 4em;
+    background-color: var(--links-button);
+}
+
+.plate {
+    top: 0;
+    bottom: 0;
+    line-height: 5em;
+    font-size: 1.8em;
+    margin: 0 auto;
+    color: #2c307e;
+    z-index: 9999;
+    position: absolute;
+    cursor: pointer;
+    font-family: 'PlateFont', sans-serif;
+}
+
+.plate-img {
+    position: relative;
+    z-index: 1;
+    width: 10em;
+    height: 5em;
+}

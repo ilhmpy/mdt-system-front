@@ -5,7 +5,7 @@
 }
 
 .ncinc_container {
-    height: 150vh;
+    height: 170vh;
 }
 
 .inputs_container {
@@ -17,7 +17,6 @@
 .ncinc_data {
     width: 100%;
     display: grid;
-    // padding: var(--padding);
     padding-right: 2em;
     gap: .5em;
     display: grid;
@@ -25,11 +24,14 @@
     grid-auto-flow: row dense;
     grid-auto-rows: 1fr;
     height: auto;
+    justify-content: center;
+    align-items: start;
+    min-height: 200px;
+    grid-auto-rows: min-content;
 }
     
 .ncinc_data-item {
     flex-direction: column;
-    position: relative;
     min-height: 0;
     height: auto;
     display: flex;
@@ -42,14 +44,6 @@
     width: 50%;
 }
 
-.car {
-    height: 20em;
-}
-
-.civil {
-    height: 23em;
-}
-
 .data-item_field {
     display: flex;
     background: #976736 !important; 
@@ -58,37 +52,6 @@
 .data-lists {
     display: flex;
     flex-direction: column;
-}
-
-.plate-container {
-    width: 100%;
-    height: 5em;
-    justify-content: center;
-    display: flex;
-    position: relative;
-    align-items: center;
-    padding: 4em;
-    background-color: var(--links-button);
-}
-
-.plate {
-    top: 0;
-    bottom: 0;
-    line-height: 5em;
-    font-size: 1.8em;
-    margin: 0 auto;
-    color: #2c307e;
-    z-index: 9999;
-    position: absolute;
-    cursor: pointer;
-    font-family: 'PlateFont', sans-serif;
-}
-
-.plate-img {
-    position: relative;
-    z-index: 1;
-    width: 10em;
-    height: 5em;
 }
 
 .licenses-data {

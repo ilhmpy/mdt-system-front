@@ -21,7 +21,7 @@
         <img src="assets/images/no-results.svg" class="no-results" />
     </div>
     <div>
-        <table mat-table [dataSource]="dataSource" matSort class="table">
+        <table *ngIf="dataSource.filteredData.length > 0" mat-table [dataSource]="dataSource" matSort class="table">
             @for (column of this.columns; track $index) {
                 <div [matColumnDef]="column">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="{ 'columns': paginationAndSearch }">{{ column }}</th>

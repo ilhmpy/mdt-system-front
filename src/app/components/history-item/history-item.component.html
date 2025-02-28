@@ -1,0 +1,8 @@
+<ui-info-table>
+    <info-table-item label="Description" [data]="this.ContextService.getCurrentHistoryItem().getValue()?.description" />
+    <info-table-item label="Happened" [data]="this.PresentationService.getYearMonthDay(this.ContextService.getCurrentHistoryItem().getValue()?.happened)" />
+    @if (this.ContextService.getCurrentHistoryItem().getValue()?.freed) { 
+        <info-table-item label="Freed" [data]="this.PresentationService.getYearMonthDay(this.ContextService.getCurrentHistoryItem().getValue()?.freed)" />
+    }
+    <info-table-item label="Type" [data]="this.PresentationService.getType(this.ContextService.getCurrentHistoryItem().getValue()?.type)" />
+</ui-info-table>

@@ -6,6 +6,7 @@ import {
   animate,
   transition,
 } from '@angular/animations';
+import { ContextService } from '../../services/context.service';
 
 @Component({
   selector: 'modal',
@@ -22,5 +23,18 @@ import {
   ]
 })
 export class ModalComponent {
+  constructor(private ContextService: ContextService) {}
+
   @Input() show: boolean = false;
+
+  clickleave(e: Event) {
+    if (e.target == e.currentTarget) {
+      this.mouseleave();
+    }
+  }
+
+  mouseleave() {
+    this.ContextService.setCurrentOfficer(null);
+    this.ContextService.setCurrentHistoryItem(null);
+  }
 }

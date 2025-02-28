@@ -42,10 +42,13 @@ import { CarComponent } from './ncinc/components/car/car.component';
 import { WeaponComponent } from './ncinc/components/weapon/weapon.component';
 import { UiInfoTableComponent } from './components/UI/ui-info-table/ui-info-table.component';
 import { InfoTableItemComponent } from './components/UI/ui-info-table/info-table-item/info-table-item.component';
-import { WantedComponent } from './ncinc/components/wanted/wanted.component';
-import { ButtonsComponent } from './ncinc/components/buttons/buttons.component';
+import { WantedComponent } from './components/UI/wanted/wanted.component';
+import { ButtonsComponent } from './components/UI/buttons/buttons.component';
+import { UiPlateComponent } from './components/UI/ui-plate/ui-plate.component';
+import { HistoryItemComponent } from './components/history-item/history-item.component';
+import { UiContextMenuContainerComponent } from './components/UI/ui-context-menu-container/ui-context-menu-container.component';
 
-@NgModule({
+@NgModule({ 
   declarations: [
     AppComponent, LayoutComponent, OfficersComponent, UiButtonComponent,
     LayoutContainerComponent, UiTitleComponent, UiContainerComponent, UiInputComponent,
@@ -54,7 +57,7 @@ import { ButtonsComponent } from './ncinc/components/buttons/buttons.component';
     StatusComponent, CallsComponent, NcincComponent, ReportsComponent,
     UiItemsListComponent, CevilComponent, CarComponent, WeaponComponent,
     UiInfoTableComponent, InfoTableItemComponent, WantedComponent,
-    ButtonsComponent
+    ButtonsComponent, UiPlateComponent, HistoryItemComponent, UiContextMenuContainerComponent
   ],
   imports: [
     BrowserModule, RouterOutlet, NgClass, RouterModule.forRoot(routes),

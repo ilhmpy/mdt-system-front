@@ -7,6 +7,11 @@
         >
             <profile></profile>
         </modal>
+        <modal
+            [show]="!!this.ContextService.getCurrentHistoryItem().getValue()"
+        >
+            <history-item></history-item>
+        </modal>
         <layout>
             <router-outlet />
         </layout>

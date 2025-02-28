@@ -1,30 +1,30 @@
-
-    <div class="wanted-container">
-        <img class="wanted-img small-img" src="assets/images/wanted.png" draggable="false">
-    </div>
-    <div class="info-table">
-        <div class="info-item">
-            <div class="info-label">Weapon owner</div>
-            <div class="owner_link">Steven Taylor</div>
-        </div>
-        <div class="info-item">
-            <div class="info-label">Brand</div>
-            <div>Glock 17</div>
-        </div>
-        <div class="info-item">
-            <div class="info-label">Serial</div>
-            <div>X2FL1wsG</div>
-        </div>
-    </div>
-    <div class="car-buttons_container">
-        <ui-button [type]="['no-size']" class="fine">ADD FINE</ui-button>
-        <ui-button [type]="['no-size']" class="warning">ISSUE A WARNING</ui-button>
-        <ui-button [type]="['no-size']" class="crime">WANTED</ui-button>
-    </div>
-    <ui-items-list
-        placeholder="HISTORY"
+<ui-context-menu-container
+    [class]="class"
+    [contextMenuItems]="contextMenuItems"
+    [idx]="idx"
+>
+    <div
+        [class]="class"
     >
-        <ui-table 
-            [paginationAndSearch]="false"
+        <ncinc-wanted [isWanted]="data.wanted" />
+        <ui-info-table>
+            <info-table-item label="Owner" [data]='data.civil.name' [owner]="true" (click)="this.showOwner(data.civil.id, data.civil.name)" />
+            <info-table-item label="Brand" [data]="data.brand" />
+            <info-table-item label="Serial" [data]="data.serial" />
+        </ui-info-table>
+        <buttons 
+            [isWanted]="data.wanted"
+            [onWanted]="onWanted"
         />
-    </ui-items-list>  
+        <ui-items-list
+            placeholder="HISTORY"
+        >
+            <ui-table 
+                [paginationAndSearch]="false"
+                [columns]="columns"
+                [values]="data.history"
+                [clickTriggerOnContainer]="onCevilHistoryItem"
+            />
+        </ui-items-list>  
+    </div>
+</ui-context-menu-container>

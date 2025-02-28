@@ -1,3 +1,5 @@
-<div [@openClose]="show ? 'open' : 'closed'">
-    <ng-content></ng-content>    
+<div class="modal-outer_container" [@openClose]="show ? 'open' : 'closed'" (click)="this.clickleave($event)">
+    <div class="modal-inner_container" (mouseleave)="this.mouseleave()">
+        <ng-content></ng-content>
+    </div>
 </div>

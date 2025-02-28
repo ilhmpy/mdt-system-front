@@ -6,6 +6,8 @@ import { shareReplay, tap } from 'rxjs/operators';
 import { DataService } from "./data.service";
 import { PanicDTO } from "../dtos/panic.dto";
 import { WebSocketsService } from "./websockets.service";
+import { CarHistoryItem, CivilHistoryItem, WeaponHistoryItem } from "../ncinc/ncinc.dto";
+import { WeaponComponent } from "../ncinc/components/weapon/weapon.component";
 
 @Injectable({
     providedIn: "root"
@@ -42,6 +44,7 @@ export class ContextService {
       private isPanic = new BehaviorSubject<PanicDTO[] | null>(null);
       private isAllowed = new BehaviorSubject<boolean>(false);
       private currentUrl = new BehaviorSubject<string>("");
+      private currentHistoryItem = new BehaviorSubject<CivilHistoryItem | CarHistoryItem | WeaponHistoryItem | null>(null);
 
       private isAuth$ = this.isAuthObject.asObservable();
       private officer$ = this.officerObject.asObservable();
@@ -61,6 +64,10 @@ export class ContextService {
         return this.validationObject;
       }
 
+      setCurrentHistoryItem(item: CivilHistoryItem | CarHistoryItem | WeaponHistoryItem | null) {
+        this.currentHistoryItem.next(item);
+      }
+
       getCurrentOfficer() {
         return this.currentOfficerObject;
       }
@@ -75,6 +82,10 @@ export class ContextService {
 
       setCurrentUrl(url: string) {
         this.currentUrl.next(url)
+      }
+
+      getCurrentHistoryItem() {
+        return this.currentHistoryItem;
       }
 
       setIsPanic(status: PanicDTO | number, get?: PanicDTO[]) {

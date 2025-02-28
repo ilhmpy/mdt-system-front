@@ -9,7 +9,7 @@ export enum CivilHistoryItemTypes {
 export interface CivilHistoryItem {
     id: number;
     happened: Date;
-    freed: Date; 
+    freed: Date | null;
     description: string;
     type: CivilHistoryItemTypes;
   }
@@ -32,7 +32,7 @@ export enum WeaponHistoryItemTypes {
 export interface CarHistoryItem {
     id: number;
     happened: Date;
-    freed: Date; 
+    freed: Date | null;
     description: string;
     type: CarHistoryItemTypes;
   }
@@ -40,6 +40,7 @@ export interface CarHistoryItem {
 export interface WeaponHistoryItem {
     id: number;
     happened: Date;
+    freed: Date | null;
     description: string;
     type: WeaponHistoryItemTypes;
   }

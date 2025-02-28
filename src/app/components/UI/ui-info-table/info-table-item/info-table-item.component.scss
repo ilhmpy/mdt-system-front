@@ -14,6 +14,13 @@
     padding-left: 1em;
 }
 
+.info-data {
+    word-wrap: break-word; /* Для старых браузеров */
+    overflow-wrap: break-word; /* Современный стандарт */
+    white-space: normal;
+  }
+  
+
 .info-label {
     border-right: 1px solid var(--side-buttons-color);
 }
@@ -32,4 +39,10 @@
     position: absolute;
     right: 1em;
     cursor: pointer;
+    text-wrap: wrap;
+}
+
+.link:hover {
+    cursor: pointer;
+    text-decoration: underline;
 }

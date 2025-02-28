@@ -8,7 +8,8 @@ import { Component, Input } from '@angular/core';
 })
 export class ButtonsComponent {
   @Input() isWanted: boolean = false;
-  @Input() onFine: () => void = () => {};
-  @Input() onWarning: () => void = () => {};
+  @Input() onFine: (() => void) | null = null;
+  @Input() onWarning: (() => void) | null = null;
   @Input() onWanted: () => void = () => {}; 
+  @Input() class: string = "";
 }

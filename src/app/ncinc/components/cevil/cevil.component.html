@@ -1,39 +1,44 @@
-<ncinc-wanted [isWanted]="data.wanted" />
-<div class="info-table">
-    <ui-info-table>
-        <info-table-item label="ID Card" [data]='data.idCard' />
-        <info-table-item label="Name" [data]="data.name" />
-        <info-table-item label="Date of Birth" [data]="data.dateOfBirth" type="date" />
-        <info-table-item label="Sex" [data]="data.sex" />
-        <info-table-item label="Phone number" [data]="data.phoneNumber" type="phoneNumber" /> 
-        <info-table-item label="Work place" [data]="data.workPlace" />
-        <info-table-item label="Eyes" [data]="data.eyes" />
-        <info-table-item label="Hair" [data]="data.hair" />
-        <info-table-item label="Race" [data]="data.race" />
-        <info-table-item label="Gun License" [data]="data.gunLicense" />
-        <info-table-item label="Driving License" [data]="data.drivingLicense" />
-    </ui-info-table>
-    <buttons 
-        [isWanted]="data.wanted"
-        [onFine]="onFine"
-        [onWarning]="onWarning"
-        [onWanted]="onWanted"
-    />
-    <div class="data-lists">
-        <ui-items-list
-            placeholder="NOTES"
-            [paddings]="false"
-        >
-            <ui-textarea /> 
-        </ui-items-list>
-        <ui-items-list
-            placeholder="HISTORY"
-        >
-            <ui-table 
-                [paginationAndSearch]="false"
-                [columns]="columns"
-                [values]="data.history"
-            />
+<ui-context-menu-container
+    [class]="class"
+    [contextMenuItems]="contextMenuItems"
+    [idx]="idx"
+>
+    <ncinc-wanted [isWanted]="data.wanted" />
+        <ui-info-table>
+            <info-table-item label="ID Card" [data]='data.idCard' />
+            <info-table-item label="Name" [data]="data.name" />
+            <info-table-item label="Date of Birth" [data]="data.dateOfBirth" type="date" />
+            <info-table-item label="Phone number" [data]="data.phoneNumber" type="phoneNumber" /> 
+            <info-table-item label="Work place" [data]="data.workPlace" />
+            <info-table-item label="Sex" [data]="data.sex" />
+            <info-table-item label="Eyes" [data]="data.eyes" />
+            <info-table-item label="Hair" [data]="data.hair" />
+            <info-table-item label="Race" [data]="data.race" />
+            <info-table-item label="Gun License" [data]="data.gunLicense" />
+            <info-table-item label="Driving License" [data]="data.drivingLicense" />
+        </ui-info-table>
+        <buttons 
+            [isWanted]="data.wanted"
+            [onFine]="onFine" 
+            [onWarning]="onWarning"
+            [onWanted]="onWanted"
+        />
+        <div class="data-lists">
+            <ui-items-list
+                placeholder="NOTES"
+                [paddings]="false"
+            >
+                <ui-textarea /> 
+            </ui-items-list>
+            <ui-items-list
+                placeholder="HISTORY"
+            >
+                <ui-table 
+                    [paginationAndSearch]="false"
+                    [columns]="cevilColumns"
+                    [values]="data.history"
+                    [clickTriggerOnContainer]="onCevilHistoryItem"
+                />
 
         </ui-items-list>
         <ui-items-list
@@ -41,6 +46,9 @@
         >
             <ui-table 
                 [paginationAndSearch]="false"
+                [columns]="carColumnns"
+                [values]="data.cars"
+                [clickTriggerOnContainer]="showCar"
             />
         </ui-items-list>
         <ui-items-list
@@ -48,7 +56,10 @@
         >
             <ui-table 
                 [paginationAndSearch]="false"
+                [columns]="weaponColumns"
+                [values]="data.weapons"
+                [clickTriggerOnContainer]="showWeapon"
             />
         </ui-items-list>
     </div>
-
+</ui-context-menu-container>

@@ -120,7 +120,7 @@ export class OfficersComponent {
       const value = control.value;
   
       if (typeof value !== 'string') {
-        return null;
+        return null; 
       }
   
       const lastTwoChars = value.slice(-2); 

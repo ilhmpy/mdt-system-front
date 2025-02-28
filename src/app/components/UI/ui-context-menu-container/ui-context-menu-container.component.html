@@ -1,0 +1,26 @@
+<div 
+    #container
+    class="ng_container" (contextmenu)="onContextMenu($event)"
+>
+    <div
+        #contextMenu
+    >
+        <div 
+            #ContextMenu
+            class="context-menu"
+            *ngIf="this.isContextOn()"
+            [style.marginTop.px]="contextMenuPosition().y"
+            [style.marginLeft.px]="contextMenuPosition().x"
+        >
+            <div 
+                class="context-menu_item" 
+                *ngFor="let contextMenuItem of contextMenuItems" 
+                (click)="contextMenuItem.onClick(idx)"
+                [ngClass]="{ 'delete': contextMenuItem.type == 'delete' }"
+            >
+                {{ contextMenuItem.label }}
+            </div>
+        </div>
+    </div>
+    <ng-content></ng-content>
+</div>

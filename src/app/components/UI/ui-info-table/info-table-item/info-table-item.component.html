@@ -3,8 +3,10 @@
     <div 
         [ngClass]="{ 
             'avalaible': typeof this.data == 'boolean' && this.data == true,
-            'notavalaible': typeof this.data == 'boolean' && this.data == false
+            'notavalaible': typeof this.data == 'boolean' && this.data == false,
+            'link': owner
         }"
+        class="info-data"
     >
         {{  getValueByType() }} <img class="delete_img" src="assets/images/delete.svg" *ngIf="typeof this.data == 'boolean' && this.data == true" />
     </div>

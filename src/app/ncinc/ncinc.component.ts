@@ -7,8 +7,13 @@ import { ValidatorFn, ValidationErrors, AbstractControl } from '@angular/forms';
 import { ContextService } from '../services/context.service';
 import { DataService } from '../services/data.service';
 import { Observable } from 'rxjs';
+import { NcincService } from './ncinc.service';
+import { ContextMenuItem } from '../components/UI/ui-context-menu-container/ui-context-menu-container.component';
 
-type NCINCDataType = Car | Weapon | Cevil;
+export type NCINCDataType = Car | Weapon | Cevil;
+interface ValidationInterface {
+  [key: string]: string;
+}
 
 @Component({
   selector: 'app-ncinc',
@@ -18,43 +23,65 @@ type NCINCDataType = Car | Weapon | Cevil;
 })
 export class NcincComponent {
     readonly cevilTypeOfData: InputSignal<ListInterface[]> = input<ListInterface[]>([
-      { label: "Name" },
-      { label: "ID Card" },
+      { label: "Name", field: "name" },
+      { label: "ID Card", field: "idCard" },
     ]);
 
     readonly carTypeOfData: InputSignal<ListInterface[]> = input<ListInterface[]>([
-      { label: "Plate" },
+      { label: "Plate", field: "plate" },
     ]);
 
     readonly weaponTypeOfData: InputSignal<ListInterface[]> = input<ListInterface[]>([
-      { label: "Serial" },
+      { label: "Serial", field: "serial" },
     ]);
 
-    /*
-      начинать поиск конкретного элемента только в случае если пользователь нажал на enter
-      если находится несколько элементов, то показать таблицу (для каждых данных свои таблицы)
-      сделать массив где одновременно могут находится четыре любых элемента, то есть допустим человек может написать четыре разных человека
-      или два разных оружия и два разных автомобиля или один человек то есть не важно, просто сделать массив в который попадают все эти данные и все меняется динамически
-      на каждую таку модалку добавить крестик для удаления ее, то есть очистки с массива
-      
-      на civil при нажатии на VIOLATIONS(на конкретный из них) показывать в модальном окне
-
-      в общем надо просто подумать и сделать все максимально логично и удобно для использования
-
-      но в первую очередь реализовать получение данных пока что
-    */
-
-    readonly nameTypeOfDataRenderField: WritableSignal<ListInterface> = signal<ListInterface>({ label: this.cevilTypeOfData()[0].label });
-    readonly autoTypeOfDataRenderField: WritableSignal<ListInterface> = signal<ListInterface>({ label: this.carTypeOfData()[0].label });
-    readonly weaponTypeOfDataRenderField: WritableSignal<ListInterface> = signal<ListInterface>({ label: this.weaponTypeOfData()[0].label });
-    
-    carsColumns: string[] = ["plate", "brand", "violations", "bought"];
-    gunsColumns: string[] = ["serial", "brand", "violations", "bought"];
-    cevilColumns: string[] = ["freed", "description", "type"]
-
+    readonly nameTypeOfDataRenderField: WritableSignal<ListInterface> = signal<ListInterface>(this.cevilTypeOfData()[0]);
+    readonly autoTypeOfDataRenderField: WritableSignal<ListInterface> = signal<ListInterface>(this.carTypeOfData()[0]);
+    readonly weaponTypeOfDataRenderField: WritableSignal<ListInterface> = signal<ListInterface>(this.weaponTypeOfData()[0]);
     readonly NcincDataArray: WritableSignal<NCINCDataType[]> = signal<NCINCDataType[]>([]);
 
     form: FormGroup;
+
+    carsColumns: string[] = ["plate", "brand", "wanted"];
+    weaponColumns: string[] = ["serial", "brand", "wanted"];
+    cevilColumns: string[] = ["happened", "description", "type"];
+
+    
+    onDelete = (idx: number) => {
+      this.NcincDataArray.set(this.NcincDataArray().filter((item, i) => {
+        return i != idx;
+      }));
+    }
+
+    contextMenuItems: ContextMenuItem[] = [ 
+      {
+        label: "Delete",
+        onClick: this.onDelete,
+        type: "delete"
+      }
+    ]
+
+    constructor(
+      private fb: FormBuilder, 
+      private ContextService: ContextService, 
+      private DataService: DataService,
+      private NcincService: NcincService
+    ) {
+      this.form = this.fb.group({
+        nameValue: [
+          'Michael Smaith',
+          [ Validators.required ]
+        ],
+        autoValue: [
+          '8FH2A6',
+          [ Validators.required ]
+        ],
+        weaponValue: [
+          'CP-245235',
+          [ Validators.required ]
+        ]
+      })
+    }
 
     typeGuard(item: Cevil | Car | Weapon, type: "cevil" | "car" | "weapon"): boolean {
       switch(type) {
@@ -70,8 +97,6 @@ export class NcincComponent {
           return (item as Weapon).serial !== undefined;
         }
       }
-
-      return false;
     }
 
     resetForm = () => {
@@ -95,64 +120,93 @@ export class NcincComponent {
         }
 
         return null
-      }
-
-    constructor(private fb: FormBuilder, private ContextService: ContextService, private DataService: DataService) {
-      this.form = this.fb.group({
-        nameValue: [
-          'Michael Smaith',
-          [ Validators.required ]
-        ],
-        autoValue: [
-          '8FH2A6',
-          [ Validators.required ]
-        ],
-        weaponValue: [
-          'CP-245235',
-          [ Validators.required ]
-        ]
-      })
     }
   
     onInputValue(
       event: KeyboardEvent,
       formControlName: string,
       dataServiceMethod: (label: string, value: string) => Observable<any[]>,
-      typeOfDataRenderField: () => { label: string },
-      errors?: null | object
+      typeOfDataRenderField: () => ListInterface,
+      validation?: ValidationInterface,
+      errors?: null | object,
     ) {
       if (event.key !== "Enter") return;
     
       const control = this.form.get(formControlName);
       const value = control?.value;
       errors = errors !== undefined ? errors : control?.errors;
-      const arrayField = this.DataService.getParam(typeOfDataRenderField().label);
+      const arrayField = typeOfDataRenderField()?.field;
+      const invalid = this.nameOrIdCardValidator(value, typeOfDataRenderField().label);
       
-      if (!errors && !this.NcincDataArray().find((item: any) => item?.[arrayField] == value)) {
-        dataServiceMethod(typeOfDataRenderField().label, value).subscribe((data) => {
-          console.log(`get-${formControlName}`, data);
-          control?.reset();
-          if (data.length > 1) {
+      if (arrayField) {
+        const doesntExist = !this.NcincDataArray().find((item: any) => item?.[arrayField] == value);
+        const lessThan4 = this.NcincDataArray().length <= this.NcincService.lessThan;
 
+        if (!errors && doesntExist && lessThan4) {
+          dataServiceMethod(typeOfDataRenderField().label, value).subscribe((data) => {
+            console.log(`get-${formControlName}`, data);
+            control?.reset();
+            if (data.length > 1) {
+  
+            } else {
+              this.NcincDataArray.set([...this.NcincDataArray(), ...data]);
+              console.log("NCINCDataArray", this.NcincDataArray());
+            }
+          });
+        } else {
+          console.log(!!invalid);
+          if (validation && !!invalid) {
+            this.ContextService.setIsValidation(validation[arrayField]);
           } else {
-            this.NcincDataArray.set([...this.NcincDataArray(), ...data]);
-            console.log("NCINCDataArray", this.NcincDataArray());
+            this.NcincService.validation(lessThan4, doesntExist);
           }
-        });
+
+          this.form.get(formControlName)?.reset();
+          window.scrollTo(0, 0);
+        }
       }
     }
     
     onNameValue(e: KeyboardEvent) {
       const errors = this.nameOrIdCardValidator(this.form.get("nameValue")?.value, this.nameTypeOfDataRenderField().label);
-      this.onInputValue(e, "nameValue", this.DataService.getCevil.bind(this.DataService), this.nameTypeOfDataRenderField, errors);
+      this.onInputValue(
+        e, "nameValue", 
+        this.DataService.getCevil.bind(this.DataService), 
+        this.nameTypeOfDataRenderField, 
+        { 
+          idCard: "Your not allow to write letters at id card field", 
+          name: "Your not allow to write numbers at name field",
+          exist: "Your already have this data"
+        }, 
+        errors
+      );
     }
     
     onAutoValue(e: KeyboardEvent) {
-      this.onInputValue(e, "autoValue", this.DataService.getAuto.bind(this.DataService), this.autoTypeOfDataRenderField);
+      this.onInputValue(
+        e, "autoValue", this.DataService.getAuto.bind(this.DataService), 
+        this.autoTypeOfDataRenderField,
+        {}
+      );
     }
     
     onWeaponValue(e: KeyboardEvent) {
-      this.onInputValue(e, "weaponValue", this.DataService.getWeapon.bind(this.DataService), this.weaponTypeOfDataRenderField);
+      this.onInputValue(
+        e, "weaponValue", this.DataService.getWeapon.bind(this.DataService), 
+        this.weaponTypeOfDataRenderField,
+        {}
+      );
     }
     
+    showOwner = (id: number, name: string) => {
+      this.NcincService.showData(id, name, this.NcincDataArray);
+    }
+
+    showCar = (id: number) => {
+      this.NcincService.showCar(id, this.NcincDataArray);
+    }
+
+    showWeapon = (id: number) => {
+      this.NcincService.showWeapon(id, this.NcincDataArray);
+    }
 }

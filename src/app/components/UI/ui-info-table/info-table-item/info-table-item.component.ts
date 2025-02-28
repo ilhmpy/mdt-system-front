@@ -10,6 +10,7 @@ export class InfoTableItemComponent {
   @Input() label: string = "";
   @Input() data: any = "";
   @Input() type: string = ""
+  @Input() owner: boolean = false;
 
   getValueByType() {
     switch(this.type) {

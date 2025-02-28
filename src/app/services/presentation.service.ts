@@ -187,7 +187,7 @@ export class PresentationService {
             return groupedArr;
         }
 
-        getYearMonthDay(date: Date) {
+        getYearMonthDay(date: any) {
             return new Date(date).toLocaleString("en-US", { 
                 year: "numeric", 
                 month: "2-digit", 
@@ -195,7 +195,7 @@ export class PresentationService {
             });  
         }
 
-        getHourMinute(date: Date) {
+        getHourMinute(date: any) {
             return new Date(date).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
         }
 
@@ -209,8 +209,28 @@ export class PresentationService {
                     return "Prison term"
                 }
 
+                case("wanted"): {
+                    if (data.wanted) {
+                        return "WANTED!"
+                    }
+
+                    return "NOT"
+                }
+
+                case("confiscated"): {
+                    return "Confiscated"
+                }
+
+                case("used"): {
+                    return "Was used"
+                }
+
                 case ("jailTerm"): {
                     return "Jail term"
+                }
+
+                case("fined"): {
+                    return "Fined"
                 }
 
                 case ("deprDrivingLicense"): {
@@ -229,6 +249,14 @@ export class PresentationService {
             switch(column) {
                 case("lastUpdate"): {
                     return this.getHourMinute(element[column]);
+                }
+
+                case("wanted"): {
+                    if (element[column]) {
+                        return "WANTED!"
+                    }
+
+                    return "NOT"
                 }
 
                 case("happened"): {

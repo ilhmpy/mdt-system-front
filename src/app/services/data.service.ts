@@ -12,8 +12,14 @@ import { Car, Cevil, Weapon } from "../ncinc/ncinc.dto";
 })
 export class DataService {
     constructor(private http: HttpClient) {}
-    getParam(param: string) {
-        return param.toLocaleLowerCase().replace(" ", "");
+    getParam(param: string, toLowerCase: boolean = true) {
+        param = param.replace(" ", "");
+
+        if (toLowerCase) {
+            param = param.toLocaleLowerCase();
+        }
+
+        return param;
     } 
 
     getOfficer() {
@@ -48,17 +54,17 @@ export class DataService {
         return this.http.put<null>(`${env.API_URL}/panic/deactivate-signal`, { officerId });
     }
 
-    getCevil(param: string, value: string) {
+    getCevil(param: string, value: string | number) {
         param = this.getParam(param);
         return this.http.get<Cevil[]>(`${env.API_URL}/ncinc/get-civil?${param}=${value}`);
     }
 
-    getAuto(param: string, value: string) {
+    getAuto(param: string, value: string | number) {
         param = this.getParam(param);
         return this.http.get<Car[]>(`${env.API_URL}/ncinc/get-auto?${param}=${value}`);
     }
 
-    getWeapon(param: string, value: string) {
+    getWeapon(param: string, value: string | number) {
         param = this.getParam(param);
         return this.http.get<Weapon[]>(`${env.API_URL}/ncinc/get-weapon?${param}=${value}`);
     }
