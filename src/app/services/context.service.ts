@@ -6,8 +6,9 @@ import { shareReplay, tap } from 'rxjs/operators';
 import { DataService } from "./data.service";
 import { PanicDTO } from "../dtos/panic.dto";
 import { WebSocketsService } from "./websockets.service";
-import { CarHistoryItem, CivilHistoryItem, WeaponHistoryItem } from "../ncinc/ncinc.dto";
-import { WeaponComponent } from "../ncinc/components/weapon/weapon.component";
+import { CarHistoryItem, CarHistoryItemTypes, CivilHistoryItem, CivilHistoryItemTypes, Weapon, WeaponHistoryItem, WeaponHistoryItemTypes } from "../ncinc/ncinc.dto";
+
+type CevilActionsType = "wanted" | "fined" | "warned" | "deprDrivingLicense" | "deprGunLicense"
 
 @Injectable({
     providedIn: "root"
@@ -45,12 +46,17 @@ export class ContextService {
       private isAllowed = new BehaviorSubject<boolean>(false);
       private currentUrl = new BehaviorSubject<string>("");
       private currentHistoryItem = new BehaviorSubject<CivilHistoryItem | CarHistoryItem | WeaponHistoryItem | null>(null);
+      private cevilAction = new BehaviorSubject<{ id: number, type?: CevilActionsType } | null>({ id: 1, type: "wanted" });
 
       private isAuth$ = this.isAuthObject.asObservable();
       private officer$ = this.officerObject.asObservable();
       private officers$ = this.officersObject.asObservable();
       private markings$ = this.markingsObject.asObservable();
       private isPanic$ = this.isPanic.asObservable();
+
+      getCurrentCevilAction() {
+        return this.cevilAction;
+      }
 
       getIsAuth() {
         return this.isAuth$

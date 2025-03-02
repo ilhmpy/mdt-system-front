@@ -47,6 +47,7 @@ import { ButtonsComponent } from './components/UI/buttons/buttons.component';
 import { UiPlateComponent } from './components/UI/ui-plate/ui-plate.component';
 import { HistoryItemComponent } from './components/history-item/history-item.component';
 import { UiContextMenuContainerComponent } from './components/UI/ui-context-menu-container/ui-context-menu-container.component';
+import { CevilActionsComponent } from './components/cevil-actions/cevil-actions.component';
 
 @NgModule({ 
   declarations: [
@@ -57,7 +58,8 @@ import { UiContextMenuContainerComponent } from './components/UI/ui-context-menu
     StatusComponent, CallsComponent, NcincComponent, ReportsComponent,
     UiItemsListComponent, CevilComponent, CarComponent, WeaponComponent,
     UiInfoTableComponent, InfoTableItemComponent, WantedComponent,
-    ButtonsComponent, UiPlateComponent, HistoryItemComponent, UiContextMenuContainerComponent
+    ButtonsComponent, UiPlateComponent, HistoryItemComponent, UiContextMenuContainerComponent,
+    CevilActionsComponent
   ],
   imports: [
     BrowserModule, RouterOutlet, NgClass, RouterModule.forRoot(routes),

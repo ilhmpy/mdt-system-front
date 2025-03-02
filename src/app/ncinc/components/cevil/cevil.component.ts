@@ -10,7 +10,7 @@ import { ContextMenuItem } from '../../../components/UI/ui-context-menu-containe
   encapsulation: ViewEncapsulation.None
 })
 export class CevilComponent {
-  constructor(private NcincService: NcincService) {}
+  constructor(public NcincService: NcincService) {}
 
   @Input() data: any = {};
   @Input() cevilColumns: string[] = [];
@@ -21,18 +21,6 @@ export class CevilComponent {
   @Input() showWeapon: (id: number) => void = (id: number) => {};
   @Input() contextMenuItems: ContextMenuItem[] = [];
   @Input() idx: number = 0;
-
-  onFine() {
-
-  }
-
-  onWarning() {
-
-  }
-
-  onWanted() {
-
-  }
 
   onCevilHistoryItem = (id: number) => {
     this.NcincService.showHistoryItem(this.data.history, id);

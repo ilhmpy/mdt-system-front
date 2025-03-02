@@ -12,6 +12,11 @@
         >
             <history-item></history-item>
         </modal>
+        <modal
+            [show]="!!this.ContextService.getCurrentCevilAction().getValue()"
+        >
+            <cevil-actions></cevil-actions>
+        </modal>
         <layout>
             <router-outlet />
         </layout>

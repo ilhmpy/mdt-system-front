@@ -74,4 +74,16 @@ export class NcincService {
             this.validation(lessThan4, exist);
         }
     }
+
+    onFine() {
+
+    }
+  
+    onWarning() {
+  
+    }
+  
+    onWanted() {
+  
+    }
 }

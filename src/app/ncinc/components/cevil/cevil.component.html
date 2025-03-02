@@ -19,9 +19,9 @@
         </ui-info-table>
         <buttons 
             [isWanted]="data.wanted"
-            [onFine]="onFine" 
-            [onWarning]="onWarning"
-            [onWanted]="onWanted"
+            [onFine]="this.NcincService.onFine" 
+            [onWarning]="this.NcincService.onWarning"
+            [onWanted]="this.NcincService.onWanted"
         />
         <div class="data-lists">
             <ui-items-list
