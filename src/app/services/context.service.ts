@@ -8,7 +8,13 @@ import { PanicDTO } from "../dtos/panic.dto";
 import { WebSocketsService } from "./websockets.service";
 import { CarHistoryItem, CarHistoryItemTypes, CivilHistoryItem, CivilHistoryItemTypes, Weapon, WeaponHistoryItem, WeaponHistoryItemTypes } from "../ncinc/ncinc.dto";
 
-type CevilActionsType = "wanted" | "fined" | "warned" | "deprDrivingLicense" | "deprGunLicense"
+type CevilActionsType = "wanted" | "fined" | "warned" | "deprDrivingLicense" | "deprGunLicense";
+
+export interface CevilActionItem {
+  id: number;
+  type?: CevilActionsType; 
+  object: "car" | "civil" | "weapon";
+}
 
 @Injectable({
     providedIn: "root"
@@ -46,7 +52,7 @@ export class ContextService {
       private isAllowed = new BehaviorSubject<boolean>(false);
       private currentUrl = new BehaviorSubject<string>("");
       private currentHistoryItem = new BehaviorSubject<CivilHistoryItem | CarHistoryItem | WeaponHistoryItem | null>(null);
-      private cevilAction = new BehaviorSubject<{ id: number, type?: CevilActionsType } | null>({ id: 1, type: "wanted" });
+      private cevilAction = new BehaviorSubject<CevilActionItem | null>(null);
 
       private isAuth$ = this.isAuthObject.asObservable();
       private officer$ = this.officerObject.asObservable();

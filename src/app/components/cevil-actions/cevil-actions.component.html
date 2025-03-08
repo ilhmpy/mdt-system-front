@@ -2,5 +2,9 @@
     <h3 class="cevil-actions-h3">{{ getDescByType }}</h3>
     <ui-textarea 
         placeholder="Reason"
+        [form]="this.form"
+        formValue="cevilActionValue"
+        (keydown)="onCevilActionKeydown($event)"
+        maxLength="400"
     />
 </div>

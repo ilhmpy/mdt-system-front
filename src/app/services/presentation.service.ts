@@ -190,8 +190,8 @@ export class PresentationService {
         getYearMonthDay(date: any) {
             return new Date(date).toLocaleString("en-US", { 
                 year: "numeric", 
+                day: "2-digit" ,
                 month: "2-digit", 
-                day: "2-digit" 
             });  
         }
 

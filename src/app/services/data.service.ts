@@ -6,6 +6,7 @@ import { StatusDTO } from "../components/status/status.dto";
 import { MarkingInterface } from "../dtos/markings.dto";
 import { PanicDTO } from "../dtos/panic.dto";
 import { Car, Cevil, Weapon } from "../ncinc/ncinc.dto";
+import { observeNotification } from "rxjs/internal/Notification";
 
 @Injectable({
     providedIn: "root"
@@ -68,4 +69,8 @@ export class DataService {
         param = this.getParam(param);
         return this.http.get<Weapon[]>(`${env.API_URL}/ncinc/get-weapon?${param}=${value}`);
     }
+
+    wanted(id: number, description: string, type: "car" | "weapon" | "civil", issued: number | null) {
+        return this.http.put<any>(`${env.API_URL}/ncinc/wanted`, { id, description, type, issued });
+    }   
 }
