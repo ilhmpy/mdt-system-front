@@ -4,6 +4,7 @@ import { ListInterface } from "../components/UI/list/ui-list.dto";
 import { ContextService } from "./context.service";
 import { OfficerDTO } from "../dtos/officer.dto";
 import { CivilHistoryItemTypes } from "../ncinc/ncinc.dto";
+import { format } from "date-fns";
 
 @Injectable({
     providedIn: "root"
@@ -188,11 +189,7 @@ export class PresentationService {
         }
 
         getYearMonthDay(date: any) {
-            return new Date(date).toLocaleString("en-US", { 
-                year: "numeric", 
-                day: "2-digit" ,
-                month: "2-digit", 
-            });  
+            return format(new Date(), 'dd.MM.yyyy')
         }
 
         getHourMinute(date: any) {
@@ -210,11 +207,7 @@ export class PresentationService {
                 }
 
                 case("wanted"): {
-                    if (data.wanted) {
-                        return "WANTED!"
-                    }
-
-                    return "NOT"
+                    return "WANTED!"
                 }
 
                 case("confiscated"): {

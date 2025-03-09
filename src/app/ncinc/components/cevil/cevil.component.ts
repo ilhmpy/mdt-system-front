@@ -1,6 +1,7 @@
 import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { NcincService } from '../../ncinc.service';
 import { ContextMenuItem } from '../../../components/UI/ui-context-menu-container/ui-context-menu-container.component';
+import { ContextService } from '../../../services/context.service';
 
 @Component({
   selector: 'cevil',
@@ -10,7 +11,7 @@ import { ContextMenuItem } from '../../../components/UI/ui-context-menu-containe
   encapsulation: ViewEncapsulation.None
 })
 export class CevilComponent {
-  constructor(public NcincService: NcincService) {}
+  constructor(public NcincService: NcincService, private ContextService: ContextService) {}
 
   @Input() data: any = {};
   @Input() cevilColumns: string[] = [];
@@ -24,5 +25,9 @@ export class CevilComponent {
 
   onCevilHistoryItem = (id: number) => {
     this.NcincService.showHistoryItem(this.data.history, id);
+  }
+
+  onWanted = () => {
+    this.ContextService.setCevilAction({ id: this.data.id, object: "civil", type: "wanted" });
   }
 }

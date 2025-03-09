@@ -55,17 +55,18 @@ export class CevilActionsComponent {
     return "";
   }
 
-  onCevilActionKeydown(e: KeyboardEvent) {
-    const key = e.key;
+  onCevilActionKeydown() {
     const control = this.form.get("cevilActionValue");
     const cevilAction = this.ContextService.getCurrentCevilAction().getValue();
 
-    if (key == "Enter" && !control?.errors) {
+    if (!control?.errors) {
       switch(cevilAction?.type) {
         case("wanted"): {
           this.DataService.wanted(cevilAction.id, control?.value, cevilAction.object, this.officer()?.id || null).subscribe();
         }
       }
     }
+
+    this.ContextService.setCevilAction(null);
   }
 }

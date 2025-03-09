@@ -6,7 +6,7 @@ import { shareReplay, tap } from 'rxjs/operators';
 import { DataService } from "./data.service";
 import { PanicDTO } from "../dtos/panic.dto";
 import { WebSocketsService } from "./websockets.service";
-import { CarHistoryItem, CarHistoryItemTypes, CivilHistoryItem, CivilHistoryItemTypes, Weapon, WeaponHistoryItem, WeaponHistoryItemTypes } from "../ncinc/ncinc.dto";
+import { CarHistoryItem, CivilHistoryItem, WeaponHistoryItem } from "../ncinc/ncinc.dto";
 
 type CevilActionsType = "wanted" | "fined" | "warned" | "deprDrivingLicense" | "deprGunLicense";
 
@@ -78,6 +78,10 @@ export class ContextService {
 
       setCurrentHistoryItem(item: CivilHistoryItem | CarHistoryItem | WeaponHistoryItem | null) {
         this.currentHistoryItem.next(item);
+      }
+
+      setCevilAction(data: CevilActionItem | null) {
+        this.cevilAction.next(data ? { ...data } : null);
       }
 
       getCurrentOfficer() {

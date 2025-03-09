@@ -3,8 +3,8 @@
     <ui-textarea 
         placeholder="Reason"
         [form]="this.form"
-        formValue="cevilActionValue"
-        (keydown)="onCevilActionKeydown($event)"
+        formValue="cevilActionValue"  
         maxLength="400"
     />
+    <ui-button (click)="onCevilActionKeydown()">Enter</ui-button>
 </div>
